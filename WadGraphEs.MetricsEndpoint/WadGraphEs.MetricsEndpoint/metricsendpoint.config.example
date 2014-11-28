@@ -1,0 +1,4 @@
+AuthenticationKey=<key>
+AzureSubscriptionId=<azuresubscriptionid>
+CertFilename=<privatekey.pfx>
+CertPassword=<privatekeypasswd>
