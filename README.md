@@ -44,7 +44,9 @@ First, add both the PFX file and the `metricsendpoint.config` file to the projec
 ### 6. Test the deployment (optional)
 This requires you to have curl installed. From the command prompt, type
 
-`curl -H "Authorization: MetricsEndpoint-Key <metricsendpoint.config AuthenticationKey" http(s)://<yourhost>/usages`
+`curl -H "Authorization: MetricsEndpoint-Key <AuthenticationKey>" http(s)://<yourhost>/usages`
+
+With `AuthenticationKey` being the AuthenticationKey you specified in the `metricsendpoint.config` file.
 
 This should result in some metrics JSON containing stats about your services being written.
 
