@@ -129,12 +129,10 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Configuration\" />
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\PublishProfiles\freeksmonitoring.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WadGraphEs.MetricsEndpoint.Lib\WadGraphEs.MetricsEndpoint.Lib.csproj">
