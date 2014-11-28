@@ -39,7 +39,7 @@ In the `WadGraphEs.MetricsEndpoint` directory there is an example `metricsendpoi
 * `CertPassword` The password of the private key you created in step 4.
 
 ### 5. Deploy the `WadGraphEs.MetricsEndpoint` project to a web server
-First, add both the PFX file and the `metricsendpoint.config` file to the `WadGraphEs.MetricsEndpoint` project in Visual Studio. This will make sure they are also deployed. Then deploy the project to a webserver (for example: an Azure Web Site). 
+First, add both the PFX file and the `metricsendpoint.config` file to the `WadGraphEs.MetricsEndpoint` project in Visual Studio. This will make sure they are also deployed. Then deploy the project to a webserver (for example: an Azure Web Site). Make sure your PFX file has a pfx file extension, because we automatically deny access to that.
 
 ### 6. Test the deployment (optional)
 This requires you to have curl installed. From the command prompt, type
