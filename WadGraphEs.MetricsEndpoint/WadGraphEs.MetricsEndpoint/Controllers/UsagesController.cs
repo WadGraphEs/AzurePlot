@@ -15,16 +15,26 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 using WadGraphEs.MetricsEndpoint.Lib;
+using NLog;
 
 namespace WadGraphEs.MetricsEndpoint.Controllers {
 	public class UsagesController:ApiController {
+		readonly static Logger _logger = LogManager.GetCurrentClassLogger(); 
 		public async Task<IEnumerable<UsageObject>> Get() {
-			var azureUsageService = new AzureUsageClient(Factories.MetricsConfigEndpointConfigurationFactory.New());
+			_logger.Info("Getting usages");
 
-			var websiteUsage = azureUsageService.GetWebsitesUsage();
-			var cloudServiceUsage = azureUsageService.GetCloudServiceUsages();
+			try {
+				var azureUsageService = new AzureUsageClient(Factories.MetricsConfigEndpointConfigurationFactory.New());
 
-			return (await websiteUsage).Concat(await cloudServiceUsage);
+				var websiteUsage = azureUsageService.GetWebsitesUsage();
+				var cloudServiceUsage = azureUsageService.GetCloudServiceUsages();
+
+				return (await websiteUsage).Concat(await cloudServiceUsage);
+			}
+			catch(Exception e) {
+				_logger.ErrorException("Error getting usages", e);
+				throw;
+			}
 		}
 
 	}
