@@ -44,8 +44,13 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 				return ReadResponse(response);
 			}
 			catch(WebException webException) {
+				var response = "<not available>";
+				if(webException.Response!=null) {
+					response = ReadResponse(webException.Response);
+				}
 				_logger.ErrorException(
-					string.Format("Failed requesting {0}; StatusCode: {1}; Body:\n{2}", request.RequestUri, webException.Status, ReadResponse(webException.Response)),
+
+					string.Format("Failed requesting {0}; StatusCode: {1}; Body:\n{2}", request.RequestUri, webException.Status,response),
 					webException);
 				throw;
 			}
