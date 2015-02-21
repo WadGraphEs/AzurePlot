@@ -13,7 +13,6 @@ namespace WadGraphEs.MetricsEndpoint {
     public class MvcApplication : System.Web.HttpApplication {
         protected void Application_Start() {
             WebApiConfig.Register(GlobalConfiguration.Configuration);
-			ServicePointManager.DefaultConnectionLimit = 20;
         }
     }
 }
