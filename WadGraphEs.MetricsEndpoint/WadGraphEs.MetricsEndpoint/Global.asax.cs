@@ -5,6 +5,7 @@ using System.Net;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
+using System.Web.Optimization;
 using System.Web.Routing;
 using WadGraphEs.MetricsEndpoint.Setup;
 
@@ -19,6 +20,10 @@ namespace WadGraphEs.MetricsEndpoint {
             WebRoutes.Register(RouteTable.Routes);
             GlobalFilters.Filters.Add(new NeedsSetupAttribute());
             GlobalFilters.Filters.Add(new System.Web.Mvc.AuthorizeAttribute());
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            var razorViewEngine = ViewEngines.Engines.OfType<RazorViewEngine>().First();
+            razorViewEngine.ViewLocationFormats = new [] {"~/MVC/Views/{1}/{0}.cshtml"};
         }
     }
 }

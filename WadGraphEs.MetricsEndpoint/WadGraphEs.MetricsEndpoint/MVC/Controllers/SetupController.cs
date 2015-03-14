@@ -8,7 +8,7 @@ namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
     [AllowAnonymous]
     public class SetupController : Controller{
         public ActionResult Step1() {
-            return Content("Step1");
+            return View("Step1");
         }
     }
 }

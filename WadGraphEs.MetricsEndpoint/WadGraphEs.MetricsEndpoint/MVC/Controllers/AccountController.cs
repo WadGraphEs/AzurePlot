@@ -8,7 +8,7 @@ namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
     public class AccountController : Controller{
         [AllowAnonymous]
         public ActionResult Login() {
-            return Content("OK");
+            return View();
         }
     }
 }
