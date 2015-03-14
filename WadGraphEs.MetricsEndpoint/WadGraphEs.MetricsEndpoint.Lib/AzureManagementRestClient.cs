@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 
 		const string ManagementBaseUrl = "https://management.core.windows.net/";
 
+		readonly static Logger _logger = LogManager.GetCurrentClassLogger();
 		public AzureManagementRestClient(Microsoft.WindowsAzure.CertificateCloudCredentials credentials) {
 			_credentials = credentials;
 		}
@@ -36,9 +38,25 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 			
 			requestBuilder(request);
 
-			var response = await request.GetResponseAsync();
+			try {
+				var response = await request.GetResponseAsync();
 
-			// Pipes the stream to a higher level stream reader with the required encoding format. 
+				return ReadResponse(response);
+			}
+			catch(WebException webException) {
+				var response = "<not available>";
+				if(webException.Response!=null) {
+					response = ReadResponse(webException.Response);
+				}
+				_logger.ErrorException(
+
+					string.Format("Failed requesting {0}; StatusCode: {1}; Body:\n{2}", request.RequestUri, webException.Status,response),
+					webException);
+				throw;
+			}
+		}
+
+		private static string ReadResponse(WebResponse response) {
 			using(var readStream = new StreamReader(response.GetResponseStream(),System.Text.Encoding.UTF8)) {
 				var output = readStream.ReadToEnd();
 
