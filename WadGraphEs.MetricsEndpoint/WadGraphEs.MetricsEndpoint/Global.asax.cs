@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using WadGraphEs.MetricsEndpoint.Setup;
 
 namespace WadGraphEs.MetricsEndpoint {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
@@ -16,6 +17,7 @@ namespace WadGraphEs.MetricsEndpoint {
             WebApiConfig.Register(GlobalConfiguration.Configuration);
 
             WebRoutes.Register(RouteTable.Routes);
+            GlobalFilters.Filters.Add(new NeedsSetupAttribute());
             GlobalFilters.Filters.Add(new System.Web.Mvc.AuthorizeAttribute());
         }
     }

@@ -149,7 +149,9 @@
     </Compile>
     <Compile Include="MVC\Controllers\HomeController.cs" />
     <Compile Include="MVC\Controllers\AccountController.cs" />
+    <Compile Include="MVC\Controllers\SetupController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Setup\NeedsSetupAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
