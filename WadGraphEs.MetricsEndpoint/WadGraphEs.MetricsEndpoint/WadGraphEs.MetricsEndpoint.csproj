@@ -166,10 +166,17 @@
     <Compile Include="ApiControllers\StatusController.cs" />
     <Compile Include="Authentication\MessageAuthenticationHandler.cs" />
     <Compile Include="ApiControllers\UsagesController.cs" />
+    <Compile Include="DataAccess\DataContext.cs" />
+    <Compile Include="DataAccess\ProxyUser.cs" />
     <Compile Include="Factories\MetricsConfigEndpointConfigurationFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201503141543398_initial-schema.cs" />
+    <Compile Include="Migrations\201503141543398_initial-schema.Designer.cs">
+      <DependentUpon>201503141543398_initial-schema.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MVC\Commands\CreateAdminAccount.cs" />
     <Compile Include="MVC\Controllers\HomeController.cs" />
     <Compile Include="MVC\Controllers\AccountController.cs" />
@@ -232,6 +239,11 @@
       <Project>{a2653e29-7ece-43f0-a7c4-1574374813c3}</Project>
       <Name>WadGraphEs.MetricsEndpoint.Lib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201503141543398_initial-schema.resx">
+      <DependentUpon>201503141543398_initial-schema.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
