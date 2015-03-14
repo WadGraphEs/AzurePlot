@@ -4,7 +4,6 @@ using System.Configuration;
 using System.Linq;
 using System.Web.Http;
 using WadGraphEs.MetricsEndpoint.Authentication;
-using WadGraphEs.MetricsEndpoint.Controllers;
 
 namespace WadGraphEs.MetricsEndpoint {
     public static class WebApiConfig {

@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 using WadGraphEs.MetricsEndpoint.Lib;
 using NLog;
 
-namespace WadGraphEs.MetricsEndpoint.Controllers {
+namespace WadGraphEs.MetricsEndpoint.ApiControllers {
 	public class UsagesController:ApiController {
 		readonly static Logger _logger = LogManager.GetCurrentClassLogger(); 
 		public async Task<IEnumerable<UsageObject>> Get() {
