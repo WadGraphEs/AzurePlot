@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "~/MVC/Views/Layout.cshtml";
+}
+
+@section stylesheets{
+	@Styles.Render("~/content/setup")
+}
+
+<div class="container setup-dialog">
+	<div class="row">
+		<div class="col-sm-offset-2 col-sm-8">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h2 class="panel-title">Create management account</h2>
+				</div>
+				<div class="panel-body">
+					@RenderBody()
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -11,6 +11,8 @@ namespace WadGraphEs.MetricsEndpoint {
             routes.MapRoute("home", "", new { controller = "Home", action = "Index" });
             routes.MapRoute("login", "login", new { controller = "Account", action = "Login" });
             routes.MapRoute("setup", "setup/step1", new { controller = "Setup", action = "step1" });
+			routes.MapRoute("ThankYouForCreatingAccount", "setup/thankyou", new { controller = "Setup", action = "ThankYou" });
+			
         }
     }
 }

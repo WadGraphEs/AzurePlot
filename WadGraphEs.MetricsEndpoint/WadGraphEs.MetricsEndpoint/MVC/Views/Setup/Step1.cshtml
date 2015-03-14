@@ -1,35 +1,60 @@
-﻿@section stylesheets{
-	@Styles.Render("~/content/setup")
+﻿@model CreateAdminAccount
+
+@functions {
+	bool HasValidationErrors(string fieldName) {
+		var state = ViewData.ModelState[fieldName];
+		if(state == null) {
+			return false;
+		}
+		return ViewData.ModelState[fieldName].Errors.Any();
+	}
+
+	string GetValidationClass(string fieldname) {
+		if(ViewData.ModelState.IsValid) {
+			return "";
+		}
+		var modelState = ViewData.ModelState[fieldname];
+
+		if(!modelState.Errors.Any()) {
+			return "has-success";
+		}
+
+		return "has-error";
+	}
 }
 
-<div class="container setup-dialog">
-<div class="row">
-<div class="col-sm-offset-2 col-sm-8">
-<div class="panel panel-primary">
-	<div class="panel-heading">
-	<h2 class="panel-title">Create management account</h2>
-	</div>
-	<div class="panel-body">
-	<p>Welcome to the WadGraphEs Metrics Proxy.</p>
-	<p>Before you start, you need to create a login to manage this application. Please select a username and password below.</p>
-	<form class="">
-		<div class="form-group">
-			<label for="username">Admin username</label>
-			<input type="text" class="form-control" id="username" placeholder="Admin username" />
-		</div>
-		<div class="form-group">
-			<label for="password">Password</label>
-			<input type="text" class="form-control" id="password" placeholder="Password" />
-		</div>
-		<div class="form-group">
-			<label for="password1">Confirm password</label>
-			<input type="text" class="form-control" id="password1" placeholder="Confirm password" />
-		</div>
-		<button type="submit" class="btn btn-primary">Create account</button>
-	</form>
-	</div>
-</div>
+@{
+	Layout = "SetupLayout.cshtml";
+}
 
-</div>
-</div>
-</div>
+
+<p>Welcome to the WadGraphEs Metrics Proxy.</p>
+<p>Before you start, you need to create a login to manage this application. Please select a username and password below.</p>
+@if(!ViewData.ModelState.IsValid) {
+	<div class="alert alert-danger">One or more fields are invalid, please correct them.</div>
+}
+<form class="" method="post">
+	@Html.AntiForgeryToken()
+	<div class="form-group @GetValidationClass("username")">
+		<label class="control-label" for="username">Admin username</label>
+		@if(HasValidationErrors("username")) {
+			<span class="help-block">@Html.ValidationMessageFor(_ => _.Username)</span>
+		}
+		<input type="text" value="@Model.Username" name="username" class="form-control" id="username" placeholder="Admin username" />
+	</div>
+	<div class="form-group @GetValidationClass("password")">
+		<label for="password">Password</label>
+		@if(HasValidationErrors("password")) {
+			<span class="help-block">@Html.ValidationMessageFor(_ => _.Password)</span>
+		}
+		<input type="password" value="@Model.Password" name="password" class="form-control" id="password" placeholder="Password" />
+	</div>
+	<div class="form-group @GetValidationClass("confirmpassword")">
+		<label for="password1">Confirm password</label>
+		@if(HasValidationErrors("confirmpassword")) {
+			<span class="help-block">@Html.ValidationMessageFor(_ => _.ConfirmPassword)</span>
+		}
+		<input type="password" name="confirmpassword" class="form-control" id="password1" placeholder="Confirm password" />
+	</div>
+	<button type="submit" class="btn btn-primary">Create account</button>
+</form>

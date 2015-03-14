@@ -158,6 +158,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="MVC\Commands\CreateAdminAccount.cs" />
     <Compile Include="MVC\Controllers\HomeController.cs" />
     <Compile Include="MVC\Controllers\AccountController.cs" />
     <Compile Include="MVC\Controllers\SetupController.cs" />
@@ -175,6 +176,7 @@
     <Content Include="MVC\Views\Layout.cshtml" />
     <Content Include="MVC\Views\Setup\Step1.cshtml" />
     <Content Include="MVC\Views\Web.config" />
+    <Content Include="MVC\Views\Setup\ThankYou.cshtml" />
     <None Include="MVC\Views\_ViewStart.cshtml" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
