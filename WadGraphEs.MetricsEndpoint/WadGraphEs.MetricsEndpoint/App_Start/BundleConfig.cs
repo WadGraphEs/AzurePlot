@@ -17,6 +17,9 @@ namespace WadGraphEs.MetricsEndpoint {
                 "~/content/bootstrap-theme.css"
             ));
 
+            bundles.Add(new StyleBundle("~/content/setup").Include(
+                "~/content/setup.css"
+            ));
         }
     }
 }

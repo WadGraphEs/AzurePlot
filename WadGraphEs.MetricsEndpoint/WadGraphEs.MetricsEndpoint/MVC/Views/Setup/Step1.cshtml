@@ -1,1 +1,35 @@
-﻿Hello
+﻿@section stylesheets{
+	@Styles.Render("~/content/setup")
+}
+
+<div class="container setup-dialog">
+<div class="row">
+<div class="col-sm-offset-2 col-sm-8">
+<div class="panel panel-primary">
+	<div class="panel-heading">
+	<h2 class="panel-title">Create management account</h2>
+	</div>
+	<div class="panel-body">
+	<p>Welcome to the WadGraphEs Metrics Proxy.</p>
+	<p>Before you start, you need to create a login to manage this application. Please select a username and password below.</p>
+	<form class="">
+		<div class="form-group">
+			<label for="username">Admin username</label>
+			<input type="text" class="form-control" id="username" placeholder="Admin username" />
+		</div>
+		<div class="form-group">
+			<label for="password">Password</label>
+			<input type="text" class="form-control" id="password" placeholder="Password" />
+		</div>
+		<div class="form-group">
+			<label for="password1">Confirm password</label>
+			<input type="text" class="form-control" id="password1" placeholder="Confirm password" />
+		</div>
+		<button type="submit" class="btn btn-primary">Create account</button>
+	</form>
+	</div>
+</div>
+
+</div>
+</div>
+</div>
