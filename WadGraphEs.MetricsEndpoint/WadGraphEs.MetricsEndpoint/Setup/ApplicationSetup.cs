@@ -15,13 +15,17 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 		}
 
 		private static void UpdateSchema() {
-			var dbMigrator = new System.Data.Entity.Migrations.DbMigrator(new WadGraphEs.MetricsEndpoint.Migrations.Configuration());
-
-			var migrations = dbMigrator.GetPendingMigrations();
-
-			if(migrations.Any()) {
-				dbMigrator.Update();
+			if(IsSchemaUpToDate()) {
+				return;
 			}
+			var dbMigrator = GetDbMigrator();
+
+			dbMigrator.Update();
+		}
+
+		private static System.Data.Entity.Migrations.DbMigrator GetDbMigrator() {
+			var dbMigrator = new System.Data.Entity.Migrations.DbMigrator(new WadGraphEs.MetricsEndpoint.Migrations.Configuration());
+			return dbMigrator;
 		}
 
 		private static void CreateDatabase() {
@@ -35,7 +39,18 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 		}
 
 		internal static bool HasAdminUser() {
+			if(!IsDatabaseCreated()) {
+				return false;
+			}
+			if(!IsSchemaUpToDate()) {
+				return false;
+			}
 			return Users.HasAUser();
+		}
+
+		private static bool IsSchemaUpToDate() {
+			var migrator = GetDbMigrator();
+			return !migrator.GetPendingMigrations().Any();
 		}
 	}
 }
