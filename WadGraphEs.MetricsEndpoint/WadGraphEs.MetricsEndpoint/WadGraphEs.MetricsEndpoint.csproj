@@ -223,6 +223,10 @@
     <Compile Include="Migrations\201503151615518_subscriptions-table.Designer.cs">
       <DependentUpon>201503151615518_subscriptions-table.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201503151619467_remove-arbitrary-lengths.cs" />
+    <Compile Include="Migrations\201503151619467_remove-arbitrary-lengths.Designer.cs">
+      <DependentUpon>201503151619467_remove-arbitrary-lengths.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MVC\Commands\CreateAdminAccount.cs" />
     <Compile Include="MVC\Commands\CreateAPIKey.cs" />
@@ -348,6 +352,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201503151615518_subscriptions-table.resx">
       <DependentUpon>201503151615518_subscriptions-table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503151619467_remove-arbitrary-lengths.resx">
+      <DependentUpon>201503151619467_remove-arbitrary-lengths.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
