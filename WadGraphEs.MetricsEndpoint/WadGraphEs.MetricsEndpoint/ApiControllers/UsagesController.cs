@@ -26,15 +26,7 @@ namespace WadGraphEs.MetricsEndpoint.ApiControllers {
 
 			try {
 				var tasks = AzureSubscriptions.ListAll().Select(GetUsageForSubscription);
-				//foreach() {
-				//	var azureUsageService = new AzureUsageClient(Factories.MetricsConfigEndpointConfigurationFactory.New());
-
-				//	var websiteUsage = azureUsageService.GetWebsitesUsage();
-				//	var cloudServiceUsage = azureUsageService.GetCloudServiceUsages();
-
-				//	return (await websiteUsage).Concat(await cloudServiceUsage);
-				//}
-
+			
 				var results = await Task.WhenAll(tasks);
 				return new [] { new UsageObject { 
 					GraphiteCounterName = new GraphiteCounterName("WadGraphEs.Diagnostics.Proxy.TimeOfDay").ToString(),
