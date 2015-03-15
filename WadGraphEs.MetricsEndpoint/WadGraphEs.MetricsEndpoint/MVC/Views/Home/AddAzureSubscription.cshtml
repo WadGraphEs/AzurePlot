@@ -1,4 +1,5 @@
-﻿@{
+﻿@model string
+@{
 	Layout = "AddAzureSubscriptionPanelLayout.cshtml";
 }
 
@@ -20,4 +21,4 @@
 		Test the configuration
 	</li>
 </ol>
-<a class="btn btn-primary" href="@Url.RouteUrl("add-azure-subscription-step-1")">Continue</a>
+<a class="btn btn-primary" href="@Url.RouteUrl("add-azure-subscription-step-1", new { sessionId = Model })">Continue</a>

@@ -96,6 +96,9 @@
     <Reference Include="Microsoft.WindowsAzure.Management.Monitoring">
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.Monitoring.2.0.0\lib\net40\Microsoft.WindowsAzure.Management.Monitoring.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Security">
+      <HintPath>..\packages\Mono.Security.3.2.3.0\lib\net45\Mono.Security.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -191,6 +194,7 @@
     <Compile Include="ApiControllers\StatusController.cs" />
     <Compile Include="Authentication\MessageAuthenticationHandler.cs" />
     <Compile Include="ApiControllers\UsagesController.cs" />
+    <Compile Include="DataAccess\AddAzureSubscriptionSession.cs" />
     <Compile Include="DataAccess\APIKeyRecord.cs" />
     <Compile Include="DataAccess\DataContext.cs" />
     <Compile Include="DataAccess\ProxyUser.cs" />
@@ -206,6 +210,10 @@
     <Compile Include="Migrations\201503151202152_apikeys.Designer.cs">
       <DependentUpon>201503151202152_apikeys.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201503151438290_add-azure-subscription-session.cs" />
+    <Compile Include="Migrations\201503151438290_add-azure-subscription-session.Designer.cs">
+      <DependentUpon>201503151438290_add-azure-subscription-session.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MVC\Commands\CreateAdminAccount.cs" />
     <Compile Include="MVC\Commands\CreateAPIKey.cs" />
@@ -216,11 +224,14 @@
     <Compile Include="MVC\Controllers\SetupController.cs" />
     <Compile Include="MVC\HtmlHelpers\ValidationHelpers.cs" />
     <Compile Include="MVC\ViewModels\OverviewViewModel.cs" />
+    <Compile Include="MVC\ViewModels\UploadCertificateViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setup\APIEndpoint.cs" />
     <Compile Include="Setup\ApplicationSetup.cs" />
+    <Compile Include="Setup\AzureSubscriptions.cs" />
     <Compile Include="Setup\NeedsSetupAttribute.cs" />
     <Compile Include="Setup\Users.cs" />
+    <Compile Include="X509Tools\GenerateCertificate.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\dontdelete.txt" />
@@ -247,6 +258,7 @@
     <Content Include="MVC\Views\Home\AddAzureSubscriptionPanelLayout.cshtml" />
     <Content Include="MVC\Views\Home\AddAzureSubscription.cshtml" />
     <Content Include="MVC\Views\Home\AddAzureSubscriptionStep1.cshtml" />
+    <Content Include="MVC\Views\Home\AddAzureSubscriptionStep2.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -313,6 +325,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201503151202152_apikeys.resx">
       <DependentUpon>201503151202152_apikeys.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503151438290_add-azure-subscription-session.resx">
+      <DependentUpon>201503151438290_add-azure-subscription-session.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

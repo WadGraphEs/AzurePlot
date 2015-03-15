@@ -8,7 +8,7 @@
 	Add Azure Subscription - Step 1/3 - Create management certificate
 }
 
-<form class="" method="post">
+<form class="" method="post" action="@Url.RouteUrl("add-azure-subscription-step-1", new { sessionId = Model.SessionId })">
 	@Html.AntiForgeryToken()
 	<div class="form-group @Html.GetValidationClass("certificatename")">
 		<label class="control-label" for="certificatename">Certificate name</label>

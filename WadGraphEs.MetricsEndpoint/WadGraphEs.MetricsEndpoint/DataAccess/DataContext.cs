@@ -12,5 +12,6 @@ namespace WadGraphEs.MetricsEndpoint.DataAccess {
 		}
 
 		public DbSet<APIKeyRecord> APIKeys{get;set;}
+		public DbSet<AddAzureSubscriptionSession> AddAzureSubscriptionSessions{get;set;}
 	}
 }
