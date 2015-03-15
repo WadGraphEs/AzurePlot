@@ -11,7 +11,10 @@ namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
     public class HomeController : Controller{
 		[HttpGet]
         public ActionResult Index() {
-            return View(new OverviewViewModel());
+			var services = AzureSubscriptions.ListForOverview();
+            return View(new OverviewViewModel{
+				Services = services
+			});
         }
 		[HttpGet]
 		public ActionResult AddAzureSubscription() {

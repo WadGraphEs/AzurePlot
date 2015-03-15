@@ -6,6 +6,7 @@ using System.Web;
 using WadGraphEs.MetricsEndpoint.DataAccess;
 using WadGraphEs.MetricsEndpoint.Lib;
 using WadGraphEs.MetricsEndpoint.MVC.Commands;
+using WadGraphEs.MetricsEndpoint.MVC.ViewModels;
 
 namespace WadGraphEs.MetricsEndpoint.Setup {
 	public class AzureSubscriptions {
@@ -98,5 +99,16 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 
 			context.SaveChanges();
 		}
+
+		internal static ICollection<ServiceViewModel> ListForOverview() {
+			var ctx = GetDataContext();
+
+			return ctx.AzureSubscriptions.ToList().Select(_=>new ServiceViewModel {
+				Id = _.Id,
+				Name = _.FormatName(),
+				Record = _
+			}).ToList();
+		}
+
 	}
 }

@@ -21,5 +21,13 @@ namespace WadGraphEs.MetricsEndpoint.DataAccess {
 		public byte[] Pfx { get; set; }
 		[MaxLength]
 		public string Password { get; set; }
+
+		public string FormatName() {
+			if(string.IsNullOrWhiteSpace(Name)) {
+				return "<Unknown>";
+			}
+			return Name;
+		}
+
 	}
 }

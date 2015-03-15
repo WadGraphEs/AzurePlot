@@ -24,6 +24,7 @@ namespace WadGraphEs.MetricsEndpoint {
 
             var razorViewEngine = ViewEngines.Engines.OfType<RazorViewEngine>().First();
             razorViewEngine.ViewLocationFormats = new [] {"~/MVC/Views/{1}/{0}.cshtml"};
+			razorViewEngine.PartialViewLocationFormats = new [] {"~/MVC/Views/{1}/{0}.cshtml"};
         }
     }
 }

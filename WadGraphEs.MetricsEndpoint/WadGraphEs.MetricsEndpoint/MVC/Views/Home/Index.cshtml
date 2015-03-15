@@ -34,6 +34,9 @@
 			@if(!Model.HasConfiguredServices) {
 				<tr><td colspan="2">Nothing configured yet...</td></tr>
 			}
+			@foreach(var service in Model.Services) {
+				@Html.Partial("OverviewTable/"+service.Record.GetType().Name,service.Record)
+			}
 		</tbody>
 
 	</table>
