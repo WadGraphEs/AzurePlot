@@ -209,6 +209,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MVC\Commands\CreateAdminAccount.cs" />
     <Compile Include="MVC\Commands\CreateAPIKey.cs" />
+    <Compile Include="MVC\Commands\CreateManagementCertificateCommand.cs" />
     <Compile Include="MVC\Commands\LoginCommand.cs" />
     <Compile Include="MVC\Controllers\HomeController.cs" />
     <Compile Include="MVC\Controllers\AccountController.cs" />
@@ -243,6 +244,9 @@
     <Content Include="MVC\Views\Setup\UpdateSchema.cshtml" />
     <Content Include="MVC\Views\Home\HomeLayout.cshtml" />
     <Content Include="MVC\Views\Home\Index.cshtml" />
+    <Content Include="MVC\Views\Home\AddAzureSubscriptionPanelLayout.cshtml" />
+    <Content Include="MVC\Views\Home\AddAzureSubscription.cshtml" />
+    <Content Include="MVC\Views\Home\AddAzureSubscriptionStep1.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

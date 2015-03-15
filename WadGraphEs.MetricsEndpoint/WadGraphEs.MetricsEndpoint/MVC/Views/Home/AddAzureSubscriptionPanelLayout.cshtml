@@ -1,11 +1,24 @@
-﻿@model OverviewViewModel
-
-@{
+﻿@{
 	Layout = "HomeLayout.cshtml";
 }
-<h1 class="page-header">Configured services</h1>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-10 col-sm-offset-1">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h2 class="panel-title">@RenderSection("paneltitle",false)</h2>
+				</div>
+				<div class="panel-body">
+					@RenderBody()
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
-@if(!Model.HasConfiguredServices) {
+
+@*@if(!Model.HasConfiguredServices) {
 	<div class="alert alert-info">
 		Hi! It seems you don't have any services configured yet. 
 		On this page, you can add the services you'd like to fetch the metrics data from. Click the add service button to get started.
@@ -37,4 +50,4 @@
 		</tbody>
 
 	</table>
-</div>
+</div>*@

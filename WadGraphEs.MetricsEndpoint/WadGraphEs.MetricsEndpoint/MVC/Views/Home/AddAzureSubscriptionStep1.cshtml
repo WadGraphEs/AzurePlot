@@ -1,0 +1,22 @@
+﻿@model CreateManagementCertificateCommand
+
+@{
+	Layout = "AddAzureSubscriptionPanelLayout.cshtml";
+}
+
+@section paneltitle {
+	Add Azure Subscription - Step 1/3 - Create management certificate
+}
+
+<form class="" method="post">
+	@Html.AntiForgeryToken()
+	<div class="form-group @Html.GetValidationClass("certificatename")">
+		<label class="control-label" for="certificatename">Certificate name</label>
+		@if(Html.HasValidationErrors("certificatename")) {
+			<span class="help-block">@Html.ValidationMessageFor(_ => _.CertificateName)</span>
+		}
+		<input type="text" value="@Model.CertificateName" name="CertificateName" class="form-control" id="certificatename" placeholder="Your certificate name" />
+		<span class="help-block">Can be anything, used only for display purposes</span>
+	</div>
+	<button type="submit" class="btn btn-primary">Continue</button>
+</form>
