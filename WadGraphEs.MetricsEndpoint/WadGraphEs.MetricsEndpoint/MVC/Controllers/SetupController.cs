@@ -13,14 +13,29 @@ using WadGraphEs.MetricsEndpoint.Setup;
 namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
     [AllowAnonymous]
     public class SetupController : Controller{
-        [HttpGet]
+		[HttpGet]
 		public ActionResult Step1() {
+			if(!ApplicationSetup.HasAdminUser()) {
+				return View();
+			}
+			if(!ApplicationSetup.IsAPIKeyCreated()) {
+				return RedirectToAction("CreateAPIKey");
+			}            
+
+			return RedirectToAction("ThankYou");
+        }
+
+        [HttpGet]
+		public ActionResult CreateAdmin() {
+			if(ApplicationSetup.HasAdminUser()) {
+				return RedirectToAction("Step1");
+			}
             return View(new CreateAdminAccount());
         }
 
         [HttpPost]
 		[ValidateAntiForgeryToken]
-        public ActionResult Step1(CreateAdminAccount command) {
+        public ActionResult CreateAdmin(CreateAdminAccount command) {
 			if(ApplicationSetup.HasAdminUser()) {
 				ModelState.AddModelError("admin-already-exists", "Admin already exists");
 			}
@@ -36,7 +51,7 @@ namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
 				return View(command);
 			}
 
-            return RedirectToRoute("ThankYouForCreatingAccount");
+            return RedirectToRoute("setup");
         }
 
 		private void RegisterAccount(CreateAdminAccount command) {
@@ -47,6 +62,11 @@ namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
 			if(!createUserResult.Succeeded) {
 				throw new Exception(string.Join("\n",createUserResult.Errors));
 			}
+		}
+
+		[HttpGet]
+		public ActionResult CreateAPIKey() {
+			return View(new CreateAPIKey());
 		}
 
 		[HttpGet]

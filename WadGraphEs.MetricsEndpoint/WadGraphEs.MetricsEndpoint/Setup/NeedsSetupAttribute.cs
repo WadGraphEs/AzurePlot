@@ -22,8 +22,8 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
         }
 
         private bool ApplicationIsConfigured() {
-            var dataContext =new DataContext();
-			return dataContext.Database.Exists();
+			return ApplicationSetup.IsApplicationConfigured();
+            
 
         }
     }

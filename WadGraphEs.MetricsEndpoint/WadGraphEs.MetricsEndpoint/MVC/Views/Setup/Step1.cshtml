@@ -1,42 +1,16 @@
-﻿@model CreateAdminAccount
-
-@{
+﻿@{
 	Layout = "SetupLayout.cshtml";
 }
 
+@section paneltitle {
+	Setup - Step 1/3
+}
 
 <p>Welcome to the WadGraphEs Metrics Proxy.</p>
-<p>Before you start, you need to create a login to manage this application. All data will by default be stored in a database in App_Data. You can change this behavior by modifying the connection strings in the web.config. </p>
-<p>Please select a username and password below.</p>
-
-@if(Html.HasValidationErrors("exception")) {
-	<div class="alert alert-danger">@ViewData.ModelState["exception"].Errors.First().Exception</div>
-}
-@if(Html.HasValidationErrors("admin-already-exists")) {
-	<div class="alert alert-danger">The admin user is already configured, please <a href="@Url.RouteUrl("login")">log in</a>.</div>
-}
-<form class="" method="post">
-	@Html.AntiForgeryToken()
-	<div class="form-group @Html.GetValidationClass("username")">
-		<label class="control-label" for="username">Admin username</label>
-		@if(Html.HasValidationErrors("username")) {
-			<span class="help-block">@Html.ValidationMessageFor(_ => _.Username)</span>
-		}
-		<input type="text" value="@Model.Username" name="username" class="form-control" id="username" placeholder="Admin username" />
-	</div>
-	<div class="form-group @Html.GetValidationClass("password")">
-		<label for="password">Password</label>
-		@if(Html.HasValidationErrors("password")) {
-			<span class="help-block">@Html.ValidationMessageFor(_ => _.Password)</span>
-		}
-		<input type="password" value="@Model.Password" name="password" class="form-control" id="password" placeholder="Password" />
-	</div>
-	<div class="form-group @Html.GetValidationClass("confirmpassword")">
-		<label for="password1">Confirm password</label>
-		@if(Html.HasValidationErrors("confirmpassword")) {
-			<span class="help-block">@Html.ValidationMessageFor(_ => _.ConfirmPassword)</span>
-		}
-		<input type="password" name="confirmpassword" class="form-control" id="password1" placeholder="Confirm password" />
-	</div>
-	<button type="submit" class="btn btn-primary">Create account</button>
-</form>
+<p>To get started, you need to complete a couple of steps:</p>
+<ul>
+	<li>Create a management user account for this application</li>
+	<li>Pick an authentication key for API access</li>
+</ul>
+<p>Note that all data will by default be stored in a database in App_Data. You can change this behavior by modifying the connection string in the web.config. </p>
+<a class="btn btn-primary" href="@Url.RouteUrl("create-admin-account")">Continue</a>

@@ -203,6 +203,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MVC\Commands\CreateAdminAccount.cs" />
+    <Compile Include="MVC\Commands\CreateAPIKey.cs" />
     <Compile Include="MVC\Commands\LoginCommand.cs" />
     <Compile Include="MVC\Controllers\HomeController.cs" />
     <Compile Include="MVC\Controllers\AccountController.cs" />
@@ -229,6 +230,8 @@
     <Content Include="MVC\Views\Setup\ThankYou.cshtml" />
     <Content Include="MVC\Views\Setup\SetupLayout.cshtml" />
     <Content Include="MVC\Views\Account\Login.cshtml" />
+    <Content Include="MVC\Views\Setup\CreateAdmin.cshtml" />
+    <Content Include="MVC\Views\Setup\CreateAPIKey.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

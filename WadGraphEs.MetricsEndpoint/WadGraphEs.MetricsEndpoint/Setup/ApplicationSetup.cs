@@ -52,5 +52,20 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 			var migrator = GetDbMigrator();
 			return !migrator.GetPendingMigrations().Any();
 		}
+
+		internal static bool IsApplicationConfigured() {
+			if(!IsDatabaseCreated()) {
+				return false;
+			}
+			if(!IsAPIKeyCreated()) {
+				return false;
+			}
+			
+			return true;		
+		}
+
+		public static bool IsAPIKeyCreated() {
+			return false;
+		}
 	}
 }
