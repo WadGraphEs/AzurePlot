@@ -28,7 +28,6 @@ namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
             if(!ModelState.IsValid) {
                 return View(command);
             }
-            
 			try {
 				RegisterAccount(command);
 			}

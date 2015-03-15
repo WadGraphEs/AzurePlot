@@ -7,7 +7,7 @@ using System.Web;
 
 namespace WadGraphEs.MetricsEndpoint.DataAccess {
 	public class DataContext : IdentityDbContext<ProxyUser>{
-		public DataContext() {
+		public DataContext() : base("wadgraphes-proxy"){
 			Database.SetInitializer<DataContext>(null);
 		}
 	}
