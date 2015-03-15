@@ -8,45 +8,45 @@ using System.Web;
 using System.Web.Mvc;
 using WadGraphEs.MetricsEndpoint.DataAccess;
 using WadGraphEs.MetricsEndpoint.MVC.Commands;
+using WadGraphEs.MetricsEndpoint.Setup;
 
 namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
     [AllowAnonymous]
     public class SetupController : Controller{
         [HttpGet]
-        public ActionResult Step1() {
+		public ActionResult Step1() {
             return View(new CreateAdminAccount());
         }
 
         [HttpPost]
 		[ValidateAntiForgeryToken]
         public ActionResult Step1(CreateAdminAccount command) {
+			if(ApplicationSetup.HasAdminUser()) {
+				ModelState.AddModelError("admin-already-exists", "Admin already exists");
+			}
+
             if(!ModelState.IsValid) {
                 return View(command);
             }
             
-			RegisterAccount(command);
+			try {
+				RegisterAccount(command);
+			}
+			catch(Exception e) {
+				ModelState.AddModelError("exception",e);
+				return View(command);
+			}
 
             return RedirectToRoute("ThankYouForCreatingAccount");
         }
 
 		private void RegisterAccount(CreateAdminAccount command) {
-			var dbContext = new DataContext();
-
-			var dbMigrator = new System.Data.Entity.Migrations.DbMigrator(new WadGraphEs.MetricsEndpoint.Migrations.Configuration());
-
-			var migrations = dbMigrator.GetPendingMigrations();
-
-			if(migrations.Any()) {
-				dbMigrator.Update();
-			}
-											
-			var manager = new UserManager<ProxyUser>(new UserStore<ProxyUser>(dbContext));
-
-			manager.PasswordValidator = new PasswordValidator() { RequiredLength  = 1};
-
-			var result = manager.Create(new ProxyUser { UserName = command.Username},command.Password);
-			if(!result.Succeeded) {
-				throw new Exception();
+			ApplicationSetup.UpdateDatabaseToLatestSchema();
+			
+			var createUserResult = Users.Handle(command);
+			
+			if(!createUserResult.Succeeded) {
+				throw new Exception(string.Join("\n",createUserResult.Errors));
 			}
 		}
 

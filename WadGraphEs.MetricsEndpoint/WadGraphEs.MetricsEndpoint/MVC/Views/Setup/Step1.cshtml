@@ -31,8 +31,12 @@
 <p>Welcome to the WadGraphEs Metrics Proxy.</p>
 <p>Before you start, you need to create a login to manage this application. All data will by default be stored in a database in App_Data. You can change this behavior by modifying the connection strings in the web.config. </p>
 <p>Please select a username and password below.</p>
-@if(!ViewData.ModelState.IsValid) {
-	<div class="alert alert-danger">One or more fields are invalid, please correct them.</div>
+
+@if(HasValidationErrors("exception")) {
+	<div class="alert alert-danger">@ViewData.ModelState["exception"].Errors.First().Exception</div>
+}
+@if(HasValidationErrors("admin-already-exists")) {
+	<div class="alert alert-danger">The admin user is already configured, please <a href="@Url.RouteUrl("login")">log in</a>.</div>
 }
 <form class="" method="post">
 	@Html.AntiForgeryToken()

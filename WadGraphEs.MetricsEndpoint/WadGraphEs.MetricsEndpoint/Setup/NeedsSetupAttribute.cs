@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using WadGraphEs.MetricsEndpoint.DataAccess;
 using WadGraphEs.MetricsEndpoint.MVC.Controllers;
 
 namespace WadGraphEs.MetricsEndpoint.Setup {
@@ -21,7 +22,9 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
         }
 
         private bool ApplicationIsConfigured() {
-            return false;
+            var dataContext =new DataContext();
+			return dataContext.Database.Exists();
+
         }
     }
 }
