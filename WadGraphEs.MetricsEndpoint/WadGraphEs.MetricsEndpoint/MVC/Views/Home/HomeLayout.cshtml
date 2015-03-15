@@ -1,0 +1,36 @@
+﻿@{
+	Layout = "~/MVC/Views/Layout.cshtml";
+}
+
+@section stylesheets{
+	@Styles.Render("~/content/dashboard")	
+}
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">WadGraphEs Metrics Proxy</a>
+		</div>
+	</div>
+</nav>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 col-md-2 sidebar">
+			<ul class="nav nav-sidebar">
+				<li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+				<li><a href="#">Test</a></li>
+				<li><a href="#">Logs</a></li>
+			</ul>
+			<ul class="nav nav-sidebar">
+				<li><a href="">API Settings</a></li>
+			</ul>
+			<ul class="nav nav-sidebar">
+				<li><a href="@Url.RouteUrl("logout")">Sign out</a></li>
+			</ul>
+		</div>
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+			@RenderBody()
+		</div>
+	</div>
+</div>
