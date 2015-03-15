@@ -214,6 +214,7 @@
     <Compile Include="Setup\Users.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\dontdelete.txt" />
     <Content Include="content\bootstrap-theme.css" />
     <Content Include="content\bootstrap-theme.min.css" />
     <Content Include="content\bootstrap.css" />
@@ -277,7 +278,6 @@
     <None Include="_bin_deployableAssemblies\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Configuration\" />
   </ItemGroup>
   <ItemGroup>
