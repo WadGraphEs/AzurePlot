@@ -13,7 +13,7 @@ namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
     public class AccountController : Controller{
         [AllowAnonymous]
 		[HttpGet]
-        public ActionResult Login() {
+        public ActionResult Login(bool? fromSignOut) {
             return View(new LoginCommand());
         }
 
@@ -27,13 +27,29 @@ namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
 				ModelState.AddModelError("user-not-found","username or password invalid");
 				return View(cmd);
 			}
-
-			var authenticationManager = System.Web.HttpContext.Current.GetOwinContext().Authentication;
+			
             var userIdentity = Users.GetUserManager().CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);
-            authenticationManager.SignIn(new AuthenticationProperties() { }, userIdentity);
-           
 
+			SignIn(userIdentity);
+           
             return RedirectToRoute("home");
+        }
+
+		private static void SignIn(System.Security.Claims.ClaimsIdentity userIdentity) {
+			var authenticationManager = GetAuthenticationManager();
+			authenticationManager.SignIn(new AuthenticationProperties() { },userIdentity);
+		}
+
+		private static IAuthenticationManager GetAuthenticationManager() {
+			var authenticationManager = System.Web.HttpContext.Current.GetOwinContext().Authentication;
+			return authenticationManager;
+		}
+
+		[AllowAnonymous]
+		[HttpGet]
+        public ActionResult Logout() {
+			GetAuthenticationManager().SignOut();
+            return RedirectToRoute("login",new { fromSignOut = true });
         }
     }
 }

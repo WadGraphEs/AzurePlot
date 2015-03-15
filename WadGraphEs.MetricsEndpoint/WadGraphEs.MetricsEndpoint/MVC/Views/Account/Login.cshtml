@@ -16,6 +16,9 @@
 					<h2 class="panel-title">Login</h2>
 				</div>
 				<div class="panel-body">
+					@if(ViewContext.RequestContext.HttpContext.Request["fromSignOut"]!=null) {
+						<div class="alert alert-info">You are now signed out</div>
+					}
 					@if(Html.HasValidationErrors("user-not-found")) {
 						<div class="alert alert-danger">Invalid username or password</div>
 					}
