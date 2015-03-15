@@ -67,7 +67,7 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 			var record = GetSessionRecord(sessionId);
 			var client = GetAzureUsageClient(record.AzureSubscriptionId,record);
 			return new FinishAddingAzureSubscription {
-				AzureSubcriptionName = client.GetSubscriptionNameSync(),
+				AzureSubscriptionName = client.GetSubscriptionNameSync(),
 				SessionId = sessionId,
 				AzureSubscriptionId = record.AzureSubscriptionId
 			};
@@ -86,7 +86,7 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 			var session = context.AddAzureSubscriptionSessions.Find(cmd.SessionId);
 
 			context.AzureSubscriptions.Add(new AzureSubscription {
-				Name = cmd.AzureSubcriptionName,
+				Name = cmd.AzureSubscriptionName,
 				AzureSubscriptionId  = session.AzureSubscriptionId,
 				AddedOnUtc = DateTime.UtcNow,
 				FromSessionId = cmd.SessionId,
