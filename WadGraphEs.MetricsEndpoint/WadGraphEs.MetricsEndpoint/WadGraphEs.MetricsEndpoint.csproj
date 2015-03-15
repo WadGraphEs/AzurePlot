@@ -226,6 +226,7 @@
     <Content Include="content\bootstrap-theme.min.css" />
     <Content Include="content\bootstrap.css" />
     <Content Include="content\bootstrap.min.css" />
+    <Content Include="content\dashboard.css" />
     <Content Include="content\login.css" />
     <Content Include="content\setup.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -239,6 +240,7 @@
     <Content Include="MVC\Views\Setup\CreateAdmin.cshtml" />
     <Content Include="MVC\Views\Setup\CreateAPIKey.cshtml" />
     <Content Include="MVC\Views\Setup\UpdateSchema.cshtml" />
+    <Content Include="MVC\Views\Home\Index.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
