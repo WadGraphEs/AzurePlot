@@ -14,6 +14,7 @@ namespace WadGraphEs.MetricsEndpoint {
             routes.MapRoute("setup", "setup/step1", new { controller = "Setup", action = "step1" });
 			routes.MapRoute("create-admin-account", "setup/create-admin-account", new { controller = "Setup", action = "CreateAdmin" });
 			routes.MapRoute("create-api-key", "setup/create-api-key", new { controller = "Setup", action = "CreateAPIKey" });
+			routes.MapRoute("update-schema", "setup/update-schema", new { controller = "Setup", action = "UpdateSchema" });
 			
 			
 			routes.MapRoute("ThankYouForCreatingAccount", "setup/thankyou", new { controller = "Setup", action = "ThankYou" });

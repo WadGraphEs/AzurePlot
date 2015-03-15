@@ -33,7 +33,7 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 			dbContext.Database.Create();
 		}
 
-		private static bool IsDatabaseCreated() {
+		public static bool IsDatabaseCreated() {
 			var dbContext = new DataContext();
 			return dbContext.Database.Exists();
 		}
@@ -48,7 +48,7 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 			return Users.HasAUser();
 		}
 
-		private static bool IsSchemaUpToDate() {
+		public static bool IsSchemaUpToDate() {
 			var migrator = GetDbMigrator();
 			return !migrator.GetPendingMigrations().Any();
 		}
@@ -57,6 +57,15 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 			if(!IsDatabaseCreated()) {
 				return false;
 			}
+
+			if(!IsSchemaUpToDate()) {
+				return false;
+			}
+
+			if(!HasAdminUser()) {
+				return false;
+			}
+
 			if(!IsAPIKeyCreated()) {
 				return false;
 			}
@@ -65,7 +74,13 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 		}
 
 		public static bool IsAPIKeyCreated() {
-			return false;
+			return APIEndpoint.IsAPIKeyCreated();
+		}
+
+
+
+		internal static ICollection<string> GetPendingMigrations() {
+			return GetDbMigrator().GetPendingMigrations().ToList();
 		}
 	}
 }

@@ -10,5 +10,7 @@ namespace WadGraphEs.MetricsEndpoint.DataAccess {
 		public DataContext() : base("wadgraphes-proxy"){
 			Database.SetInitializer<DataContext>(null);
 		}
+
+		public DbSet<APIKeyRecord> APIKeys{get;set;}
 	}
 }

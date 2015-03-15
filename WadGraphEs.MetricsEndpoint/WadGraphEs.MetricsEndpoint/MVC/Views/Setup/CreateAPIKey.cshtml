@@ -5,7 +5,7 @@
 }
 
 @section paneltitle {
-	Setup - Create API key (step 3/3)
+	Setup - Step 3/3 - Create API key
 }
 
 <p>
@@ -15,12 +15,12 @@
 
 <form class="" method="post">
 	@Html.AntiForgeryToken()
-	<div class="form-group @Html.GetValidationClass("username")">
+	<div class="form-group @Html.GetValidationClass("apikey")">
 		<label class="control-label" for="apikey">API Key</label>
 		@if(Html.HasValidationErrors("apikey")) {
 			<span class="help-block">@Html.ValidationMessageFor(_ => _.APIKey)</span>
 		}
-		<input type="text" value="@Model.APIKey" name="username" class="form-control" id="apikey" placeholder="Key" />
+		<input type="text" value="@Model.APIKey" name="APIKey" class="form-control" id="apikey" placeholder="Key" />
 	</div>
 	<button type="submit" class="btn btn-primary">Continue</button>
 </form>

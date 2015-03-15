@@ -15,15 +15,37 @@ namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
     public class SetupController : Controller{
 		[HttpGet]
 		public ActionResult Step1() {
+			if(!ApplicationSetup.IsDatabaseCreated()) {
+				return View();
+			}
+
+			if(!ApplicationSetup.IsSchemaUpToDate()) {
+				return RedirectToAction("UpdateSchema");
+			}
+
 			if(!ApplicationSetup.HasAdminUser()) {
 				return View();
 			}
+
 			if(!ApplicationSetup.IsAPIKeyCreated()) {
 				return RedirectToAction("CreateAPIKey");
 			}            
 
 			return RedirectToAction("ThankYou");
         }
+
+		[HttpGet]
+		public ActionResult UpdateSchema() {
+			var pendingMigrations = ApplicationSetup.GetPendingMigrations();
+			return View(pendingMigrations);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult UpdateSchema(bool? overload) {
+			ApplicationSetup.UpdateDatabaseToLatestSchema();
+			return RedirectToAction("Step1");
+		}
 
         [HttpGet]
 		public ActionResult CreateAdmin() {
@@ -66,7 +88,21 @@ namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
 
 		[HttpGet]
 		public ActionResult CreateAPIKey() {
-			return View(new CreateAPIKey());
+			if(ApplicationSetup.IsAPIKeyCreated()) {
+				return RedirectToAction("Step1");
+			}
+			return View(Commands.CreateAPIKey.NewRandom());
+		}
+
+		[HttpPost]
+		public ActionResult CreateAPIKey(CreateAPIKey cmd) {
+			if(!ModelState.IsValid) {
+				return View(cmd);
+			}
+
+			APIEndpoint.AddAPIKey(cmd.APIKey);
+
+			return RedirectToAction("Step1");
 		}
 
 		[HttpGet]
