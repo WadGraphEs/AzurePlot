@@ -79,5 +79,24 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 			record.AzureSubscriptionId = subscriptionId;
 			context.SaveChanges();
 		}
+
+		internal static void Handle(FinishAddingAzureSubscription cmd) {
+			var context = GetDataContext();
+
+			var session = context.AddAzureSubscriptionSessions.Find(cmd.SessionId);
+
+			context.AzureSubscriptions.Add(new AzureSubscription {
+				Name = cmd.AzureSubcriptionName,
+				AzureSubscriptionId  = session.AzureSubscriptionId,
+				AddedOnUtc = DateTime.UtcNow,
+				FromSessionId = cmd.SessionId,
+				Pfx = session.Pfx,
+				Password= session.Password,
+			});
+
+			context.AddAzureSubscriptionSessions.Remove(session);
+
+			context.SaveChanges();
+		}
 	}
 }

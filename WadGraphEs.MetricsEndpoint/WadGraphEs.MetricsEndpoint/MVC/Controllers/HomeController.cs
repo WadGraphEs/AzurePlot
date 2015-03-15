@@ -81,6 +81,12 @@ namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
 			return View(finishCommand);
 		}
 
+		[HttpPost]
+		public ActionResult AddAzureSubscriptionStep4(FinishAddingAzureSubscription cmd) {
+			AzureSubscriptions.Handle(cmd);
+			return RedirectToRoute("Home");
+		}
+
 		[HttpGet]
 		public ActionResult DownloadCertificate(string sessionId) {
 			var cert = AzureSubscriptions.GetCertificateForSession(sessionId);

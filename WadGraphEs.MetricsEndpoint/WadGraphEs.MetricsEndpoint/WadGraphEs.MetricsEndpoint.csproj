@@ -196,6 +196,7 @@
     <Compile Include="ApiControllers\UsagesController.cs" />
     <Compile Include="DataAccess\AddAzureSubscriptionSession.cs" />
     <Compile Include="DataAccess\APIKeyRecord.cs" />
+    <Compile Include="DataAccess\AzureSubscription.cs" />
     <Compile Include="DataAccess\DataContext.cs" />
     <Compile Include="DataAccess\ProxyUser.cs" />
     <Compile Include="Factories\MetricsConfigEndpointConfigurationFactory.cs" />
@@ -217,6 +218,10 @@
     <Compile Include="Migrations\201503151601112_subscription-id-in-session.cs" />
     <Compile Include="Migrations\201503151601112_subscription-id-in-session.Designer.cs">
       <DependentUpon>201503151601112_subscription-id-in-session.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503151615518_subscriptions-table.cs" />
+    <Compile Include="Migrations\201503151615518_subscriptions-table.Designer.cs">
+      <DependentUpon>201503151615518_subscriptions-table.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MVC\Commands\CreateAdminAccount.cs" />
@@ -340,6 +345,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201503151601112_subscription-id-in-session.resx">
       <DependentUpon>201503151601112_subscription-id-in-session.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503151615518_subscriptions-table.resx">
+      <DependentUpon>201503151615518_subscriptions-table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
