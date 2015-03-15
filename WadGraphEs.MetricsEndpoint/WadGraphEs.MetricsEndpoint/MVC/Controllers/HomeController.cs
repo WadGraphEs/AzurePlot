@@ -49,6 +49,39 @@ namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
 		}
 
 		[HttpGet]
+		public ActionResult AddAzureSubscriptionStep3(string sessionId) {
+			return View(new EnterSubscriptionIdCommand{  SessionId = sessionId});
+		}
+
+
+		[HttpPost]
+		public ActionResult AddAzureSubscriptionStep3(EnterSubscriptionIdCommand cmd) {
+			if(!ModelState.IsValid) {
+				return View(cmd);
+			}
+
+			var exceptions = AzureSubscriptions.TestConnection(cmd.SessionId,cmd.AzureSubscriptionId);
+
+			if(exceptions.Any()) {
+				foreach(var exc in exceptions) {
+					ModelState.AddModelError("test-configuration",exc);
+				}
+
+				return View(cmd);
+			}
+
+			AzureSubscriptions.AddAzureSubscriptionIdForSession(cmd.SessionId,cmd.AzureSubscriptionId);
+
+			return RedirectToAction("AddAzureSubscriptionStep4", new { sessionId=cmd.SessionId });
+		}
+
+		[HttpGet]
+		public ActionResult AddAzureSubscriptionStep4(string sessionId) {
+			var finishCommand = AzureSubscriptions.CreateFinishCommandForSession(sessionId);
+			return View(finishCommand);
+		}
+
+		[HttpGet]
 		public ActionResult DownloadCertificate(string sessionId) {
 			var cert = AzureSubscriptions.GetCertificateForSession(sessionId);
 

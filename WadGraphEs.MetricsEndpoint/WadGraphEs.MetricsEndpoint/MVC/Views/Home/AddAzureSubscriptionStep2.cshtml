@@ -5,7 +5,7 @@
 }
 
 @section paneltitle {
-	Add Azure Subscription - Step 2/3 - Upload management certificate
+	Add Azure Subscription - Step 2/4 - Upload management certificate
 }
 
 <p>
@@ -17,4 +17,4 @@
 <p>
 	Press continue when you've uploaded the certificate.
 </p>
-<a href="@Url.RouteUrl("add-azure-subscription-step-3")" class="btn btn-primary">Continue</a>
+<a href="@Url.RouteUrl("add-azure-subscription-step-3", new {sessionId=Model.SessionId})" class="btn btn-primary">Continue</a>

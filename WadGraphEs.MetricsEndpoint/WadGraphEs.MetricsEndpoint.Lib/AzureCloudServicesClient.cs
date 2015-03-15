@@ -28,5 +28,13 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 						
 			return res.SelectMany(_=>_).ToList();
 		}
+
+		internal void TestConnection() {
+			_azureCloudServiceInfoClient.TestConnection();
+		}
+
+		internal string GetSubscriptionNameSync() {
+			return _azureCloudServiceInfoClient.GetSubscriptionNameSync();
+		}
 	}
 }

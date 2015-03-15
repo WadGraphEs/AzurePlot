@@ -214,10 +214,16 @@
     <Compile Include="Migrations\201503151438290_add-azure-subscription-session.Designer.cs">
       <DependentUpon>201503151438290_add-azure-subscription-session.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201503151601112_subscription-id-in-session.cs" />
+    <Compile Include="Migrations\201503151601112_subscription-id-in-session.Designer.cs">
+      <DependentUpon>201503151601112_subscription-id-in-session.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MVC\Commands\CreateAdminAccount.cs" />
     <Compile Include="MVC\Commands\CreateAPIKey.cs" />
     <Compile Include="MVC\Commands\CreateManagementCertificateCommand.cs" />
+    <Compile Include="MVC\Commands\EnterSubscriptionIdCommand.cs" />
+    <Compile Include="MVC\Commands\FinishAddingAzureSubscription.cs" />
     <Compile Include="MVC\Commands\LoginCommand.cs" />
     <Compile Include="MVC\Controllers\HomeController.cs" />
     <Compile Include="MVC\Controllers\AccountController.cs" />
@@ -229,6 +235,7 @@
     <Compile Include="Setup\APIEndpoint.cs" />
     <Compile Include="Setup\ApplicationSetup.cs" />
     <Compile Include="Setup\AzureSubscriptions.cs" />
+    <Compile Include="Setup\FromPKCSMetricsEndpointConfiguration.cs" />
     <Compile Include="Setup\NeedsSetupAttribute.cs" />
     <Compile Include="Setup\Users.cs" />
     <Compile Include="X509Tools\GenerateCertificate.cs" />
@@ -259,6 +266,8 @@
     <Content Include="MVC\Views\Home\AddAzureSubscription.cshtml" />
     <Content Include="MVC\Views\Home\AddAzureSubscriptionStep1.cshtml" />
     <Content Include="MVC\Views\Home\AddAzureSubscriptionStep2.cshtml" />
+    <Content Include="MVC\Views\Home\AddAzureSubscriptionStep3.cshtml" />
+    <Content Include="MVC\Views\Home\AddAzureSubscriptionStep4.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -328,6 +337,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201503151438290_add-azure-subscription-session.resx">
       <DependentUpon>201503151438290_add-azure-subscription-session.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503151601112_subscription-id-in-session.resx">
+      <DependentUpon>201503151601112_subscription-id-in-session.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

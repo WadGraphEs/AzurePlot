@@ -1,0 +1,40 @@
+﻿@model EnterSubscriptionIdCommand
+
+@{
+	Layout = "AddAzureSubscriptionPanelLayout.cshtml";
+}
+
+@section paneltitle {
+	Add Azure Subscription - Step 3/4 - Enter Subscription Id
+}
+
+<p>
+	We are now ready to connect to your Azure Subscription. Please enter the Azure Subscription Id for which you've uploaded the management certificate.
+</p>
+
+<form class="" method="post" action="@Url.RouteUrl("add-azure-subscription-step-3", new { sessionId = Model.SessionId })">
+	@Html.AntiForgeryToken()
+	@if(Html.HasValidationErrors("test-configuration")) {
+		<div class="alert alert-danger">
+			<p>
+				Configuration test not succesful:
+			</p>
+			<ul>
+				@foreach(var err in Html.GetValidationErrors("test-configuration")) {
+				<li>
+					@err
+				</li>
+				}
+			</ul>
+		</div>
+	}
+
+	<div class="form-group @Html.GetValidationClass("azuresubscriptionid")">
+		<label class="control-label" for="azuresubscriptionid">Azure Subscription Id</label>
+		@if(Html.HasValidationErrors("azuresubscriptionid")) {
+			<span class="help-block">@Html.ValidationMessageFor(_ => _.AzureSubscriptionId)</span>
+		}
+		<input type="text" value="@Model.AzureSubscriptionId" name="AzureSubscriptionId" class="form-control" id="azuresubscriptionid" placeholder="Your Azure Subscription Id" />
+	</div>
+	<button type="submit" class="btn btn-success">Test configuration</button>
+</form>

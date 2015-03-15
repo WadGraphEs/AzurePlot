@@ -34,7 +34,19 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 
 
 		public async Task<ICollection<UsageObject>> GetCloudServiceUsages() {
-			return await new AzureCloudServicesClient(_client,_credentials).GetUsageCollection(TimeSpan.FromHours(1));
+			return await GetAzureCloudServicesClient().GetUsageCollection(TimeSpan.FromHours(1));
+		}
+
+		private AzureCloudServicesClient GetAzureCloudServicesClient() {
+			return new AzureCloudServicesClient(_client,_credentials);
+		}
+
+		public void TestConnection() {
+			GetAzureCloudServicesClient().TestConnection();
+		}
+
+		public string GetSubscriptionNameSync() {
+			return GetAzureCloudServicesClient().GetSubscriptionNameSync();
 		}
 	}
 }

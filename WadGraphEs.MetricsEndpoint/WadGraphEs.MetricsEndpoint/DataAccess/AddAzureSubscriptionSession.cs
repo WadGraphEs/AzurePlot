@@ -12,5 +12,7 @@ namespace WadGraphEs.MetricsEndpoint.DataAccess {
 		public string Password{get;set;}
 		[MaxLength]
 		public byte[] Pfx{get;set;}
+
+		public string AzureSubscriptionId { get; set; }
 	}
 }

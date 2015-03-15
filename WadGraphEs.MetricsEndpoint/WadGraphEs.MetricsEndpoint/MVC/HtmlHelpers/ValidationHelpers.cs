@@ -14,6 +14,20 @@ namespace WadGraphEs.MetricsEndpoint.MVC.HtmlHelpers {
 			return helper.ViewData.ModelState[fieldName].Errors.Any();
 		}
 
+		public static ICollection<String> GetValidationErrors(this HtmlHelper helper, string fieldName) {
+			if(!helper.HasValidationErrors(fieldName)) {
+				return new string[0];
+			}
+			return helper.ViewData.ModelState[fieldName].Errors.Select(ErrorToString).ToList();
+		}
+
+		private static string ErrorToString(ModelError modelError) {
+			if(modelError.Exception!=null) {
+				return modelError.Exception.ToString();
+			}
+			return modelError.ErrorMessage;
+		}
+
 		public static string GetValidationClass(this HtmlHelper helper,string fieldname) {
 			if(helper.ViewData.ModelState.IsValid) {
 				return "";

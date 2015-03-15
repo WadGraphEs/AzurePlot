@@ -1,0 +1,27 @@
+﻿@model FinishAddingAzureSubscription
+
+@{
+	Layout = "AddAzureSubscriptionPanelLayout.cshtml";
+}
+
+@section paneltitle {
+	Add Azure Subscription - Step 4/4 - Complete
+}
+
+<p>
+	Everything is now ready, press the Finish button to add this subscription.
+</p>
+
+<form class="" method="post" action="@Url.RouteUrl("add-azure-subscription-step-3", new { sessionId = Model.SessionId })">
+	@Html.AntiForgeryToken()
+	
+	<div class="form-group">
+		<label class="control-label" for="azuresubscriptionid">Azure Subscription Id</label>
+		<input type="text" value="@Model.AzureSubscriptionId" name="AzureSubscriptionId" class="form-control" id="azuresubscriptionid" readonly/>
+	</div>
+	<div class="form-group">
+		<label class="control-label" for="azuresubscriptionname">Azure Subscription Name</label>
+		<input type="text" value="@Model.AzureSubcriptionName" name="AzureSubscriptionName" class="form-control" id="azuresubscriptionname" readonly/>
+	</div>
+	<button type="submit" class="btn btn-primary">Finish</button>
+</form>
