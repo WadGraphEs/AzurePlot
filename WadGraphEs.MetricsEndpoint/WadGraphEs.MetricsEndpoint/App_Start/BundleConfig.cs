@@ -7,12 +7,12 @@ using System.Web.Optimization;
 namespace WadGraphEs.MetricsEndpoint {
     public class BundleConfig {
         internal static void RegisterBundles(System.Web.Optimization.BundleCollection bundles) {
-            bundles.Add(new ScriptBundle("~/scripts/layout.js").Include(
+            bundles.Add(new ScriptBundle("~/scripts/layout").Include(
                 "~/Scripts/jquery-1.9.1.js",
                 "~/Scripts/bootstrap.js"
             ));
 
-            bundles.Add(new StyleBundle("~/content/layout.css").Include(
+            bundles.Add(new StyleBundle("~/content/layout").Include(
                 "~/content/bootstrap.css"
                 
             ));
