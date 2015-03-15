@@ -85,15 +85,16 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 		}
 
 		internal void TestConnection() {
-			var xml = GETXmlSync(HostedServicesPath);
+			var xml = GETXmlSync(SubscriptionPath);
 		}
 
+		const string SubscriptionPath = "";
 
 
 		internal string GetSubscriptionNameSync() {
-			var xml = GETXmlSync(HostedServicesPath);
+			var xml = GETXmlSync(SubscriptionPath);
 
-			return xml;
+			return SelectElementsInXmlByXPath(xml,"/a:Subscription/a:SubscriptionName").Select(_=>_.Value).FirstOrDefault()??"Unknown";
 		}
 	}
 }
