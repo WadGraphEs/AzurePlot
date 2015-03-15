@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using WadGraphEs.MetricsEndpoint.Setup;
 
 namespace WadGraphEs.MetricsEndpoint.DataAccess {
 	public class AzureSubscription {
@@ -29,5 +30,9 @@ namespace WadGraphEs.MetricsEndpoint.DataAccess {
 			return Name;
 		}
 
+
+		internal Lib.MetricsEndpointConfiguration GetMetricsConfig() {
+			return new FromPKCSMetricsEndpointConfiguration(Pfx,Password,AzureSubscriptionId);
+		}
 	}
 }

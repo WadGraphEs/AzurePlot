@@ -22,5 +22,10 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 		internal static bool IsAPIKeyCreated() {
 			return GetDataContext().APIKeys.Any();
 		}
+
+		internal static bool AuthenticateKey(string key) {
+			var dataContext = GetDataContext();
+			return dataContext.APIKeys.Any(_=>_.APIKey == key);
+		}
 	}
 }

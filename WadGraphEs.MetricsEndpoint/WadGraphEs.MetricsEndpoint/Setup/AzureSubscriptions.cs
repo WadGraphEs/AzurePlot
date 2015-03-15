@@ -60,6 +60,7 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 			}			
 		}
 
+		
 		private static AzureUsageClient GetAzureUsageClient(string azureSubscriptionId,AddAzureSubscriptionSession record) {
 			return new AzureUsageClient(new FromPKCSMetricsEndpointConfiguration(record.Pfx,record.Password,azureSubscriptionId));
 		}
@@ -110,5 +111,9 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 			}).ToList();
 		}
 
+
+		internal static ICollection<AzureSubscription> ListAll() {
+			return GetDataContext().AzureSubscriptions.ToList();
+		}
 	}
 }

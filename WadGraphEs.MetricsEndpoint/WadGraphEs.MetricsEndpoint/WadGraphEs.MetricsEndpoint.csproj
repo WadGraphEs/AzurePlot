@@ -199,7 +199,6 @@
     <Compile Include="DataAccess\AzureSubscription.cs" />
     <Compile Include="DataAccess\DataContext.cs" />
     <Compile Include="DataAccess\ProxyUser.cs" />
-    <Compile Include="Factories\MetricsConfigEndpointConfigurationFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

@@ -90,7 +90,6 @@
     <Compile Include="CloudServiceInstanceId.cs" />
     <Compile Include="CloudServiceUsage.cs" />
     <Compile Include="GraphiteCounterName.cs" />
-    <Compile Include="MetricsConfigEndpointConfiguration.cs" />
     <Compile Include="MetricsEndpointConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsageObject.cs" />

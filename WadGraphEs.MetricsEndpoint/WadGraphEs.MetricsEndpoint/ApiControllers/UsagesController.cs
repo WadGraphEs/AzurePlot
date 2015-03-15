@@ -16,6 +16,7 @@ using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 using WadGraphEs.MetricsEndpoint.Lib;
 using NLog;
+using WadGraphEs.MetricsEndpoint.Setup;
 
 namespace WadGraphEs.MetricsEndpoint.ApiControllers {
 	public class UsagesController:ApiController {
@@ -24,12 +25,22 @@ namespace WadGraphEs.MetricsEndpoint.ApiControllers {
 			_logger.Info("Getting usages");
 
 			try {
-				var azureUsageService = new AzureUsageClient(Factories.MetricsConfigEndpointConfigurationFactory.New());
+				var tasks = AzureSubscriptions.ListAll().Select(GetUsageForSubscription);
+				//foreach() {
+				//	var azureUsageService = new AzureUsageClient(Factories.MetricsConfigEndpointConfigurationFactory.New());
 
-				var websiteUsage = azureUsageService.GetWebsitesUsage();
-				var cloudServiceUsage = azureUsageService.GetCloudServiceUsages();
+				//	var websiteUsage = azureUsageService.GetWebsitesUsage();
+				//	var cloudServiceUsage = azureUsageService.GetCloudServiceUsages();
 
-				return (await websiteUsage).Concat(await cloudServiceUsage);
+				//	return (await websiteUsage).Concat(await cloudServiceUsage);
+				//}
+
+				var results = await Task.WhenAll(tasks);
+				return new [] { new UsageObject { 
+					GraphiteCounterName = new GraphiteCounterName("WadGraphEs.Diagnostics.Proxy.TimeOfDay").ToString(),
+					Timestamp = DateTime.UtcNow.ToString("o"),
+					Value = DateTime.UtcNow.TimeOfDay.TotalSeconds
+				}}.Concat(results.SelectMany(_=>_)).ToList();
 			}
 			catch(Exception e) {
 				_logger.ErrorException("Error getting usages", e);
@@ -37,5 +48,13 @@ namespace WadGraphEs.MetricsEndpoint.ApiControllers {
 			}
 		}
 
+		private async Task<IEnumerable<UsageObject>> GetUsageForSubscription(DataAccess.AzureSubscription subscription) {
+			var azureUsageService = new AzureUsageClient(subscription.GetMetricsConfig());
+
+			var websiteUsage = azureUsageService.GetWebsitesUsage();
+			var cloudServiceUsage = azureUsageService.GetCloudServiceUsages();
+
+			return (await websiteUsage).Concat(await cloudServiceUsage);
+		}
 	}
 }
