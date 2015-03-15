@@ -20,6 +20,10 @@ namespace WadGraphEs.MetricsEndpoint {
             bundles.Add(new StyleBundle("~/content/setup").Include(
                 "~/content/setup.css"
             ));
+
+			bundles.Add(new StyleBundle("~/content/login").Include(
+                "~/content/login.css"
+            ));
         }
     }
 }

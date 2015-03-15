@@ -16,7 +16,7 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 			return result;
 		}
 
-		private static UserManager<ProxyUser> GetUserManager() {
+		public static UserManager<ProxyUser> GetUserManager() {
 			var userStore = GetUserStore();
 			var manager = new UserManager<ProxyUser>(userStore);
 
@@ -32,6 +32,10 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 
 		internal static bool HasAUser() {
 			return GetUserStore().Users.Any();
+		}
+
+		internal static ProxyUser FindOrNull(string username,string password) {
+			return GetUserManager().Find(username,password);
 		}
 	}
 }
