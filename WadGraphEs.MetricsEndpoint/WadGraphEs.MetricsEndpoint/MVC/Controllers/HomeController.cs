@@ -103,5 +103,12 @@ namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
 
             return View(settings);
         }
+
+        [HttpGet]
+        public ActionResult TestApi() {
+            var apiSettings = APIEndpoint.GetApiSettings();
+
+            return View(apiSettings);
+        }
     }
 }
