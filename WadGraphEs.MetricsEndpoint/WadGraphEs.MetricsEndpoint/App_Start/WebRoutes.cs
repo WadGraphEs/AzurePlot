@@ -22,6 +22,9 @@ namespace WadGraphEs.MetricsEndpoint {
 			routes.MapRoute("add-azure-subscription-step-4", "services/add-azure-subscription/step4", new { controller = "Home", action = "AddAzureSubscriptionStep4" });
 			
 			routes.MapRoute("add-azure-subscription-download-certificate", "services/add-azure-subscription/download-certificate", new { controller = "Home", action = "DownloadCertificate" });
+            routes.MapRoute("api-settings", "api-settings", new { controller = "Home", action = "ApiSettings" });
+            routes.MapRoute("test-api", "test-api", new { controller = "Home", action = "TestAPI" });
+            
 			
 			
 			

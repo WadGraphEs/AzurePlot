@@ -27,5 +27,16 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 			var dataContext = GetDataContext();
 			return dataContext.APIKeys.Any(_=>_.APIKey == key);
 		}
-	}
+
+        internal static ApiSettings GetApiSettings() {
+            var dataContext = GetDataContext();
+            var key = dataContext.APIKeys.First().APIKey;
+            var endpoint = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority);
+
+            return new ApiSettings {
+                APIKey =  key,
+                EndpointUrl = endpoint
+            };
+        }
+    }
 }

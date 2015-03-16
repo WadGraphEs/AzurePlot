@@ -1,0 +1,30 @@
+﻿@model WadGraphEs.MetricsEndpoint.Setup.ApiSettings
+
+@{
+	Layout = "HomeLayout.cshtml";
+}
+
+<h1 class="page-header">API Settings</h1>
+<div class="row">
+<div class="col-sm-12 col-md-8">
+<div class="well">
+<p>
+	The API can be used by external tools to build upon the metrics data collected by Azure Dashboard. Use the following connection settings to connect to the API. 
+	Clients authenticate using the <code>Authorization: MetricsEndpoint-Key &lt;key&gt;</code> HTTP header.
+</p>
+<p>
+	You can test the API on the <a href="@Url.RouteUrl("test-api")">Test API page</a>.
+</p>
+</div>
+<div class="list-group">
+	<div class="list-group-item">
+		<h4 class="list-group-item-heading">API Endpoint</h4>
+		<p class="list-group-item-text">@Model.EndpointUrl</p>
+	</div>
+	<div class="list-group-item">
+		<h4 class="list-group-item-heading">API Key</h4>
+		<p class="list-group-item-text">@Model.APIKey</p>
+	</div>
+</div>
+</div>
+</div>

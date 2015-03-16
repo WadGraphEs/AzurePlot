@@ -96,5 +96,12 @@ namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
 
 			return File(cert,"application/octet-stream","management.cer");
 		}
+
+        [HttpGet]
+        public ActionResult ApiSettings() {
+            var settings = APIEndpoint.GetApiSettings();
+
+            return View(settings);
+        }
     }
 }
