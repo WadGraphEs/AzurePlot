@@ -57,13 +57,14 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 
                 AppendRequest(wc,sb);
                 AppendResponse(sb,response);
-
+                
+                if(response.StatusCode!=HttpStatusCode.OK) {
+                    return TestAPIResult.Failed(sb.ToString());
+                }
                 return TestAPIResult.IsSuccess(sb.ToString());
 
             }
             catch(WebException e) {
-                
-
                 AppendRequest(wc,sb);
                 AppendResponse(sb,e.Response as HttpWebResponse);
 
@@ -84,7 +85,7 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
         private static void AppendResponse(StringBuilder sb,HttpWebResponse response) {
             sb.AppendLine();
             sb.AppendLine("Response:");
-            sb.AppendLine(string.Format("Status: {0}", (int)response.StatusCode));
+            sb.AppendLine(string.Format("Status: {0} {1} ({2})", (int)response.StatusCode, response.StatusCode,response.StatusDescription));
             sb.AppendLine("Headers:");
             var msg = ReadStream(response.GetResponseStream());
 
