@@ -6,6 +6,21 @@
 	@Styles.Render("~/content/dashboard")	
 }
 
+@functions {
+	string FormatNavigationLink(string routeName, string title) {
+		var route = RouteTable.Routes[routeName];
+
+		var routeUrl = @Url.RouteUrl(routeName);
+
+		if(ViewContext.RouteData.Route.Equals(route)) {
+			return string.Format(@"<li class=""active""><a href=""{0}"">{1} <span class=""sr-only"">(current)</span></a></li>", routeUrl,title);
+		} 
+
+		return string.Format(@"<li><a href=""{0}"">{1}</a></li>", routeUrl,title);
+		
+	}
+}
+
 <nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -18,12 +33,12 @@
 	<div class="row">
 		<div class="col-sm-3 col-md-2 sidebar">
 			<ul class="nav nav-sidebar">
-				<li class="active"><a href="@Url.RouteUrl("home")">Overview <span class="sr-only">(current)</span></a></li>
+				@Html.Raw(FormatNavigationLink("home", "Overview"))
 				<li><a href="#">Logs</a></li>
 			</ul>
 			<ul class="nav nav-sidebar">
 				<li><a href="#">Test API</a></li>
-				<li><a href="@Url.RouteUrl("api-settings")">API Settings</a></li>
+				@Html.Raw(FormatNavigationLink("api-settings", "API Settings"))
 			</ul>
 			<ul class="nav nav-sidebar">
 				<li><a href="@Url.RouteUrl("logout")">Sign out</a></li>
