@@ -37,6 +37,10 @@
 		<h3 class="sub-header">Test failed!</h3>
 		<pre>@Model.Result.Message</pre>
 	}
+	if(Model.Result.Success) {
+		<h3 class="sub-header">Test succeeded!</h3>
+		<pre>@Model.Result.Message</pre>
+	}
 }
 </div>
 </div>
