@@ -74,8 +74,11 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 
         private static void AppendRequest(HttpWebRequest wc,StringBuilder sb) {
             sb.AppendLine("Request:");
+            sb.AppendLine("========");
             sb.AppendLine(string.Format("GET {0}", wc.RequestUri));
+            sb.AppendLine();
             sb.AppendLine("Headers:");
+            sb.AppendLine("========");
 
             foreach(var key in wc.Headers.AllKeys) {
                 sb.AppendLine(string.Format("{0}: {1}", key,wc.Headers[key]));
@@ -85,14 +88,19 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
         private static void AppendResponse(StringBuilder sb,HttpWebResponse response) {
             sb.AppendLine();
             sb.AppendLine("Response:");
+            sb.AppendLine("=========");
             sb.AppendLine(string.Format("Status: {0} {1} ({2})", (int)response.StatusCode, response.StatusCode,response.StatusDescription));
+            sb.AppendLine();
             sb.AppendLine("Headers:");
+            sb.AppendLine("========");
             var msg = ReadStream(response.GetResponseStream());
 
             foreach(var key in response.Headers.AllKeys) {
                 sb.AppendLine(string.Format("{0}: {1}", key, response.Headers[key]));
             }
+            sb.AppendLine();
             sb.AppendLine("Body:");
+            sb.AppendLine("=====");
             sb.AppendLine(msg);
         }
 
