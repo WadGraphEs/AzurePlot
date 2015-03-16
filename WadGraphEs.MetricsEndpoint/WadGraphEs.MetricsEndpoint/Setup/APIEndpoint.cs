@@ -51,19 +51,20 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
             wc.Headers.Add("Authorization", string.Format("MetricsEndpoint-Key {0}", cmd.APIKey));
 
             var sb = new StringBuilder();
-
-            AppendRequest(wc,sb);
-
-
+            
             try {
                 var response = wc.GetResponse() as HttpWebResponse;
 
+                AppendRequest(wc,sb);
                 AppendResponse(sb,response);
 
                 return TestAPIResult.IsSuccess(sb.ToString());
 
             }
             catch(WebException e) {
+                
+
+                AppendRequest(wc,sb);
                 AppendResponse(sb,e.Response as HttpWebResponse);
 
                 return TestAPIResult.Failed(sb.ToString());
@@ -75,8 +76,8 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
             sb.AppendLine(string.Format("GET {0}", wc.RequestUri));
             sb.AppendLine("Headers:");
 
-            for(var i=0;i<wc.Headers.Count;i++) {
-                sb.AppendLine(wc.Headers[i]);
+            foreach(var key in wc.Headers.AllKeys) {
+                sb.AppendLine(string.Format("{0}: {1}", key,wc.Headers[key]));
             }
         }
 
@@ -87,8 +88,8 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
             sb.AppendLine("Headers:");
             var msg = ReadStream(response.GetResponseStream());
 
-            for(var i=0;i<response.Headers.Count;i++) {
-                sb.AppendLine(response.Headers[i]);
+            foreach(var key in response.Headers.AllKeys) {
+                sb.AppendLine(string.Format("{0}: {1}", key, response.Headers[key]));
             }
             sb.AppendLine("Body:");
             sb.AppendLine(msg);
