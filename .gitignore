@@ -14,3 +14,5 @@
 /WadGraphEs.MetricsEndpoint/WadGraphEs.MetricsEndpoint/freekthuis.pfx
 /WadGraphEs.MetricsEndpoint/WadGraphEs.MetricsEndpoint/Properties/PublishProfiles
 /WadGraphEs.MetricsEndpoint/WadGraphEs.MetricsEndpoint/App_Data/*.sdf
+/WadGraphEs.MetricsEndpoint/WadGraphEs.AzureDashboard.suo
+/WadGraphEs.MetricsEndpoint/WadGraphEs.AzureDashboard.v11.suo
