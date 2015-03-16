@@ -38,5 +38,9 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
                 EndpointUrl = endpoint
             };
         }
+
+        internal static TestAPIResult TestEndpoint(MVC.Commands.TestAPICommand cmd) {
+            throw new NotImplementedException();
+        }
     }
 }

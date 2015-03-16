@@ -108,7 +108,30 @@ namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
         public ActionResult TestApi() {
             var apiSettings = APIEndpoint.GetApiSettings();
 
-            return View(apiSettings);
+            return View(new TestAPIViewModel {
+                Command = new TestAPICommand {
+                    APIKey = apiSettings.APIKey,
+                    EndpointUrl = apiSettings.EndpointUrl,
+                    Accept = "application/json"
+                }
+            });
+        }
+
+        [HttpPost]
+        public ActionResult TestApi(TestAPICommand cmd) {
+            try {
+                var result = APIEndpoint.TestEndpoint(cmd);
+                return View(new TestAPIViewModel {
+                    Command = cmd,
+                    Result = result
+                });
+            }
+            catch(Exception e) {
+                return View(new TestAPIViewModel {
+                    Command = cmd,
+                    Result = TestAPIResult.FromException(e)
+                });    
+            }
         }
     }
 }

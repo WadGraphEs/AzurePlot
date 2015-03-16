@@ -233,12 +233,14 @@
     <Compile Include="MVC\Commands\EnterSubscriptionIdCommand.cs" />
     <Compile Include="MVC\Commands\FinishAddingAzureSubscription.cs" />
     <Compile Include="MVC\Commands\LoginCommand.cs" />
+    <Compile Include="MVC\Commands\TestAPICommand.cs" />
     <Compile Include="MVC\Controllers\HomeController.cs" />
     <Compile Include="MVC\Controllers\AccountController.cs" />
     <Compile Include="MVC\Controllers\SetupController.cs" />
     <Compile Include="MVC\HtmlHelpers\ValidationHelpers.cs" />
     <Compile Include="MVC\ViewModels\OverviewViewModel.cs" />
     <Compile Include="MVC\ViewModels\ServiceViewModel.cs" />
+    <Compile Include="MVC\ViewModels\TestAPIViewModel.cs" />
     <Compile Include="MVC\ViewModels\UploadCertificateViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setup\APIEndpoint.cs" />
@@ -247,6 +249,7 @@
     <Compile Include="Setup\AzureSubscriptions.cs" />
     <Compile Include="Setup\FromPKCSMetricsEndpointConfiguration.cs" />
     <Compile Include="Setup\NeedsSetupAttribute.cs" />
+    <Compile Include="Setup\TestAPIResult.cs" />
     <Compile Include="Setup\Users.cs" />
     <Compile Include="X509Tools\GenerateCertificate.cs" />
   </ItemGroup>
