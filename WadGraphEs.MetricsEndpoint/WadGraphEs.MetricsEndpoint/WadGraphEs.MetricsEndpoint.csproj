@@ -202,6 +202,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Logging\CircularBuffer.cs" />
+    <Compile Include="Logging\LogMessage.cs" />
+    <Compile Include="Logging\ViewableLogTarget.cs" />
     <Compile Include="Migrations\201503141543398_initial-schema.cs" />
     <Compile Include="Migrations\201503141543398_initial-schema.Designer.cs">
       <DependentUpon>201503141543398_initial-schema.cs</DependentUpon>
@@ -284,6 +287,7 @@
     <Content Include="MVC\Views\Home\OverviewTable\AzureSubscription.cshtml" />
     <Content Include="MVC\Views\Home\ApiSettings.cshtml" />
     <Content Include="MVC\Views\Home\TestApi.cshtml" />
+    <Content Include="MVC\Views\Home\Logs.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -14,7 +15,10 @@ namespace WadGraphEs.MetricsEndpoint {
     // visit http://go.microsoft.com/?LinkId=9394801
 
     public class MvcApplication : System.Web.HttpApplication {
+		readonly static Logger _logger = LogManager.GetCurrentClassLogger();
         protected void Application_Start() {
+			_logger.Trace("Starting WadGraphEs Azure Dashboard");
+
             WebApiConfig.Register(GlobalConfiguration.Configuration);
 
             WebRoutes.Register(RouteTable.Routes);

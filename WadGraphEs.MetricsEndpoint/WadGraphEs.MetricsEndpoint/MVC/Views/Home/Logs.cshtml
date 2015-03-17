@@ -1,0 +1,11 @@
+﻿@model ICollection<WadGraphEs.MetricsEndpoint.Logging.LogMessage>
+
+@{
+	Layout = "HomeLayout.cshtml";
+}
+
+<ul>
+@foreach(var message in Model) {
+	<li>@message.Timestamp @message.Level @message.Source @message.Message</li>
+}
+</ul>

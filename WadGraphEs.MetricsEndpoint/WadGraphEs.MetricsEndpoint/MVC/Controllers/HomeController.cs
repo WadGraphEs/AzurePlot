@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WadGraphEs.MetricsEndpoint.Logging;
 using WadGraphEs.MetricsEndpoint.MVC.Commands;
 using WadGraphEs.MetricsEndpoint.MVC.ViewModels;
 using WadGraphEs.MetricsEndpoint.Setup;
@@ -133,5 +134,10 @@ namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
                 });    
             }
         }
+
+		[HttpGet]
+		public ActionResult Logs() {
+			return View(ViewableLogTarget.GetLatestMessages());
+		}
     }
 }

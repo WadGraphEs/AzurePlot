@@ -34,7 +34,7 @@
 		<div class="col-sm-3 col-md-2 sidebar">
 			<ul class="nav nav-sidebar">
 				@Html.Raw(FormatNavigationLink("home", "Overview"))
-				<li><a href="#">Logs</a></li>
+				@Html.Raw(FormatNavigationLink("logs","Logs"))
 			</ul>
 			<ul class="nav nav-sidebar">
 				@Html.Raw(FormatNavigationLink("test-api", "Test API"))
