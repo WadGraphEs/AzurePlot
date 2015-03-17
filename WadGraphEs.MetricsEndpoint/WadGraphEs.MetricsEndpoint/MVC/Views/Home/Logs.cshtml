@@ -4,8 +4,26 @@
 	Layout = "HomeLayout.cshtml";
 }
 
-<ul>
-@foreach(var message in Model) {
-	<li>@message.Timestamp @message.Level @message.Source @message.Message</li>
-}
-</ul>
+
+<h1 class="page-header">Application Logs</h1>
+<table class="table table-condensed">
+<thead>
+	<tr>
+		<th>Time</th>
+		<th>Level</th>
+		<th>Source</th>
+		<th>Message</th>
+	</tr>
+</thead>
+<tbody>
+	
+		@foreach(var message in Model) {
+			<tr class="@Html.GetLogLevelClass(message.Level)">
+				<td>@message.Timestamp</td>
+				<td>@message.Level.Name.ToUpper()</td>
+				<td>@message.Source</td>
+				<td><pre>@message.Message</pre></td>
+			</tr>
+		}
+</tbody>
+</table>

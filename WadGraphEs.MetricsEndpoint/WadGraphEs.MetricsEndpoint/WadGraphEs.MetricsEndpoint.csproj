@@ -240,6 +240,7 @@
     <Compile Include="MVC\Controllers\HomeController.cs" />
     <Compile Include="MVC\Controllers\AccountController.cs" />
     <Compile Include="MVC\Controllers\SetupController.cs" />
+    <Compile Include="MVC\HtmlHelpers\CSSClassHelpers.cs" />
     <Compile Include="MVC\HtmlHelpers\ValidationHelpers.cs" />
     <Compile Include="MVC\ViewModels\OverviewViewModel.cs" />
     <Compile Include="MVC\ViewModels\ServiceViewModel.cs" />

@@ -8,7 +8,7 @@ using System.Web;
 namespace WadGraphEs.MetricsEndpoint.Logging {
 	[Target("ViewableLogTarget")]
 	public class ViewableLogTarget : TargetWithLayout{
-		const int MaxLines = 5;
+		const int MaxLines = 5000;
 		readonly static CircularBuffer<LogMessage> _buffer = new CircularBuffer<LogMessage>(MaxLines);
 
 		protected override void Write(NLog.LogEventInfo logEvent) {
