@@ -20,7 +20,7 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 		
 		public Microsoft.WindowsAzure.CertificateCloudCredentials GetCertificateCloudCredentials() {
 			
-            var x509Certificate = new X509Certificate2(_pfx,_password);
+            var x509Certificate = new X509Certificate2(_pfx,_password,X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.Exportable);
 
             return new CertificateCloudCredentials(_azureSubscriptionId, x509Certificate);
 		}
