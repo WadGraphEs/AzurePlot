@@ -1,0 +1,20 @@
+﻿@model UploadCertificateViewModel
+
+@{
+	Layout = "AddAzureSubscriptionPanelLayout.cshtml";
+}
+
+@section paneltitle {
+	Add Azure Subscription <small>Step 2/4 - Upload management certificate</small>
+}
+
+<p>
+	We have now created certificate which you can upload to the Windows Azure management portal. To upload this certificate to Azure, go to the Settings page in the Management Portal, and then click Management Certificates.
+</p>
+<ul>
+	<li>Download <a href="@Url.RouteUrl("add-azure-subscription-download-certificate",new { sessionId = Model.SessionId })">management.cer</a></li>
+</ul>
+<p>
+	Press continue when you've uploaded the certificate.
+</p>
+<a href="@Url.RouteUrl("add-azure-subscription-step-3", new {sessionId=Model.SessionId})" class="btn btn-primary">Continue</a>

@@ -1,0 +1,26 @@
+﻿@model CreateAPIKey
+
+@{
+	Layout = "SetupLayout.cshtml";
+}
+
+@section paneltitle {
+	Setup - Step 3/3 - Create API key
+}
+
+<p>
+	External parties such as <a href="http://www.wadgraphes.com">WadGraphEs</a> call into your endpoint to fetch and store your Azure metrics.
+	To make sure not everybody can access your metrics, you need to set an API key to restrict access.
+	Clients will authenticate by sending the <code>Authorization: MetricsEndpoint-Key &lt;key&gt;</code> HTTP header/value.</p>
+
+<form class="" method="post">
+	@Html.AntiForgeryToken()
+	<div class="form-group @Html.GetValidationClass("apikey")">
+		<label class="control-label" for="apikey">API Key</label>
+		@if(Html.HasValidationErrors("apikey")) {
+			<span class="help-block">@Html.ValidationMessageFor(_ => _.APIKey)</span>
+		}
+		<input type="text" value="@Model.APIKey" name="APIKey" class="form-control" id="apikey" placeholder="Key" />
+	</div>
+	<button type="submit" class="btn btn-primary">Continue</button>
+</form>

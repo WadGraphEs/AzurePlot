@@ -1,0 +1,43 @@
+﻿@model CreateAdminAccount
+
+@{
+	Layout = "SetupLayout.cshtml";
+}
+
+@section paneltitle {
+	Setup - Step 2/3 - Create Admin Account
+}
+
+<p>You need to create an account to manage this application. Please select a username and password below.</p>
+
+@if(Html.HasValidationErrors("exception")) {
+	<div class="alert alert-danger">@ViewData.ModelState["exception"].Errors.First().Exception</div>
+}
+@if(Html.HasValidationErrors("admin-already-exists")) {
+	<div class="alert alert-danger">The admin user is already configured, please <a href="@Url.RouteUrl("login")">log in</a>.</div>
+}
+<form class="" method="post">
+	@Html.AntiForgeryToken()
+	<div class="form-group @Html.GetValidationClass("username")">
+		<label class="control-label" for="username">Admin username</label>
+		@if(Html.HasValidationErrors("username")) {
+			<span class="help-block">@Html.ValidationMessageFor(_ => _.Username)</span>
+		}
+		<input type="text" value="@Model.Username" name="username" class="form-control" id="username" placeholder="Admin username" />
+	</div>
+	<div class="form-group @Html.GetValidationClass("password")">
+		<label for="password">Password</label>
+		@if(Html.HasValidationErrors("password")) {
+			<span class="help-block">@Html.ValidationMessageFor(_ => _.Password)</span>
+		}
+		<input type="password" value="@Model.Password" name="password" class="form-control" id="password" placeholder="Password" />
+	</div>
+	<div class="form-group @Html.GetValidationClass("confirmpassword")">
+		<label for="password1">Confirm password</label>
+		@if(Html.HasValidationErrors("confirmpassword")) {
+			<span class="help-block">@Html.ValidationMessageFor(_ => _.ConfirmPassword)</span>
+		}
+		<input type="password" name="confirmpassword" class="form-control" id="password1" placeholder="Confirm password" />
+	</div>
+	<button type="submit" class="btn btn-primary">Continue</button>
+</form>

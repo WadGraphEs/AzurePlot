@@ -1,0 +1,46 @@
+﻿@model TestAPIViewModel
+
+@{
+	Layout = "HomeLayout.cshtml";
+}
+
+<h1 class="page-header">Test the Azure Dashboard API</h1>
+<div class="row">
+@if(Model.Result==null) {
+<div class="col-sm-12 col-md-8">
+<p class="well">
+	On this page you can test if the API is functioning correctly. The form below is pre-filled with your endpoint data, but you can change it to test any Azure Dashboard endpoint.
+</p>
+</div>
+}
+
+<div class="col-sm-12 col-md-8">
+<form method="post">
+<div class="form-group">
+<label class="control-label" for="apiendpoint">API Endpoint URL</label>
+<input type="text" class="form-control" id="apiendpoint" name="EndpointUrl" placeholder="Your API endpoint url" value="@Model.Command.EndpointUrl"/>
+</div>
+<div class="form-group">
+<label class="control-label" for="apikey">API Authentication key</label>
+<input type="text" class="form-control" id="apikey" name="APIKey" placeholder="Your API authentication key" value="@Model.Command.APIKey"/>
+</div>
+<div class="form-group">
+<label class="control-label" for="accept">Accept content-type</label>
+<input type="text" class="form-control" id="accept" name="Accept" placeholder="Accept mime-type" value="@Model.Command.Accept"/>
+</div>
+<button type="submit" class="btn btn-success">Test endpoint!</button>
+</form>
+</div>
+<div class="col-sm-12 col-md-12">
+@if(Model.Result!=null) {
+	if(!Model.Result.Success) {
+		<h3 class="sub-header">Test failed!</h3>
+		<pre>@Model.Result.Message</pre>
+	}
+	if(Model.Result.Success) {
+		<h3 class="sub-header">Test succeeded!</h3>
+		<pre>@Model.Result.Message</pre>
+	}
+}
+</div>
+</div>

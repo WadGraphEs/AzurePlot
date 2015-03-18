@@ -1,0 +1,27 @@
+﻿@model string
+@{
+	Layout = "AddAzureSubscriptionPanelLayout.cshtml";
+}
+
+@section paneltitle {
+	Add Azure Subscription
+}
+
+<p>
+	The Azure Subcription service allows you to access most of the Azure portal metrics data, such as the data for Cloud Services, VMs and Web Sites. Configuring a subcription takes a couple of steps:
+</p>
+<ol>
+	<li>
+		Create a management certificate
+	</li>
+	<li>
+		Upload management certificate to the Windows Azure Portal
+	</li>
+	<li>
+		Specify Azure Subscription
+	</li>
+	<li>
+		Test configuration
+	</li>
+</ol>
+<a class="btn btn-primary" href="@Url.RouteUrl("add-azure-subscription-step-1", new { sessionId = Model })">Continue</a>

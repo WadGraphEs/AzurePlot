@@ -14,7 +14,8 @@ namespace WadGraphEs.MetricsEndpoint.Console {
 			//var usages = new AzureUsageClient(new MetricsConfigEndpointConfiguration(Environment.CurrentDirectory))
 			//	.GetWebsitesUsage()
 			//	.Result;
-			var cloudservices = new AzureUsageClient(new MetricsConfigEndpointConfiguration(Environment.CurrentDirectory)).GetCloudServiceUsages().Result;
+			//new MetricsConfigEndpointConfiguration(Environment.CurrentDirectory)
+			var cloudservices = new AzureUsageClient(null).GetCloudServiceUsages().Result;
 			Console.WriteLine(JsonConvert.SerializeObject(cloudservices,Formatting.Indented));
 		}
 	}

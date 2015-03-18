@@ -1,0 +1,13 @@
+﻿@{
+    Layout = "SetupLayout.cshtml";
+}
+
+@section paneltitle {
+	Setup complete
+}
+
+
+
+
+<p>Thank you for creating the account, setup is now complete. <a href="@Url.RouteUrl("login")">Please log in to continue.</a></p>
+	<a class="center-block btn btn-primary btn-lg" href="@Url.RouteUrl("login")">Log in</a>

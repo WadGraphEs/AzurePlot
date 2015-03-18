@@ -1,0 +1,24 @@
+﻿@model ICollection<string>
+
+@{
+	Layout = "SetupLayout.cshtml";
+}
+
+@section paneltitle {
+	Update database schema
+}
+
+<p>
+	There are pending database changes that need to be applied before you can continue:
+</p>
+<ul>
+	@foreach(var migration in Model) {
+		<li>@migration</li>
+	}
+</ul>
+
+
+<form class="" method="post">
+	@Html.AntiForgeryToken()
+	<button type="submit" class="btn btn-primary">Apply migrations</button>
+</form>

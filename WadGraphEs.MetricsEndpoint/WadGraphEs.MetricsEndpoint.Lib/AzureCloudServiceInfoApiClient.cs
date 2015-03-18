@@ -15,10 +15,12 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 			_client = client;
 		}
 
+		const string HostedServicesPath = "/services/hostedservices";
+
 		//from: http://msdn.microsoft.com/en-us/library/azure/ee460781.aspx
 		internal async System.Threading.Tasks.Task<ICollection<string>> ListCloudServices() {
 			//todo: handle continuation token
-			var xml = await GETXml("/services/hostedservices");
+			var xml = await GETXml(HostedServicesPath);
 			
 			return SelectElementsInXmlByXPath(xml,"/a:HostedServices/a:HostedService/a:ServiceName").Select(_=>_.Value).ToList();
 			
@@ -62,6 +64,10 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 			return await _client.GETXml(path ,apiVersion :ApiVersion);
 		}
 
+		private string GETXmlSync(string path) {
+			return _client.GetXmlSync(path,apiVersion:ApiVersion);
+		}
+
 		private static ICollection<XElement> SelectElementsInXmlByXPath(string xml,string selector) {
 			var res = XDocument.Parse(xml);
 
@@ -76,6 +82,19 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 		
 		private static XName GetElementName(string name) {
 			return XName.Get(name,XMLElementNamespace);
+		}
+
+		internal void TestConnection() {
+			var xml = GETXmlSync(SubscriptionPath);
+		}
+
+		const string SubscriptionPath = "";
+
+
+		internal string GetSubscriptionNameSync() {
+			var xml = GETXmlSync(SubscriptionPath);
+
+			return SelectElementsInXmlByXPath(xml,"/a:Subscription/a:SubscriptionName").Select(_=>_.Value).FirstOrDefault()??"Unknown";
 		}
 	}
 }

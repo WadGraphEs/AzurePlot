@@ -1,0 +1,43 @@
+﻿@model OverviewViewModel
+
+@{
+	Layout = "HomeLayout.cshtml";
+}
+<h1 class="page-header">Configured services</h1>
+
+@if(!Model.HasConfiguredServices) {
+	<div class="alert alert-info">
+		Hi! It seems you don't have any services configured yet. 
+		On this page, you can add the services you'd like to fetch the metrics data from. Click the add service button to get started.
+	
+	</div>
+}
+<div class="btn-group">
+	<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+		Add service... <span class="caret"></span>
+	</button>
+	<ul class="dropdown-menu" role="menu">
+		<li><a href="@Url.RouteUrl("add-azure-subscription")">Azure Subscription</a></li>
+		<li><a href="#">Azure SQL Database</a></li>
+	</ul>
+</div>
+
+<div class="table-responsive">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Type</th>
+			</tr>
+		</thead>
+		<tbody>
+			@if(!Model.HasConfiguredServices) {
+				<tr><td colspan="2">Nothing configured yet...</td></tr>
+			}
+			@foreach(var service in Model.Services) {
+				@Html.Partial("OverviewTable/"+service.Record.GetType().Name,service.Record)
+			}
+		</tbody>
+
+	</table>
+</div>
