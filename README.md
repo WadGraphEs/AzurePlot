@@ -18,5 +18,11 @@ We're working on:
 * Azure SQL Database support
 * A dashboard system to quickly show your application state
 
+## Acknowledgments
+We heavily rely on other people's work, specifically:
+* [Bootstrap](http://getbootstrap.com/)
+* [Mono.Security](http://www.mono-project.com/archived/cryptography/)
+And lots more. Thank you!
+
 ## Uses
 This project can be used to feed [WadGraphEs](http://www.wadgraphes.com), a tool for monitoring you Azure powered websites.
