@@ -1,5 +1,5 @@
 # WadGraphEs Azure Dashboard
-This is an open source project for monitoring your Azure based applications. It's goal is to provide a better tool for monitoring your Azure applications by providing both graphs of your metrics as well as exposing them through an API.
+This is an open source tool for monitoring your Azure based applications. It's goal is to provide a better tool for monitoring your Azure applications by providing both graphs of your metrics as well as exposing them through an API.
 
 ## Current project status
 * Connect to the Azure Subscription REST API to read portal metrics for Azure Cloud Services, VMs and Web Sites.
