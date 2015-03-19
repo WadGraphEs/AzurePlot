@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace WadGraphEs.MetricsEndpoint.Lib.SQLDatabase {
-	public class ServerUsagesClient {
+	public interface ServerUsagesClient {
+		ICollection<UsageObject> GetUsages(DateTime from);
 	}
 }

@@ -40,7 +40,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib.SQLDatabase {
 			}
 		}
 
-		private SqlConnection GetConnection() {
+		public SqlConnection GetConnection() {
 			return new SqlConnection(BuildConnectionString());
 		}
 

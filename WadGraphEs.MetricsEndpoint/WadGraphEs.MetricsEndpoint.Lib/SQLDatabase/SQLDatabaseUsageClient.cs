@@ -13,7 +13,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib.SQLDatabase {
 
 			switch(version) {
 				case SQLDatabaseVersion.V11:
-					return new V11ServerUsagesClient();
+					return new V11ServerUsagesClient(connection);
 			}
 
 			throw new Exception(string.Format("Version not supported {0}", version));

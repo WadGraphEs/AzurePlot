@@ -29,7 +29,9 @@ namespace WadGraphEs.MetricsEndpoint.Console {
 
 			Console.WriteLine("Connecting to {0} with username {1} on database {2}", servername,username,databasename);
 
-			var azureSqlClient = SQLDatabaseUsageClient.CreateServerUsagesClient(servername,username,password);
+			var serverUsagesClient = SQLDatabaseUsageClient.CreateServerUsagesClient(servername,username,password);
+
+			var usages = serverUsagesClient.GetUsages(DateTime.Today.ToUniversalTime());
 
 		}
 	}
