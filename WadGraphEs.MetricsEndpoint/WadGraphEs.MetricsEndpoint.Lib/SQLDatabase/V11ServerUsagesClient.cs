@@ -45,7 +45,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib.SQLDatabase {
 					continue;
 				}
 
-				result.Add(new UsageObject { Timestamp = start_time.ToString("o"), Value = (double)valueResult, GraphiteCounterName = GetCounterName(name) });
+				result.Add(new UsageObject { Timestamp = start_time.ToString("o"), Value = (double)valueResult, GraphiteCounterName = GetCounterName(databaseName,name) });
 			}
 
 			return result;
@@ -69,8 +69,8 @@ namespace WadGraphEs.MetricsEndpoint.Lib.SQLDatabase {
 			return valueResult;
 		}
 
-		private string GetCounterName(string name) {
-			return new GraphiteCounterName("Azure.SQLDatabase", _connection.Servername, _connection.Database, name).ToString();
+		private string GetCounterName(string database, string name) {
+			return new GraphiteCounterName("Azure.SQLDatabase", _connection.Servername, database, name).ToString();
 		}
 	}
 }
