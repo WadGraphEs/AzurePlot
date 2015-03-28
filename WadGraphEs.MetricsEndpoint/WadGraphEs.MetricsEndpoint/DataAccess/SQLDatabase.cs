@@ -20,5 +20,7 @@ namespace WadGraphEs.MetricsEndpoint.DataAccess {
 		public string FormatName() {
 			return string.Format("{0}@{1}", Username,Servername);
 		}
+
+		
 	}
 }

@@ -88,5 +88,11 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 				return ctx.SQLDatabases.ToList().Select(_=>new ServiceViewModel { Name = _.Servername, Record = _ }).ToList();
 			}
 		}
+
+		internal static ICollection<SQLDatabase> ListAll() {
+			using(var ctx = GetDataContext()) {
+				return ctx.SQLDatabases.ToList();
+			}
+		}
 	}
 }
