@@ -5,6 +5,7 @@ using System.Web;
 using WadGraphEs.MetricsEndpoint.DataAccess;
 using WadGraphEs.MetricsEndpoint.Lib.SQLDatabase;
 using WadGraphEs.MetricsEndpoint.MVC.Commands;
+using WadGraphEs.MetricsEndpoint.MVC.ViewModels;
 
 namespace WadGraphEs.MetricsEndpoint.Setup {
 	public class AzureSQLDatabases {
@@ -60,9 +61,13 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 					Servername = session.Servername,
 					SessionId = sessionId,
 					Username = session.Username,
-					Version = SQLDatabaseUsageClient.CreateServerUsagesClient(session.Servername,session.Username,session.Password).GetVersionString()
+					Version = GetVersionFromSession(session)
 				};
 			}
+		}
+
+		private static string GetVersionFromSession(AddSQLDatabaseSession session) {
+			return SQLDatabaseUsageClient.CreateServerUsagesClient(session.Servername,session.Username,session.Password).GetVersionString();
 		}
 
 		internal static void FinishSession(string sessionId) {
@@ -71,9 +76,16 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 				ctx.SQLDatabases.Add(new SQLDatabase {
 					Servername = SQLDatabaseUsageClient.NormalizeServername(session.Servername),
 					Password = session.Password,
-					Username  = session.Username
+					Username  = session.Username,
+					Version = GetVersionFromSession(session)
 				});
 				ctx.SaveChanges();
+			}
+		}
+
+		internal static List<ServiceViewModel> ListForOverview() {
+			using(var ctx = GetDataContext()) {
+				return ctx.SQLDatabases.ToList().Select(_=>new ServiceViewModel { Name = _.Servername, Record = _ }).ToList();
 			}
 		}
 	}

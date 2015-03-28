@@ -14,5 +14,11 @@ namespace WadGraphEs.MetricsEndpoint.DataAccess {
 		public string Username{get;set;}
 		[MaxLength]
 		public string Password{get;set;}
+		[MaxLength]
+		public string Version{get;set;}
+
+		public string FormatName() {
+			return string.Format("{0}@{1}", Username,Servername);
+		}
 	}
 }
