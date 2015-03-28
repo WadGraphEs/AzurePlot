@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WadGraphEs.MetricsEndpoint.Lib.SQLDatabase;
 using WadGraphEs.MetricsEndpoint.Logging;
 using WadGraphEs.MetricsEndpoint.MVC.Commands;
 using WadGraphEs.MetricsEndpoint.MVC.ViewModels;
@@ -142,12 +143,55 @@ namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
 
 		[HttpGet]
 		public ActionResult AddAzureSQLDatabase() {
-			return View();
+			return View((object)Guid.NewGuid().ToString());
 		}
 
 		[HttpGet]
-		public ActionResult AddAzureSQLDatabaseStep1() {
-			return View();
+		public ActionResult AddAzureSQLDatabaseStep1(string sessionId) {
+			return View((object)sessionId);
+		}
+
+		[HttpGet]
+		public ActionResult AddAzureSQLDatabaseStep2(string sessionId) {
+			return View(new CreateAzureSQLDatabaseCommand(){
+				SessionId = sessionId
+			});
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult AddAzureSQLDatabaseStep2(CreateAzureSQLDatabaseCommand cmd, string sessionId) {
+			if(!ModelState.IsValid) {
+				return View(cmd);
+			}
+
+			if(AzureSQLDatabases.AlreadyHasServer(cmd.Servername)) {
+				ModelState.AddModelError("servername", "This database is already configured");
+				return View(cmd);
+			}
+
+			var testResult = AzureSQLDatabases.TestConnection(cmd);
+
+			if(testResult.Failed) {
+				ModelState.AddModelError("test-connection", testResult.ToString());
+				return View(cmd);
+			}
+
+			AzureSQLDatabases.StoreInSession(sessionId, cmd);
+
+			return RedirectToAction("AddAzureSQLDatabaseStep3", new {sessionId = sessionId });
+		}
+
+		[HttpGet]
+		public ActionResult AddAzureSQLDatabaseStep3(string sessionId) {
+			var finishCmd = AzureSQLDatabases.GetFinishCommandForSession(sessionId);
+			return View(finishCmd);
+		}
+
+		[HttpPost]
+		public ActionResult AddAzureSQLDatabaseStep3(string sessionId, string dummy) {
+			AzureSQLDatabases.FinishSession(sessionId);
+			return RedirectToRoute("Home");
 		}
     }
 }

@@ -55,5 +55,13 @@ namespace WadGraphEs.MetricsEndpoint.Lib.SQLDatabase {
 
 			throw new Exception(string.Format("Version not supported {0}",version));
 		}
+
+		public static string NormalizeServername(string servername) {
+			return SQLDatabaseConnection.NormalizeServername(servername);
+		}
+
+		public string GetVersionString() {
+			return GetVersion().DetailedVersion;
+		}		
 	}
 }

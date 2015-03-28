@@ -1,0 +1,52 @@
+﻿@model CreateAzureSQLDatabaseCommand
+
+@{
+	Layout = "AddAzureSubscriptionPanelLayout.cshtml";
+}
+
+@section paneltitle {
+	Add Azure SQL Database <small>Step 2/3 - Configure connection</small>
+}
+
+<p>
+	Please enter your Azure SQL Database connection details
+</p>
+
+<form class="" method="post" action="@Url.RouteUrl("add-azure-sql-database-step-2", new {sessionId = Model.SessionId })">
+	@Html.AntiForgeryToken()
+
+
+	@if(Html.HasValidationErrors("test-connection")) {
+		<div class="alert alert-danger">
+			<p>
+				Testing connection failed:
+			</p>
+			<pre>
+@Html.GetValidationErrors("test-connection").First()
+			</pre>
+		</div>
+	}
+
+	<div class="form-group @Html.GetValidationClass("servername")">
+		<label class="control-label" for="servername">Servername</label>
+		@if(Html.HasValidationErrors("servername")) {
+			<span class="help-block">@Html.ValidationMessageFor(_ => _.Servername)</span>
+		}
+		<input type="text" value="@Model.Servername" name="Servername" class="form-control" id="servername" placeholder="*.database.windows.net" />
+	</div>
+	<div class="form-group @Html.GetValidationClass("username")">
+		<label class="control-label" for="username">Username</label>
+		@if(Html.HasValidationErrors("username")) {
+			<span class="help-block">@Html.ValidationMessageFor(_ => _.Username)</span>
+		}
+		<input type="text" value="@Model.Username" name="Username" class="form-control" id="username" placeholder="" />
+	</div>
+	<div class="form-group @Html.GetValidationClass("password")">
+		<label class="control-label" for="password">Password</label>
+		@if(Html.HasValidationErrors("password")) {
+			<span class="help-block">@Html.ValidationMessageFor(_ => _.Password)</span>
+		}
+		<input type="password" value="@Model.Password" name="Password" class="form-control" id="password" placeholder="" />
+	</div>
+	<button type="submit" class="btn btn-success">Test connection</button>
+</form>

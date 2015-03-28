@@ -1,0 +1,31 @@
+﻿@model FinishAddingSQLDatabase
+
+@{
+	Layout = "AddAzureSubscriptionPanelLayout.cshtml";
+}
+
+@section paneltitle {
+	Add Azure SQL Database <small>Step 3/3 - Complete</small>
+}
+
+<p>
+	Everything is now ready, press the Finish button to add the database.
+</p>
+
+<form class="" method="post" action="@Url.RouteUrl("add-azure-sql-database-step-3", new { sessionId = Model.SessionId })">
+	@Html.AntiForgeryToken()
+	
+	<div class="form-group">
+		<label class="control-label" for="servername">Servername</label>
+		<input type="text" value="@Model.Servername" name="Servername" class="form-control" id="servername" readonly />
+	</div>
+	<div class="form-group">
+		<label class="control-label" for="username">Username</label>
+		<input type="text" value="@Model.Username" name="Username" class="form-control" id="username" readonly />
+	</div>
+	<div class="form-group">
+		<label class="control-label" for="version">Database version</label>
+		<input type="text" value="@Model.Version" name="Version" class="form-control" id="version" readonly />
+	</div>
+	<button type="submit" class="btn btn-primary">Finish</button>
+</form>

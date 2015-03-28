@@ -18,7 +18,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib.SQLDatabase {
 				case SQLErrorNumbers.CannotOpenDatabase:
 					return new TestConnectionResult("Cannot open database with this login. Does the user exist on the database?", e);
 			}
-			return new TestConnectionResult(string.Format("Unknown error:\n{0}", e), e);
+			return new TestConnectionResult(string.Format("Unknown error (SQL Server Error number: {0}):\n{1}", e.Number,e), e);
 		}
 
 		
@@ -53,6 +53,20 @@ namespace WadGraphEs.MetricsEndpoint.Lib.SQLDatabase {
 			_failed = false;
 			_exception = null;
 			_message = "Connection successful";
+		}
+
+		public override string ToString() {
+			if(!_failed) {
+				return "Success";
+			}
+
+			var sb = new StringBuilder("Connection failed");
+			sb.AppendLine(_message);
+			if(_exception!=null) {
+				sb.AppendLine(_exception.ToString());
+			}			
+
+			return sb.ToString();
 		}
 	}
 }

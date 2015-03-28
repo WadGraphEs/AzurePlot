@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using WadGraphEs.MetricsEndpoint.Setup;
 
 namespace WadGraphEs.MetricsEndpoint.DataAccess {
 	public class DataContext : IdentityDbContext<ProxyUser>{
@@ -15,5 +16,8 @@ namespace WadGraphEs.MetricsEndpoint.DataAccess {
 		public DbSet<AddAzureSubscriptionSession> AddAzureSubscriptionSessions{get;set;}
 
 		public DbSet<AzureSubscription> AzureSubscriptions{get;set;}
+
+		public DbSet<SQLDatabase> SQLDatabases{get;set;}
+		public DbSet<AddSQLDatabaseSession> AddSQLDatabaseSessions{get;set;}
 	}
 }

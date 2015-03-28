@@ -12,13 +12,17 @@ namespace WadGraphEs.MetricsEndpoint.Lib.SQLDatabase {
 		readonly string _database;
 
 		public SQLDatabaseConnection(string servername,string username,string password,string database) {
-			if(!servername.Contains(".")) {
-				servername = string.Format("{0}.database.windows.net",servername);
-			}
-			_servername = servername;
+			_servername = NormalizeServername(servername);
 			_username = username;
 			_password = password;
 			_database = database;
+		}
+
+		public static string NormalizeServername(string servername) {
+			if(!servername.Contains(".")) {
+				servername = string.Format("{0}.database.windows.net",servername);
+			}
+			return servername;
 		}
 
 		internal SQLDatabaseVersion GetVersion() {

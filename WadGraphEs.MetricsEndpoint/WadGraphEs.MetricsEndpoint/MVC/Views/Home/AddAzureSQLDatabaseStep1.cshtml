@@ -1,4 +1,4 @@
-﻿@model CreateManagementCertificateCommand
+﻿@model string
 
 @{
 	Layout = "AddAzureSubscriptionPanelLayout.cshtml";
@@ -19,4 +19,4 @@ GO
 CREATE USER WAD_MonitorUser2
 GO
 </pre>
-<a class="btn btn-primary" href="@Url.RouteUrl("add-azure-sql-database-step-2")">Continue</a>
+<a class="btn btn-primary" href="@Url.RouteUrl("add-azure-sql-database-step-2", new {sessionId = Model})">Continue</a>

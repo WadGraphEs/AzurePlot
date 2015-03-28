@@ -29,6 +29,7 @@ namespace WadGraphEs.MetricsEndpoint {
 			routes.MapRoute("add-azure-sql-database", "services/add-azure-sql-database", new { controller = "Home", action = "AddAzureSQLDatabase" });
 			routes.MapRoute("add-azure-sql-database-step-1", "services/add-azure-sql-database-step-1", new { controller = "Home", action = "AddAzureSQLDatabaseStep1" });
 			routes.MapRoute("add-azure-sql-database-step-2", "services/add-azure-sql-database-step-2", new { controller = "Home", action = "AddAzureSQLDatabaseStep2" });
+			routes.MapRoute("add-azure-sql-database-step-3", "services/add-azure-sql-database-step-3", new { controller = "Home", action = "AddAzureSQLDatabaseStep3" });
 			
 			
 			
