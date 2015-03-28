@@ -31,8 +31,15 @@ namespace WadGraphEs.MetricsEndpoint.Console {
 
 			var serverUsagesClient = SQLDatabaseUsageClient.CreateServerUsagesClient(servername,username,password);
 
-			var usages = serverUsagesClient.GetUsages(DateTime.Today.ToUniversalTime());
+			var result = serverUsagesClient.TestConnection();
 
+			if(result.Failed) {
+				Console.WriteLine("Error\n{0}\n{1}", result.Message,result.Exception);
+			}
+
+
+
+			var usages = serverUsagesClient.GetUsages(DateTime.Today.ToUniversalTime());
 		}
 	}
 }

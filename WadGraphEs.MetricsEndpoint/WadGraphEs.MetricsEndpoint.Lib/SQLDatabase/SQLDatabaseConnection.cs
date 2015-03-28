@@ -22,13 +22,8 @@ namespace WadGraphEs.MetricsEndpoint.Lib.SQLDatabase {
 		}
 
 		internal SQLDatabaseVersion GetVersion() {
-			var stringVersion = GetSqlProductVersion();
-			var version = stringVersion.Split('.').First();
-			switch(version) {
-				case "11":
-					return SQLDatabaseVersion.V11;
-			}
-			return SQLDatabaseVersion.Unknown;
+			return SQLDatabaseVersion.FromProductVersionString(GetSqlProductVersion());
+			
 		}
 		string GetSqlProductVersion() {
 			
@@ -41,19 +36,36 @@ namespace WadGraphEs.MetricsEndpoint.Lib.SQLDatabase {
 		}
 
 		public SqlConnection GetConnection() {
-			return new SqlConnection(BuildConnectionString());
+			return GetConnection(x=>{});
 		}
 
-		private string BuildConnectionString() {
+		public SqlConnection GetConnection(Action<SqlConnectionStringBuilder> builder) {
+			return new SqlConnection(BuildConnectionString(builder));
+		}
+
+		private string BuildConnectionString(Action<SqlConnectionStringBuilder> builderFilter) {
 			var builder = new SqlConnectionStringBuilder();
 			builder.DataSource = _servername;
 			builder.IntegratedSecurity = false;
 			builder.UserID = _username;
 			builder.Password = _password;
 			builder.InitialCatalog = _database;
+			builderFilter(builder);
 			return builder.ConnectionString;
 		}
 
-		
+
+
+		internal TestConnectionResult TestOpenConnection() {
+			using(var sqlConnection = GetConnection(p=>p.ConnectTimeout=5)) {
+				try {
+					sqlConnection.Open();
+					return TestConnectionResult.Success;
+				}
+				catch(SqlException e){
+					return TestConnectionResult.FromSQLException(e);
+				}
+			}
+		}
 	}
 }

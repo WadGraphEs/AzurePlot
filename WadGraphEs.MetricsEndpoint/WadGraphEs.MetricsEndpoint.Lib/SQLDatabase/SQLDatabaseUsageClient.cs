@@ -6,17 +6,54 @@ using System.Threading.Tasks;
 
 namespace WadGraphEs.MetricsEndpoint.Lib.SQLDatabase {
 	public class SQLDatabaseUsageClient {
-		public static ServerUsagesClient CreateServerUsagesClient(string servername,string username,string password) {
-			var connection = new SQLDatabaseConnection(servername,username,password,"master");
-			
-			var version = connection.GetVersion();
+		readonly SQLDatabaseConnection _connection;
 
-			switch(version) {
-				case SQLDatabaseVersion.V11:
-					return new V11ServerUsagesClient(connection);
+		SQLDatabaseUsageClient(SQLDatabaseConnection connection) {
+			_connection = connection;
+		}
+		public static SQLDatabaseUsageClient CreateServerUsagesClient(string servername,string username,string password) {
+			return new SQLDatabaseUsageClient(new SQLDatabaseConnection(servername,username,password,"master"));
+			
+		}
+
+		public TestConnectionResult TestConnection() {
+			var result = _connection.TestOpenConnection();
+			if(result.Failed) {
+				return result;
+			}
+			return TestVersion();
+		}
+
+		private TestConnectionResult TestVersion() {
+			var version = GetVersion();
+			if(version.Version == SQLDatabaseVersionEnum.Unknown) {
+				return new TestConnectionResult(string.Format("Not supported SQL Server version ({0}), currently only V11 databases are supported",version.DetailedVersion), null);
 			}
 
-			throw new Exception(string.Format("Version not supported {0}", version));
+			return TestConnectionResult.Success;
+		}
+
+		SQLDatabaseVersion _version = null;
+
+		private SQLDatabaseVersion GetVersion() {
+			if(_version == null) {
+				_version = _connection.GetVersion();
+			}
+			return _version;
+		}
+
+		public ICollection<UsageObject> GetUsages(DateTime fromTimeUTC) {
+			return GetUsagesClient().GetUsages(fromTimeUTC);
+		}
+
+		private ServerUsagesClient GetUsagesClient() {
+			var version = GetVersion();
+			switch(version.Version) {
+				case SQLDatabaseVersionEnum.V11:
+					return new V11ServerUsagesClient(_connection);
+			}
+
+			throw new Exception(string.Format("Version not supported {0}",version));
 		}
 	}
 }

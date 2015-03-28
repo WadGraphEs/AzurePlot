@@ -33,5 +33,10 @@ namespace WadGraphEs.MetricsEndpoint.Lib.SQLDatabase {
 			var databaseName = (string)reader["database_name"];
 			return new UsageObject[0];
 		}
+
+
+		public void TestConnection() {
+			_connection.TestOpenConnection();
+		}
 	}
 }

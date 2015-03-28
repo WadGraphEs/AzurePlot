@@ -96,6 +96,9 @@
     <Compile Include="SQLDatabase\SQLDatabaseConnection.cs" />
     <Compile Include="SQLDatabase\SQLDatabaseUsageClient.cs" />
     <Compile Include="SQLDatabase\SQLDatabaseVersion.cs" />
+    <Compile Include="SQLDatabase\SQLDatabaseVersionEnum.cs" />
+    <Compile Include="SQLDatabase\SQLErrorNumbers.cs" />
+    <Compile Include="SQLDatabase\TestConnectionResult.cs" />
     <Compile Include="SQLDatabase\V11ServerUsagesClient.cs" />
     <Compile Include="UsageObject.cs" />
     <Compile Include="WebsiteApiMetricsData.cs" />
