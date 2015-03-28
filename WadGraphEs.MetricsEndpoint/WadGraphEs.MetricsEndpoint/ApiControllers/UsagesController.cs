@@ -57,7 +57,7 @@ namespace WadGraphEs.MetricsEndpoint.ApiControllers {
 		}
 
 		private ICollection<UsageObject> GetDatabaseUsages(DataAccess.SQLDatabase database) {
-			return SQLDatabaseUsageClient.CreateServerUsagesClient(database.Servername,database.Username,database.Password).GetUsages(DateTime.Today.ToUniversalTime());
+			return SQLDatabaseUsageClient.CreateServerUsagesClient(database.Servername,database.Username,database.Password).GetUsages(DateTime.UtcNow.AddHours(-1));
 		}
 
 		private async Task<IEnumerable<UsageObject>> GetUsageForSubscription(DataAccess.AzureSubscription subscription) {
