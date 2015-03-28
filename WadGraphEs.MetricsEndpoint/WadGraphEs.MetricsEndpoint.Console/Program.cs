@@ -40,6 +40,10 @@ namespace WadGraphEs.MetricsEndpoint.Console {
 
 
 			var usages = serverUsagesClient.GetUsages(DateTime.Today.ToUniversalTime());
+
+			foreach(var usage in usages) {
+				Console.WriteLine("{0}\t{1}\t{2}", usage.GraphiteCounterName,usage.Timestamp,usage.Value);
+			}
 		}
 	}
 }

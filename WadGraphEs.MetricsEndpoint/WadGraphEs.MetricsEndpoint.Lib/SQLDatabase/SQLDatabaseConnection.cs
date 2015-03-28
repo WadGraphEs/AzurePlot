@@ -67,5 +67,18 @@ namespace WadGraphEs.MetricsEndpoint.Lib.SQLDatabase {
 				}
 			}
 		}
+
+
+		public string Servername {
+			get {
+				return _servername.Split('.')[0];
+			}
+		}
+
+		public string Database {
+			get {
+				return _database;
+			}
+		}
 	}
 }

@@ -27,16 +27,50 @@ namespace WadGraphEs.MetricsEndpoint.Lib.SQLDatabase {
 			return result;
 		}
 
-		readonly static string[] Columns = new string[] { "usage_in_seconds" };
+		readonly static string[] NotCounterColumns = new string[] { "start_time", "end_time","sku", "database_name"};
 
 		private ICollection<UsageObject> GetResultFromReader(System.Data.SqlClient.SqlDataReader reader) {
 			var databaseName = (string)reader["database_name"];
-			return new UsageObject[0];
+			var start_time = (DateTime)reader["start_time"];
+			var result = new List<UsageObject>();
+			for(var i=0;i<reader.FieldCount;i++) {
+				var name = reader.GetName(i);
+				if(NotCounterColumns.Contains(name)) {
+					continue;
+				}
+
+				var valueResult = GetDouble(reader[i]);
+
+				if(valueResult == null) {
+					continue;
+				}
+
+				result.Add(new UsageObject { Timestamp = start_time.ToString("o"), Value = (double)valueResult, GraphiteCounterName = GetCounterName(name) });
+			}
+
+			return result;
 		}
 
+		private static double? GetDouble(object value) {
+			double? valueResult=null;
 
-		public void TestConnection() {
-			_connection.TestOpenConnection();
+			if(value is decimal) {
+				valueResult = (double)(decimal)value;
+			}
+			if(value is int) {
+				valueResult = (double)(int)value;
+			}
+			if(value is long) {
+				valueResult = (double)(long)value;
+			}
+			if(value is double) {
+				valueResult = (double)value;
+			}
+			return valueResult;
+		}
+
+		private string GetCounterName(string name) {
+			return new GraphiteCounterName("Azure.SQLDatabase", _connection.Servername, _connection.Database, name).ToString();
 		}
 	}
 }

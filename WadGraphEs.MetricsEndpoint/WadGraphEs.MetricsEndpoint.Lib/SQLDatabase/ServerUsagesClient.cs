@@ -7,6 +7,5 @@ namespace WadGraphEs.MetricsEndpoint.Lib.SQLDatabase {
 	public interface ServerUsagesClient {
 		ICollection<UsageObject> GetUsages(DateTime from);
 
-		void TestConnection();
 	}
 }
