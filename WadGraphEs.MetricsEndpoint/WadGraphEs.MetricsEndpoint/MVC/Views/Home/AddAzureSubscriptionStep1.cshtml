@@ -8,6 +8,10 @@
 	Add Azure Subscription <small>Step 1/4 - Create management certificate</small>
 }
 
+<p>
+	To get started, you first need to create a management certificate to connect to Azure REST APIs. The following steps take you through that process. Please start by entering a name for the certificate.
+</p>
+
 <form class="" method="post" action="@Url.RouteUrl("add-azure-subscription-step-1", new { sessionId = Model.SessionId })">
 	@Html.AntiForgeryToken()
 	<div class="form-group @Html.GetValidationClass("certificatename")">

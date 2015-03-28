@@ -289,6 +289,8 @@
     <Content Include="MVC\Views\Home\ApiSettings.cshtml" />
     <Content Include="MVC\Views\Home\TestApi.cshtml" />
     <Content Include="MVC\Views\Home\Logs.cshtml" />
+    <Content Include="MVC\Views\Home\AddAzureSQLDatabase.cshtml" />
+    <Content Include="MVC\Views\Home\AddAzureSQLDatabaseStep1.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

@@ -139,5 +139,15 @@ namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
 		public ActionResult Logs() {
 			return View(ViewableLogTarget.GetLatestMessages());
 		}
+
+		[HttpGet]
+		public ActionResult AddAzureSQLDatabase() {
+			return View();
+		}
+
+		[HttpGet]
+		public ActionResult AddAzureSQLDatabaseStep1() {
+			return View();
+		}
     }
 }
