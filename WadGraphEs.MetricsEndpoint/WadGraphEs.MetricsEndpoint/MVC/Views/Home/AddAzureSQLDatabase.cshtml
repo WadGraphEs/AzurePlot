@@ -1,0 +1,28 @@
+﻿@model string
+
+@{
+    Layout = "AddAzureSubscriptionPanelLayout.cshtml";
+}
+
+@section paneltitle {
+	Add Azure SQL Database
+}
+
+<p>
+	The Azure SQL Database service allows you to monitor all your databases in a given SQL Database server. It works through the <code>sys.resource_stats</code> management view.
+</p>
+<p>
+	Configuring this service takes a couple of steps:
+</p>
+<ol>
+	<li>
+		Create a login for the monitoring user.
+	</li>
+	<li>
+		Configure connection details
+	</li>
+	<li>
+		Test configuration
+	</li>
+</ol>
+<a class="btn btn-primary" href="@Url.RouteUrl("add-azure-sql-database-step-1", new {sessionId = Model })">Continue</a>

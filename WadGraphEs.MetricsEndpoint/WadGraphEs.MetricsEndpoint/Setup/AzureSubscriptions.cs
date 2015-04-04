@@ -105,7 +105,7 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 			var ctx = GetDataContext();
 
 			return ctx.AzureSubscriptions.ToList().Select(_=>new ServiceViewModel {
-				Id = _.Id,
+				//Id = _.Id,
 				Name = _.FormatName(),
 				Record = _
 			}).ToList();

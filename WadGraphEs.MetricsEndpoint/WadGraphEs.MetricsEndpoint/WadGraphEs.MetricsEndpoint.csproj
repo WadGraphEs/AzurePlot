@@ -199,6 +199,7 @@
     <Compile Include="DataAccess\AzureSubscription.cs" />
     <Compile Include="DataAccess\DataContext.cs" />
     <Compile Include="DataAccess\ProxyUser.cs" />
+    <Compile Include="DataAccess\SQLDatabase.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -229,12 +230,26 @@
     <Compile Include="Migrations\201503151619467_remove-arbitrary-lengths.Designer.cs">
       <DependentUpon>201503151619467_remove-arbitrary-lengths.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201503281647257_sql-databases.cs" />
+    <Compile Include="Migrations\201503281647257_sql-databases.Designer.cs">
+      <DependentUpon>201503281647257_sql-databases.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503281702325_sql-database-session.cs" />
+    <Compile Include="Migrations\201503281702325_sql-database-session.Designer.cs">
+      <DependentUpon>201503281702325_sql-database-session.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503281814575_sql-database-version.cs" />
+    <Compile Include="Migrations\201503281814575_sql-database-version.Designer.cs">
+      <DependentUpon>201503281814575_sql-database-version.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="MVC\Commands\CreateAzureSQLDatabaseCommand.cs" />
     <Compile Include="MVC\Commands\CreateAdminAccount.cs" />
     <Compile Include="MVC\Commands\CreateAPIKey.cs" />
     <Compile Include="MVC\Commands\CreateManagementCertificateCommand.cs" />
     <Compile Include="MVC\Commands\EnterSubscriptionIdCommand.cs" />
     <Compile Include="MVC\Commands\FinishAddingAzureSubscription.cs" />
+    <Compile Include="MVC\Commands\FinishAddingSQLDatabase.cs" />
     <Compile Include="MVC\Commands\LoginCommand.cs" />
     <Compile Include="MVC\Commands\TestAPICommand.cs" />
     <Compile Include="MVC\Controllers\HomeController.cs" />
@@ -247,9 +262,11 @@
     <Compile Include="MVC\ViewModels\TestAPIViewModel.cs" />
     <Compile Include="MVC\ViewModels\UploadCertificateViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Setup\AddSQLDatabaseSession.cs" />
     <Compile Include="Setup\APIEndpoint.cs" />
     <Compile Include="Setup\ApiSettings.cs" />
     <Compile Include="Setup\ApplicationSetup.cs" />
+    <Compile Include="Setup\AzureSQLDatabases.cs" />
     <Compile Include="Setup\AzureSubscriptions.cs" />
     <Compile Include="Setup\FromPKCSMetricsEndpointConfiguration.cs" />
     <Compile Include="Setup\NeedsSetupAttribute.cs" />
@@ -289,6 +306,11 @@
     <Content Include="MVC\Views\Home\ApiSettings.cshtml" />
     <Content Include="MVC\Views\Home\TestApi.cshtml" />
     <Content Include="MVC\Views\Home\Logs.cshtml" />
+    <Content Include="MVC\Views\Home\AddAzureSQLDatabase.cshtml" />
+    <Content Include="MVC\Views\Home\AddAzureSQLDatabaseStep1.cshtml" />
+    <Content Include="MVC\Views\Home\AddAzureSQLDatabaseStep2.cshtml" />
+    <Content Include="MVC\Views\Home\AddAzureSQLDatabaseStep3.cshtml" />
+    <Content Include="MVC\Views\Home\OverviewTable\SQLDatabase.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -367,6 +389,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201503151619467_remove-arbitrary-lengths.resx">
       <DependentUpon>201503151619467_remove-arbitrary-lengths.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503281647257_sql-databases.resx">
+      <DependentUpon>201503281647257_sql-databases.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503281702325_sql-database-session.resx">
+      <DependentUpon>201503281702325_sql-database-session.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503281814575_sql-database-version.resx">
+      <DependentUpon>201503281814575_sql-database-version.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

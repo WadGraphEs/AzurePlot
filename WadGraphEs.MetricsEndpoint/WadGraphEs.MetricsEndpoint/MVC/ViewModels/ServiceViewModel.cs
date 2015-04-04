@@ -7,7 +7,7 @@ namespace WadGraphEs.MetricsEndpoint.MVC.ViewModels {
 	public class ServiceViewModel {
 		public string Name { get; set; }
 		
-		public int Id { get; set; }
+		//public int Id { get; set; }
 
 		public object Record { get; set; }
 	}

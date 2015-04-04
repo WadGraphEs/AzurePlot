@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using WadGraphEs.MetricsEndpoint.Lib;
 using NLog;
 using WadGraphEs.MetricsEndpoint.Setup;
+using WadGraphEs.MetricsEndpoint.Lib.SQLDatabase;
 
 namespace WadGraphEs.MetricsEndpoint.ApiControllers {
 	public class UsagesController:ApiController {
@@ -26,18 +27,37 @@ namespace WadGraphEs.MetricsEndpoint.ApiControllers {
 
 			try {
 				var tasks = AzureSubscriptions.ListAll().Select(GetUsageForSubscription);
-			
-				var results = await Task.WhenAll(tasks);
+				
+				var syncResults = GetSQLDatabaseUsages();
+
+				var asyncResults = await Task.WhenAll(tasks);
 				return new [] { new UsageObject { 
 					GraphiteCounterName = new GraphiteCounterName("WadGraphEs.Diagnostics.Proxy.TimeOfDay").ToString(),
 					Timestamp = DateTime.UtcNow.ToString("o"),
 					Value = DateTime.UtcNow.TimeOfDay.TotalSeconds
-				}}.Concat(results.SelectMany(_=>_)).ToList();
+				}}.Concat(asyncResults.SelectMany(_=>_)).Concat(syncResults).ToList();
 			}
 			catch(Exception e) {
 				_logger.ErrorException("Error getting usages", e);
 				throw;
 			}
+		}
+
+		private ICollection<UsageObject> GetSQLDatabaseUsages() {
+			var result = new List<UsageObject>();
+			foreach(var database in AzureSQLDatabases.ListAll()) {
+				try {
+					result.AddRange(GetDatabaseUsages(database));
+				}
+				catch(Exception e) {
+					_logger.ErrorException(string.Format("Failed fetch metrics for {0}", database.Servername),e);
+				}
+			}
+			return result;
+		}
+
+		private ICollection<UsageObject> GetDatabaseUsages(DataAccess.SQLDatabase database) {
+			return SQLDatabaseUsageClient.CreateServerUsagesClient(database.Servername,database.Username,database.Password).GetUsages(DateTime.UtcNow.AddHours(-1));
 		}
 
 		private async Task<IEnumerable<UsageObject>> GetUsageForSubscription(DataAccess.AzureSubscription subscription) {
