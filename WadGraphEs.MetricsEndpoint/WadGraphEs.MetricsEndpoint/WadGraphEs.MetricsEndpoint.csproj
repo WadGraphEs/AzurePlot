@@ -280,7 +280,8 @@
     <Content Include="content\bootstrap-theme.min.css" />
     <Content Include="content\bootstrap.css" />
     <Content Include="content\bootstrap.min.css" />
-    <Content Include="content\dashboard.css" />
+    <Content Include="content\home.css" />
+    <Content Include="content\dashboard\dashboard.css" />
     <Content Include="content\login.css" />
     <Content Include="content\setup.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -344,10 +345,13 @@
     <None Include="scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
-    <Content Include="scripts\dashboard\dashboard.js" />
+    <Content Include="scripts\dashboard\chartlist.js" />
+    <Content Include="scripts\dashboard\common.js" />
+    <None Include="scripts\dashboard\dashboard.js1" />
     <Content Include="scripts\jquery-1.9.1.js" />
     <Content Include="scripts\jquery-1.9.1.min.js" />
     <Content Include="scripts\npm.js" />
+    <Content Include="scripts\typeahead.bundle.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

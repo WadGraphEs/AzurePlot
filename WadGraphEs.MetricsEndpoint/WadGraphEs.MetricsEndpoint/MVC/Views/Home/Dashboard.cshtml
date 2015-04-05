@@ -2,10 +2,25 @@
     Layout = "HomeLayout.cshtml";
 }
 
-<div id="chart-container">
-</div>
+<form class="form-inline">
+	<div class="form-group">
+		<input type="text" id="chartlist" class="form-control" placeholder="Search metrics" />
+	</div>
+	<button type="submit" class="btn btn-success">
+		Add to dashboard
+	</button>
+</form>
+
+
+@*<div id="chart-container">
+</div>*@
+
 
 @section scripts {
 	@Scripts.Render("~/scripts/dashboard/dashboard")
-	<script src="http://code.highcharts.com/highcharts.js"></script>
+	@*<script src="http://code.highcharts.com/highcharts.js"></script>*@
+}
+
+@section stylesheets {
+	@Styles.Render("~/content/dashboard/dashboard")
 }

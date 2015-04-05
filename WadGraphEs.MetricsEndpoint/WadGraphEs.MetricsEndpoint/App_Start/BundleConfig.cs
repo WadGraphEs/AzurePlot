@@ -25,11 +25,16 @@ namespace WadGraphEs.MetricsEndpoint {
                 "~/content/login.css"
             ));
 
-			bundles.Add(new StyleBundle("~/content/dashboard").Include(
-                "~/content/dashboard.css"
+			bundles.Add(new StyleBundle("~/content/home").Include(
+                "~/content/home.css"
+            ));
+
+			bundles.Add(new StyleBundle("~/content/dashboard/dashboard").Include(
+                "~/content/dashboard/dashboard.css"
             ));
 
 			bundles.Add(new ScriptBundle("~/scripts/dashboard/dashboard")
+				.Include("~/scripts/typeahead.bundle.js")
 				.IncludeDirectory("~/scripts/dashboard", "*.js")
 			);
         }

@@ -3,7 +3,8 @@
 }
 
 @section stylesheets{
-	@Styles.Render("~/content/dashboard")	
+	@Styles.Render("~/content/home")
+	@RenderSection("stylesheets", required:false)
 }
 
 @functions {
