@@ -1,4 +1,6 @@
-﻿.twitter-typeahead .tt-query,
+﻿/* from https://gist.github.com/bhays/6140058 */
+
+.twitter-typeahead .tt-query,
 .twitter-typeahead .tt-hint {
 	margin-bottom: 0;
 }
@@ -36,11 +38,11 @@
 	display: block;
 	padding: 3px 20px;
 }
-.tt-suggestion.tt-is-under-cursor {
+.tt-suggestion.tt-cursor {
 	color: #fff;
 	background-color: #428bca;
 }
-.tt-suggestion.tt-is-under-cursor a {
+.tt-suggestion.tt-cursor a {
 	color: #fff;
 }
 .tt-suggestion p {
