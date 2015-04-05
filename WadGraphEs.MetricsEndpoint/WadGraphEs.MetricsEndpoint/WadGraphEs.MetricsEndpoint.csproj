@@ -311,6 +311,7 @@
     <Content Include="MVC\Views\Home\AddAzureSQLDatabaseStep2.cshtml" />
     <Content Include="MVC\Views\Home\AddAzureSQLDatabaseStep3.cshtml" />
     <Content Include="MVC\Views\Home\OverviewTable\SQLDatabase.cshtml" />
+    <Content Include="MVC\Views\Home\Dashboard.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -343,6 +344,7 @@
     <None Include="scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
+    <Content Include="scripts\dashboard\dashboard.js" />
     <Content Include="scripts\jquery-1.9.1.js" />
     <Content Include="scripts\jquery-1.9.1.min.js" />
     <Content Include="scripts\npm.js" />

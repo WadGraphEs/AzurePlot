@@ -194,5 +194,10 @@ namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
 			AzureSQLDatabases.FinishSession(sessionId);
 			return RedirectToRoute("Home");
 		}
+
+		[HttpGet]
+		public ActionResult Dashboard() {
+			return View();
+		}
     }
 }

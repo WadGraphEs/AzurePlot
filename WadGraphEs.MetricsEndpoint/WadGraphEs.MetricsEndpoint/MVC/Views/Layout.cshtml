@@ -21,5 +21,6 @@
   <body>
 	@RenderBody()
     @System.Web.Optimization.Scripts.Render("~/scripts/layout")
+	@RenderSection("scripts", required:false)
   </body>
 </html>
