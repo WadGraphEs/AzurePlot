@@ -20,6 +20,12 @@ namespace WadGraphEs.MetricsEndpoint {
                 defaults: new { controller = "Usages" }
             );
 
+			config.Routes.MapHttpRoute(
+                name: "api/list-all-charts",
+                routeTemplate: "api/list-all-charts",
+                defaults: new { controller = "Charts", action="list-all-charts" }
+            );
+
             config.MessageHandlers.Add(new AuthenticationMessageHandler());
 			config.Filters.Add(new AuthorizeAttribute());
         }

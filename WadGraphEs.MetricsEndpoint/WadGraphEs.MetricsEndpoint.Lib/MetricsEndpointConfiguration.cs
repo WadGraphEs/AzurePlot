@@ -6,5 +6,6 @@ using System.Text;
 namespace WadGraphEs.MetricsEndpoint.Lib {
 	public interface MetricsEndpointConfiguration {
 		Microsoft.WindowsAzure.CertificateCloudCredentials GetCertificateCloudCredentials();
+		string SubscriptionId{get;}
 	}
 }

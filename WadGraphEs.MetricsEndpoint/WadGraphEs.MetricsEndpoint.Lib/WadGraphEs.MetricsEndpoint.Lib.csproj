@@ -80,7 +80,9 @@
     <Compile Include="AzureCloudServicesClient.cs" />
     <Compile Include="AzureManagementRestClient.cs" />
     <Compile Include="AzureMetricsApiClient.cs" />
+    <Compile Include="AzureSubscriptionInfoClient.cs" />
     <Compile Include="AzureUsageClient.cs" />
+    <Compile Include="AzureWebsite.cs" />
     <Compile Include="AzureWebsiteUsage.cs" />
     <Compile Include="AzureWebsiteApiClient.cs" />
     <Compile Include="AzureWebsiteId.cs" />

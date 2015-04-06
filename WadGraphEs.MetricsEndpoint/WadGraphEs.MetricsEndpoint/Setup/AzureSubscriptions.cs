@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
+using WadGraphEs.MetricsEndpoint.ApiControllers;
 using WadGraphEs.MetricsEndpoint.DataAccess;
 using WadGraphEs.MetricsEndpoint.Lib;
 using WadGraphEs.MetricsEndpoint.MVC.Commands;
@@ -114,6 +116,43 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 
 		internal static ICollection<AzureSubscription> ListAll() {
 			return GetDataContext().AzureSubscriptions.ToList();
+		}
+
+		internal static async Task<ICollection<ApiControllers.ChartInfo>> ListAllCharts() {
+			var result = await Task.WhenAll(ListAll().Select(ListAllCharts));
+			return result.SelectMany(_=>_).ToList();
+		}
+
+		private static async Task<ICollection<ChartInfo>> ListAllCharts(AzureSubscription subscription) {
+			var infoClient = new AzureSubscriptionInfoClient(subscription.GetMetricsConfig());
+			
+			var websites = await infoClient.ListWebsites();
+
+			return websites.SelectMany(_=>GetWebsiteCharts(subscription,_)).ToList();
+		}
+
+		private static ICollection<ChartInfo> GetWebsiteCharts(AzureSubscription subscription, AzureWebsite website) {
+			Func<string,string,ChartInfo> initChartInfo = (name,uri)=>
+				new ChartInfo {
+					ResourceName = website.Name,
+					ResourceType = "Azure Website",
+					ServiceName = subscription.FormatName(),
+					ServiceType = "Azure Subscription",
+					Name = name,
+					Uri = uri
+				};
+			return new ChartInfo[] {
+				initChartInfo("requests", website.Uri.ToString()+"/requests"),
+				initChartInfo("memory", website.Uri.ToString()+"/memory"),
+				initChartInfo("cpu", website.Uri.ToString()+"/cpu"),
+				initChartInfo("traffic", website.Uri.ToString()+"/traffic"),
+			};
+			//w=>new ChartInfo {
+			//	Uri = w.Uri.ToString(),
+			//	Name = w.Name,
+			//	Service = subscription.FormatName(),
+			//	ServiceType = "Azure Subscription"				
+			//}
 		}
 	}
 }
