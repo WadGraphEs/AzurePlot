@@ -26,12 +26,7 @@
 	window.getCachedAjax = function(url, loadData, options) {
 		options = $.extend({}, defaultOptions, options || {});
 
-		var item = get(url);
-		if(item) {
-			loadData(item);
-		}
-
-		return $.ajax({
+		var ajax = $.ajax({
 			url: url,
 			dataType: options.dataType,
 			method: 'get'
@@ -40,5 +35,13 @@
 			store(url, data);
 			loadData(data);
 		});
+
+		var cachedItem = get(url);
+		
+		if(cachedItem) {
+			loadData(cachedItem);
+		}
+
+		return ajax;
 	}
 })();

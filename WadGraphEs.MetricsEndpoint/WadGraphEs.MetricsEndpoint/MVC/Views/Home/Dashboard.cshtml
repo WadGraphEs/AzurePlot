@@ -2,20 +2,20 @@
     Layout = "HomeLayout.cshtml";
 }
 
-<form>
+<form id="add-chart-form">
 	<div class="form-group">
 		<input name="chartname" type="text" id="chartlist" class="form-control" placeholder="Add to dashboard..." />
 	</div>
 </form>
 
 
-@*<div id="chart-container">
-</div>*@
+<div id="chart-container">
+</div>
 
 
 @section scripts {
 	@Scripts.Render("~/scripts/dashboard/dashboard")
-	@*<script src="http://code.highcharts.com/highcharts.js"></script>*@
+	<script src="http://code.highcharts.com/highcharts.js"></script>
 }
 
 @section stylesheets {

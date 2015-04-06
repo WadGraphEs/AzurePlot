@@ -154,5 +154,51 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 			//	ServiceType = "Azure Subscription"				
 			//}
 		}
+
+		internal static Task<ChartData> GetChartData(string forUri) {
+			var uri = new Uri(forUri);
+			var subscription = GetSubscriptionById(uri.Host);
+			var path = uri.LocalPath.Split(new [] {'/'},StringSplitOptions.RemoveEmptyEntries);
+			if(path[0]!="websites") {
+				throw new Exception("don't know how to handle " + path[0]);
+			}
+			var webspace = path[1];
+			var websiteName = path[2];
+			var counter = path[3];
+			switch(counter) {
+				case "requests":
+					return GetWebsiteRequests(subscription,webspace,websiteName);
+				case "cpu":
+					return GetWebsiteCPU(subscription,webspace,websiteName);
+				default:
+					throw new Exception("Don't know how to get " + counter);
+			}
+		}
+
+		private static Task<ChartData> GetWebsiteCPU(AzureSubscription subscription,string webspace,string websiteName) {
+			return GetWebsiteUsages(subscription,webspace,websiteName,x=>x,string.Format("{0} CPU",websiteName), "^CpuTime");
+		}
+
+		private static Task<ChartData> GetWebsiteRequests(AzureSubscription subscription,string webspace,string websiteName) {
+			return GetWebsiteUsages(subscription,webspace,websiteName,x=>x.Replace(".Count",""),string.Format("{0} requests", websiteName),"^Http", "^Requests");
+		}
+
+		private static async Task<ChartData> GetWebsiteUsages(AzureSubscription subscription, string webspace,string websiteName,Func<string,string> formatSeries,string charttitle,params string[] filters) {
+			var usageClient = new AzureUsageClient(subscription.GetMetricsConfig());
+			var usages = await usageClient.GetWebsitesUsageForWebsite(webspace,websiteName,TimeSpan.FromHours(1),filters);
+			return new ChartData {
+				Name = charttitle,
+				Series = usages.GroupBy(_ => _.GraphiteCounterName).Select(_ =>
+					new SeriesData {
+						Name = formatSeries(_.Key),
+						DataPoints = _.Select(dp => new DataPoint { Timestamp = dp.Timestamp,Value = dp.Value }).ToList()
+					}
+				).ToList()
+			};
+		}
+
+		private static AzureSubscription GetSubscriptionById(string subscriptionId) {
+			return GetDataContext().AzureSubscriptions.ToList().FirstOrDefault(_=>_.AzureSubscriptionId == subscriptionId);
+		}
 	}
 }

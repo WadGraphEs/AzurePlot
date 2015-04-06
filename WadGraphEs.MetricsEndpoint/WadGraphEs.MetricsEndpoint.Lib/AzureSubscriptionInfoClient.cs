@@ -25,7 +25,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 		}
 
 		private Uri GetUri(AzureWebsiteId azureWebsiteId) {
-			return new Uri(string.Format("wadgraphes://{0}/websites/{1}", _subscriptionId, azureWebsiteId.Name));
+			return new Uri(string.Format("wadgraphes://{0}/websites/{1}/{2}", _subscriptionId, azureWebsiteId.Webspace, azureWebsiteId.Name));
 		}
 	}
 }

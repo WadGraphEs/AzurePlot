@@ -186,8 +186,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\ChartData.cs" />
     <Compile Include="ApiControllers\ChartInfo.cs" />
     <Compile Include="ApiControllers\ChartsController.cs" />
+    <Compile Include="ApiControllers\DataPoint.cs" />
+    <Compile Include="ApiControllers\SeriesData.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -350,7 +353,7 @@
     <Content Include="scripts\dashboard\ajaxcache.js" />
     <Content Include="scripts\dashboard\chartlist.js" />
     <Content Include="scripts\dashboard\common.js" />
-    <None Include="scripts\dashboard\dashboard.js1" />
+    <Content Include="scripts\dashboard\charts.js" />
     <Content Include="scripts\dashboard\handlebars-v3.0.0.js" />
     <Content Include="scripts\jquery-1.9.1.js" />
     <Content Include="scripts\jquery-1.9.1.min.js" />

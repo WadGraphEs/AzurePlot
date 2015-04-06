@@ -87,3 +87,9 @@
 input.typeahead.tt-query{ /* This is optional */
     width: 300px !important;
 }
+
+.chart {
+	width: 500px;
+	height: 400px;
+	float:left;
+}

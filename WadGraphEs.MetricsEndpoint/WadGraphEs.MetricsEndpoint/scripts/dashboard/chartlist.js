@@ -1,33 +1,6 @@
 ﻿"use strict";
 (function() {
-
-	//var substringMatcher=function() {
-	//	return function findMatches(q,cb) {
-	//		var matches,substrRegex;
-
-	//		// an array that will be populated with substring matches
-	//		matches=[];
-
-	//		// regex used to determine if a string contains the substring `q`
-	//		substrRegex=new RegExp(q,'i');
-
-	//		// iterate through the pool of strings and for any string that
-	//		// contains the substring `q`, add it to the `matches` array
-	//		$.each(charts,function(i,chart) {
-	//			if(substrRegex.test(chart.Name)) {
-	//				// the typeahead jQuery plugin expects suggestions to a
-	//				// JavaScript object, refer to typeahead docs for more info
-	//				matches.push(chart);
-	//			}
-	//		});
-
-	//		cb(matches);
-	//	};
-	//};
-
-	//var charts=[];
-
-	var chartData = [];
+	var chartDatums = [];
 
 	$(function() {
 		var bloodhound = new Bloodhound({
@@ -51,12 +24,14 @@
 				minLength: 0
 			},
 			{
-				name: 'states',
-				displayKey: 'value',
+				name: 'charts',
+				displayKey: function(chartData) {
+					return chartData.Name;
+				},
 				source: function(query,cb) {
 					//from https://github.com/twitter/typeahead.js/pull/719#issuecomment-43083651
 					if(query=="") {
-						cb(chartData);
+						cb(chartDatums);
 						return;
 					}
 					adapter(query,cb);
@@ -67,21 +42,43 @@
 			}
 		);
 		
-		$('#chartlist').on('focus', function() {
-			//from http://jsfiddle.net/5xxYq/
-			var ev = $.Event("keydown");
-			ev.keyCode = ev.which = 40;
-			$(this).trigger(ev);
-			return true;
+		//$('#chartlist').on('focus', function() {
+		//	//from http://jsfiddle.net/5xxYq/
+		//	var ev = $.Event("keydown");
+		//	ev.keyCode = ev.which = 40;
+		//	$(this).trigger(ev);
+		//	return true;
+		//});
+
+		$('#chartlist').on('typeahead:selected', function(ev, chartdata) {
+			$(this).typeahead('val', '');
+			$.ajax({
+				url: '/dashboard/add-chart',
+				data: {
+					uri: chartdata.Uri
+				},
+				method: 'post',
+			})
+			.done(function() {
+				console.log(arguments);
+				window.Charts.Chart.FromURI(chartdata.Uri).Render();
+			})
+			.fail(function(xhr) {
+				alertXhrError('failed adding to dashboard',xhr);
+			});
 		});
 
 		getCachedAjax('/api/list-all-charts',function(data) {
+			chartDatums = data;
 			bloodhound.clear();
-			chartData = data;
-			bloodhound.add(chartData);
+			bloodhound.add(chartDatums);
 		})
 		.fail(function(xhr) {
-			alert('failed fetching charts: '+xhr.statusText + ' ('+xhr.status+')');
+			alertXhrError('failed fetching charts',xhr);
 		});
+
+		var alertXhrError = function(msg, xhr) {
+			alert(msg+': '+xhr.statusText + ' ('+xhr.status+')');
+		}
 	});
 })();

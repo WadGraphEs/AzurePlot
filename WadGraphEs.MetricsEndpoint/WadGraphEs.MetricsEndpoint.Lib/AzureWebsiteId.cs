@@ -10,9 +10,14 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 
 		public string Name {
 			get { return _websiteName; }
-		} 
+		}
 
 		readonly string _webspace;
+
+		public string Webspace {
+			get { return _webspace; }
+		} 
+
 
 		public AzureWebsiteId(string websiteName,string webspace) {
 			_websiteName = websiteName;
