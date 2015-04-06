@@ -1,43 +1,50 @@
 ﻿"use strict";
 (function() {
 
-	var substringMatcher=function() {
-		return function findMatches(q,cb) {
-			var matches,substrRegex;
+	//var substringMatcher=function() {
+	//	return function findMatches(q,cb) {
+	//		var matches,substrRegex;
 
-			// an array that will be populated with substring matches
-			matches=[];
+	//		// an array that will be populated with substring matches
+	//		matches=[];
 
-			// regex used to determine if a string contains the substring `q`
-			substrRegex=new RegExp(q,'i');
+	//		// regex used to determine if a string contains the substring `q`
+	//		substrRegex=new RegExp(q,'i');
 
-			// iterate through the pool of strings and for any string that
-			// contains the substring `q`, add it to the `matches` array
-			$.each(states,function(i,str) {
-				if(substrRegex.test(str)) {
-					// the typeahead jQuery plugin expects suggestions to a
-					// JavaScript object, refer to typeahead docs for more info
-					matches.push({ value: str });
-				}
-			});
+	//		// iterate through the pool of strings and for any string that
+	//		// contains the substring `q`, add it to the `matches` array
+	//		$.each(charts,function(i,chart) {
+	//			if(substrRegex.test(chart.Name)) {
+	//				// the typeahead jQuery plugin expects suggestions to a
+	//				// JavaScript object, refer to typeahead docs for more info
+	//				matches.push(chart);
+	//			}
+	//		});
 
-			cb(matches);
-		};
-	};
+	//		cb(matches);
+	//	};
+	//};
 
-	var states=[];
-  //  ['Alabama','Alaska','Arizona','Arkansas','California',
-  //'Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii',
-  //'Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana',
-  //'Maine','Maryland','Massachusetts','Michigan','Minnesota',
-  //'Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire',
-  //'New Jersey','New Mexico','New York','North Carolina','North Dakota',
-  //'Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island',
-  //'South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont',
-  //'Virginia','Washington','West Virginia','Wisconsin','Wyoming'
-  //  ];
+	//var charts=[];
+
+	var chartData = [];
 
 	$(function() {
+		var bloodhound = new Bloodhound({
+			datumTokenizer: function(resource) {
+				var result = [];
+				$.each(['Name', 'ResourceName', 'ResourceType'], function(idx, property) {
+					$.merge(result, Bloodhound.tokenizers.whitespace(resource[property]));
+				});
+				return result;
+				//Bloodhound.tokenizers.obj.whitespace('Name')
+			},
+			queryTokenizer: Bloodhound.tokenizers.whitespace,
+			local: []
+		});
+		bloodhound.initialize();
+		var adapter = bloodhound.ttAdapter();
+
 		$('#chartlist').typeahead({
 				hint: false,
 				highlight: true,
@@ -46,15 +53,32 @@
 			{
 				name: 'states',
 				displayKey: 'value',
-				source: substringMatcher()
+				source: function(query,cb) {
+					//from https://github.com/twitter/typeahead.js/pull/719#issuecomment-43083651
+					if(query=="") {
+						cb(chartData);
+						return;
+					}
+					adapter(query,cb);
+				},
+				templates: {
+					suggestion: Handlebars.compile('<strong>{{Name}}</strong><br/><small>Name: {{ResourceName}}</small><br/><small>Type: {{ResourceType}}</small>')
+				}
 			}
 		);
-
+		
+		$('#chartlist').on('focus', function() {
+			//from http://jsfiddle.net/5xxYq/
+			var ev = $.Event("keydown");
+			ev.keyCode = ev.which = 40;
+			$(this).trigger(ev);
+			return true;
+		});
 
 		getCachedAjax('/api/list-all-charts',function(data) {
-			states = $.map(data, function(item) {
-				return item.Name;
-			});
+			bloodhound.clear();
+			chartData = data;
+			bloodhound.add(chartData);
 		})
 		.fail(function(xhr) {
 			alert('failed fetching charts: '+xhr.statusText + ' ('+xhr.status+')');

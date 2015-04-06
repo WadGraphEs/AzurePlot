@@ -135,17 +135,17 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 			Func<string,string,ChartInfo> initChartInfo = (name,uri)=>
 				new ChartInfo {
 					ResourceName = website.Name,
-					ResourceType = "Azure Website",
+					ResourceType = "website",
 					ServiceName = subscription.FormatName(),
 					ServiceType = "Azure Subscription",
-					Name = name,
+					Name = string.Format("{0} {1}", website.Name,name),
 					Uri = uri
 				};
 			return new ChartInfo[] {
-				initChartInfo("requests", website.Uri.ToString()+"/requests"),
-				initChartInfo("memory", website.Uri.ToString()+"/memory"),
-				initChartInfo("cpu", website.Uri.ToString()+"/cpu"),
-				initChartInfo("traffic", website.Uri.ToString()+"/traffic"),
+				initChartInfo("Requests", website.Uri.ToString()+"/requests"),
+				initChartInfo("Memory", website.Uri.ToString()+"/memory"),
+				initChartInfo("CPU", website.Uri.ToString()+"/cpu"),
+				initChartInfo("Traffic", website.Uri.ToString()+"/traffic"),
 			};
 			//w=>new ChartInfo {
 			//	Uri = w.Uri.ToString(),

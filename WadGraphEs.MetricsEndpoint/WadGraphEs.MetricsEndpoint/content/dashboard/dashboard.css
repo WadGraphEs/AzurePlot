@@ -77,3 +77,13 @@
     border-radius: 6px;
     line-height: 1.33;
 }
+
+.twitter-typeahead{
+     width: 97%;
+}
+.tt-dropdown-menu{
+    width: 100%;
+}
+input.typeahead.tt-query{ /* This is optional */
+    width: 300px !important;
+}
