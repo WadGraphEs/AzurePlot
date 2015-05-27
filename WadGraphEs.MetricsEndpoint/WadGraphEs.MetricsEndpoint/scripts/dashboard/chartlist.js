@@ -82,15 +82,73 @@
 	//	}
 	//});
 
+	var addCharts = function () {
+		var toAdd = [];
+		var me = this;
+
+		var hasChart = function (chart) {
+			var count = $.grep(toAdd, function (item) {
+				return item.Uri == chart.Uri;
+			}).length;
+			return count >= 1;
+		}
+
+		this.add = function (chart) {
+			if (hasChart(chart)) {
+				return;
+			}
+			toAdd.push(chart);
+		}
+
+		this.remove = function (chart) {
+			toAdd = $.grep(toAdd, function (item) {
+				return item.Uri != chart.Uri;
+			});
+		}
+
+		
+
+		this.toggle = function (chart, cb) {
+			if (me.contains(chart)) {
+				me.remove(chart);
+				cb(false);
+				return;
+			}
+
+			me.add(chart);
+			cb(true);
+		}
+
+		this.contains = hasChart;
+	}
+
 
 	var initChartList = function () {
+		var toAdd = new addCharts();
 		$.ajax({
 			url: '/api/list-all-charts'
 		})
 		.done(function (result) {
 			var $chartContainer = $('.available-charts');
+
 			$.each(result, function (idx, chart) {
-				$chartContainer.append('<a href="#" class="list-group-item">' + chart.Name + '</a>');
+				var $row = $('<a href="#" class="list-group-item">' + chart.Name + '</a>');
+				
+				$row.on('click', function (ev) {
+					ev.preventDefault();
+					
+					toAdd.toggle(chart, function (wasAdded) {
+						if (wasAdded) {
+							$row.addClass('active');
+							return;
+						}
+						$row.removeClass('active');
+					});
+					
+					
+				});
+
+				$chartContainer.append($row);
 			});
 
 		});
