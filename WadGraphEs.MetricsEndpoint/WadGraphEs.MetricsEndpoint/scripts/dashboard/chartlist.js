@@ -224,7 +224,7 @@
 			$.when.apply($,toAddModel.commit()).done(function () {
 				toAddModel.clear();
 
-				$theModal.hide();
+				$theModal.modal('hide');
 			});
 		});
 	});
