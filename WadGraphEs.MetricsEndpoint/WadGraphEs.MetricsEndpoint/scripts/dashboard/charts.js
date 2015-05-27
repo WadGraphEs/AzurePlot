@@ -1,13 +1,5 @@
 ﻿"use strict";
 (function() {
-	
-
-	var drawChart = function(data) {
-		
-	}
-
-	
-
 	var Chart = function(uri) {
 		this.uri = uri;
 	}
@@ -15,7 +7,11 @@
 	Chart.prototype = {
 		Render: function() {
 			var me = this;
-			getCachedAjax('/api/charts/get-chart-data?uri='+this.uri, function(data) {
+			return $.ajax({
+				url: '/api/charts/get-chart-data?uri=' + this.uri
+			})
+			.done(function (data) {
+				console.log('drawing');
 				me.Draw(data);
 			})
 			.fail(function(xhr) {

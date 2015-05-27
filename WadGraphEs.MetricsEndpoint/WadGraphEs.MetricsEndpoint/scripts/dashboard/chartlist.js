@@ -82,9 +82,18 @@
 	//	}
 	//});
 
-	var addCharts = function () {
+	var addChartsModel = function () {
 		var toAdd = [];
 		var me = this;
+		var onSelected = [];
+		var onDeselected = [];
+
+
+		var raise = function (callbacks, chart) {
+			$.each(callbacks, function (idx, cb) {
+				cb(chart);
+			});
+		}
 
 		var hasChart = function (chart) {
 			var count = $.grep(toAdd, function (item) {
@@ -98,25 +107,64 @@
 				return;
 			}
 			toAdd.push(chart);
+			raise(onSelected, chart);
 		}
 
 		this.remove = function (chart) {
+			if (!hasChart(chart)) {
+				return;
+			}
 			toAdd = $.grep(toAdd, function (item) {
 				return item.Uri != chart.Uri;
 			});
+			
+			raise(onDeselected, chart);
 		}
 
-		
-
-		this.toggle = function (chart, cb) {
+		this.toggle = function (chart) {
 			if (me.contains(chart)) {
 				me.remove(chart);
-				cb(false);
 				return;
 			}
 
 			me.add(chart);
-			cb(true);
+		}
+
+		this.onSelected = function (cb) {
+			onSelected.push(cb);
+		}
+
+		this.onDeselected = function (cb) {
+			onDeselected.push(cb);
+		}
+
+		var addChartApi = function (chart) {
+			return $.ajax({
+				url: '/dashboard/add-chart',
+				data: {
+					uri: chart.Uri
+				},
+				method: 'post',
+			});
+		}
+
+		this.commit = function () {
+			var when = [];
+			$.each(toAdd, function (idx,chart) {
+				when.push(
+					addChartApi(chart)
+					.then(function () {
+						return window.Charts.Chart.FromURI(chart.Uri).Render();
+					})
+				);
+			});
+			return when;
+		}
+
+		this.clear = function () {
+			$.each(toAdd, function (idx, chart) {
+				me.remove(chart);
+			});
 		}
 
 		this.contains = hasChart;
@@ -124,7 +172,7 @@
 
 
 	var initChartList = function () {
-		var toAdd = new addCharts();
+		var toAddModel = new addChartsModel();
 		$.ajax({
 			url: '/api/list-all-charts'
 		})
@@ -134,33 +182,50 @@
 			$.each(result, function (idx, chart) {
 				var $row = $('<a href="#" class="list-group-item">' + chart.Name + '</a>');
 				
+				toAddModel.onSelected(function (selectedChart) {
+					if(selectedChart.Uri != chart.Uri) {
+						return;
+					}
+					$row.addClass('active');
+				});
+
+				toAddModel.onDeselected(function (selectedChart) {
+					if (selectedChart.Uri != chart.Uri) {
+						return;
+					}
+					$row.removeClass('active');
+				});
+
 				$row.on('click', function (ev) {
 					ev.preventDefault();
 					
-					toAdd.toggle(chart, function (wasAdded) {
-						if (wasAdded) {
-							$row.addClass('active');
-							return;
-						}
-						$row.removeClass('active');
-					});
-					
-					
+					toAddModel.toggle(chart);
 				});
 
 				$chartContainer.append($row);
 			});
 
 		});
+
+		return toAddModel;
 	}
 
 
 	$(function () {
-		
-		initChartList();
+		var toAddModel = initChartList();
+
+		var $theModal =$('#add-to-chart-modal');
 
 		$('.add-to-dashboard').on('click', function () {
-			$('#add-to-chart-modal').modal();
+			$theModal.modal('show');
+		});
+
+		$('.add-to-dashboard-submit').on('click', function () {
+			$.when.apply($,toAddModel.commit()).done(function () {
+				toAddModel.clear();
+
+				$theModal.hide();
+			});
 		});
 	});
 })();
