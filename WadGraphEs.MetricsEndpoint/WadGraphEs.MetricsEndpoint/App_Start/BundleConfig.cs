@@ -13,7 +13,8 @@ namespace WadGraphEs.MetricsEndpoint {
             ));
 
             bundles.Add(new StyleBundle("~/content/layout").Include(
-                "~/content/bootstrap.css"
+                "~/content/bootstrap.css",
+				"~/content/layout.css"
                 
             ));
 

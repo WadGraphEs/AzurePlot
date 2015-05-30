@@ -11,12 +11,9 @@
 				url: '/api/charts/get-chart-data?uri=' + this.uri
 			})
 			.done(function (data) {
-				console.log('drawing');
 				me.Draw(data);
-			})
-			.fail(function(xhr) {
-				alert("Failed getting chart data " +xhr.status);
 			});
+			
 		},
 		$AssertChartElementAvailable: function() {
 			if(!this.$chart) {

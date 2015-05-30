@@ -1,87 +1,5 @@
 ﻿"use strict";
 (function() {
-	//var chartDatums = [];
-
-	//$(function() {
-	//	var bloodhound = new Bloodhound({
-	//		datumTokenizer: function(resource) {
-	//			var result = [];
-	//			$.each(['Name', 'ResourceName', 'ResourceType'], function(idx, property) {
-	//				$.merge(result, Bloodhound.tokenizers.whitespace(resource[property]));
-	//			});
-	//			return result;
-	//			//Bloodhound.tokenizers.obj.whitespace('Name')
-	//		},
-	//		queryTokenizer: Bloodhound.tokenizers.whitespace,
-	//		local: []
-	//	});
-	//	bloodhound.initialize();
-	//	var adapter = bloodhound.ttAdapter();
-
-	//	$('#chartlist').typeahead({
-	//			hint: false,
-	//			highlight: true,
-	//			minLength: 0
-	//		},
-	//		{
-	//			name: 'charts',
-	//			displayKey: function(chartData) {
-	//				return chartData.Name;
-	//			},
-	//			source: function(query,cb) {
-	//				//from https://github.com/twitter/typeahead.js/pull/719#issuecomment-43083651
-	//				if(query=="") {
-	//					cb(chartDatums);
-	//					return;
-	//				}
-	//				adapter(query,cb);
-	//			},
-	//			templates: {
-	//				suggestion: Handlebars.compile('<strong>{{Name}}</strong><br/><small>Name: {{ResourceName}}</small><br/><small>Type: {{ResourceType}}</small>')
-	//			}
-	//		}
-	//	);
-		
-	//	//$('#chartlist').on('focus', function() {
-	//	//	//from http://jsfiddle.net/5xxYq/
-	//	//	var ev = $.Event("keydown");
-	//	//	ev.keyCode = ev.which = 40;
-	//	//	$(this).trigger(ev);
-	//	//	return true;
-	//	//});
-
-	//	$('#chartlist').on('typeahead:selected', function(ev, chartdata) {
-	//		$(this).typeahead('val', '');
-	//		$.ajax({
-	//			url: '/dashboard/add-chart',
-	//			data: {
-	//				uri: chartdata.Uri
-	//			},
-	//			method: 'post',
-	//		})
-	//		.done(function() {
-	//			console.log(arguments);
-	//			window.Charts.Chart.FromURI(chartdata.Uri).Render();
-	//		})
-	//		.fail(function(xhr) {
-	//			alertXhrError('failed adding to dashboard',xhr);
-	//		});
-	//	});
-
-	//	getCachedAjax('/api/list-all-charts',function(data) {
-	//		chartDatums = data;
-	//		bloodhound.clear();
-	//		bloodhound.add(chartDatums);
-	//	})
-	//	.fail(function(xhr) {
-	//		alertXhrError('failed fetching charts',xhr);
-	//	});
-
-	//	var alertXhrError = function(msg, xhr) {
-	//		alert(msg+': '+xhr.statusText + ' ('+xhr.status+')');
-	//	}
-	//});
-
 	var addChartsModel = function () {
 		var toAdd = [];
 		var me = this;
@@ -178,6 +96,7 @@
 		})
 		.done(function (result) {
 			var $chartContainer = $('.available-charts');
+			$chartContainer.empty();
 
 			$.each(result, function (idx, chart) {
 				var $row = $('<a href="#" class="list-group-item">' + chart.Name + '</a>');
@@ -211,6 +130,46 @@
 	}
 
 
+	var waitAll = function(deferreds, onSuccess, onFailed, onAlways){
+		var successes = [];
+		var failed = [];
+			
+		$.each(deferreds, function(idx, res) {
+			res.done(function() {
+				success(res, arguments);
+			});
+			res.fail(function() {
+				fail(res, arguments);
+			});
+		});
+
+		var success = function(res, args) {
+			successes.push({res: res, args: args});
+			checkDone();
+		}
+		var fail = function(res, args) {
+			failed.push({res: res, args: args});
+			checkDone();
+		}
+		var done = function() {
+			if(onSuccess && successes.length) {
+				onSuccess(successes);
+			}
+			if(onFailed && failed.length) {
+				onFailed(failed);
+			}
+			if(onAlways) {
+				onAlways(successes,failed);
+			}
+		}
+		var checkDone = function() {
+			if(!(successes.length + failed.length >= deferreds.length)) {
+				return;
+			}
+			done();
+		}
+	}
+
 	$(function () {
 		var toAddModel = initChartList();
 
@@ -221,9 +180,13 @@
 		});
 
 		$('.add-to-dashboard-submit').on('click', function () {
-			$.when.apply($,toAddModel.commit()).done(function () {
-				toAddModel.clear();
-
+			$('body').addClass('loading');
+			
+			new waitAll(toAddModel.commit(), function(){}, function() {}, function(success, failed) {
+				if(failed.length) {
+					alert("Failed "+ failed.length+" items");
+				}
+				$('body').removeClass('loading');
 				$theModal.modal('hide');
 			});
 		});

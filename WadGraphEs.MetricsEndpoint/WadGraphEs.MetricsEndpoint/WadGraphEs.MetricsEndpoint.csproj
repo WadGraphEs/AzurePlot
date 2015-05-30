@@ -285,12 +285,14 @@
     <Content Include="content\bootstrap-theme.min.css" />
     <Content Include="content\bootstrap.css" />
     <Content Include="content\bootstrap.min.css" />
+    <Content Include="content\layout.css" />
     <Content Include="content\home.css" />
     <Content Include="content\dashboard\dashboard.css" />
     <Content Include="content\login.css" />
     <Content Include="content\setup.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="images\ajax-loader.gif" />
     <Content Include="MVC\Views\Layout.cshtml" />
     <Content Include="MVC\Views\Setup\Step1.cshtml" />
     <Content Include="MVC\Views\Web.config" />
