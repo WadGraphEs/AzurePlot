@@ -183,6 +183,7 @@
 			$('body').addClass('loading');
 			
 			new waitAll(toAddModel.commit(), function(){}, function() {}, function(success, failed) {
+				toAddModel.clear();
 				if(failed.length) {
 					alert("Failed "+ failed.length+" items");
 				}
