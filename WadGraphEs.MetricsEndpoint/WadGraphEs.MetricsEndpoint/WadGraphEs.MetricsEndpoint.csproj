@@ -202,6 +202,7 @@
     <Compile Include="DataAccess\AddAzureSubscriptionSession.cs" />
     <Compile Include="DataAccess\APIKeyRecord.cs" />
     <Compile Include="DataAccess\AzureSubscription.cs" />
+    <Compile Include="DataAccess\DashboardChart.cs" />
     <Compile Include="DataAccess\DataContext.cs" />
     <Compile Include="DataAccess\ProxyUser.cs" />
     <Compile Include="DataAccess\SQLDatabase.cs" />
@@ -247,6 +248,10 @@
     <Compile Include="Migrations\201503281814575_sql-database-version.Designer.cs">
       <DependentUpon>201503281814575_sql-database-version.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201505302038478_dashboard-charts.cs" />
+    <Compile Include="Migrations\201505302038478_dashboard-charts.Designer.cs">
+      <DependentUpon>201505302038478_dashboard-charts.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MVC\Commands\CreateAzureSQLDatabaseCommand.cs" />
     <Compile Include="MVC\Commands\CreateAdminAccount.cs" />
@@ -273,6 +278,7 @@
     <Compile Include="Setup\ApplicationSetup.cs" />
     <Compile Include="Setup\AzureSQLDatabases.cs" />
     <Compile Include="Setup\AzureSubscriptions.cs" />
+    <Compile Include="Setup\Dashboard.cs" />
     <Compile Include="Setup\FromPKCSMetricsEndpointConfiguration.cs" />
     <Compile Include="Setup\NeedsSetupAttribute.cs" />
     <Compile Include="Setup\TestAPIResult.cs" />
@@ -414,6 +420,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201503281814575_sql-database-version.resx">
       <DependentUpon>201503281814575_sql-database-version.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505302038478_dashboard-charts.resx">
+      <DependentUpon>201505302038478_dashboard-charts.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

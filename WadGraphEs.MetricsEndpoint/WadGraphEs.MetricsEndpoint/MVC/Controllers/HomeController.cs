@@ -197,12 +197,14 @@ namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
 
 		[HttpGet]
 		public ActionResult Dashboard() {
-			return View();
+			
+			return View(Setup.Dashboard.GetCharts());
 		}
 
 		[HttpPost]
 		public ActionResult AddDashboardChart(string uri) {
-			return null;
+			Setup.Dashboard.AddChart(uri);
+			return Content("OK");
 		}
     }
 }

@@ -19,5 +19,7 @@ namespace WadGraphEs.MetricsEndpoint.DataAccess {
 
 		public DbSet<SQLDatabase> SQLDatabases{get;set;}
 		public DbSet<AddSQLDatabaseSession> AddSQLDatabaseSessions{get;set;}
+
+		public DbSet<DashboardChart> DashboardCharts{get;set;}
 	}
 }

@@ -1,4 +1,6 @@
-﻿@{
+﻿@model ICollection<string>
+
+@{
     Layout = "HomeLayout.cshtml";
 }
 
@@ -26,6 +28,9 @@
 </div>
 
 <div id="chart-container">
+	@foreach(var uri in Model) { 
+		<input type="hidden" class="load-chart" value="@uri" />
+	}
 </div>
 
 

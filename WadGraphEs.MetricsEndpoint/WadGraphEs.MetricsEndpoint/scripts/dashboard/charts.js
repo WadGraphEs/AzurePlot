@@ -25,6 +25,8 @@
 		Draw: function(data) {
 			var $chart = this.$AssertChartElementAvailable();
 
+			console.log(data);
+
 			$chart.highcharts({
 				title: {
 					text: data.Name
@@ -49,4 +51,11 @@
 	}
 
 	$.extend(true,window,{ Charts: { Chart: Chart }});
+
+	$(function() {
+		$('.load-chart').each(function(idx, item) {
+			$(this).remove();
+			return Chart.FromURI(item.value).Render();
+		});
+	});
 })();
