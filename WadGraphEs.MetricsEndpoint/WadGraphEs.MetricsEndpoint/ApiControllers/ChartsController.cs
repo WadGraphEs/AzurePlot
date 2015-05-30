@@ -40,11 +40,12 @@ namespace WadGraphEs.MetricsEndpoint.ApiControllers {
 			var end = DateTime.Now;
 			var start = end.Add(period.Negate());
 
+			var rand = new Random();
 			
 			for(var i = start; i<=end; i = i.AddMinutes(5)) {
 				res.Add(new DataPoint {
 					Timestamp = i.ToUniversalTime().ToString("o"),
-					Value = magnitude * (1 + Math.Sin(2*Math.PI * (i-start).TotalMinutes / period.TotalMinutes))
+					Value = magnitude * (1 + rand.NextDouble() + Math.Sin(2*Math.PI * (i-start).TotalMinutes / period.TotalMinutes))
 				});
 			}
 
