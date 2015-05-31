@@ -120,7 +120,16 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 
 		internal static async Task<ICollection<ApiControllers.ChartInfo>> ListAllCharts() {
 			var result = await Task.WhenAll(ListAll().Select(ListAllCharts));
-			return result.SelectMany(_=>_).ToList();
+			return result.SelectMany(_=>_)
+            .Concat(new [] { new ChartInfo {
+                Name = "Dummy",
+                ResourceName = "DummyResourceName",
+                ResourceType ="DummyResourceType",
+                ServiceName = "Dummy Service",
+                ServiceType = "DummyService",
+                Uri = "wadgraphes://dummy"
+            }})            
+            .ToList();
 		}
 
 		private static async Task<ICollection<ChartInfo>> ListAllCharts(AzureSubscription subscription) {
@@ -157,6 +166,11 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 
 		internal static Task<ChartData> GetChartData(string forUri) {
 			var uri = new Uri(forUri);
+
+            if(uri.Host == "dummy") {
+                return Dummy();
+            }
+
 			var subscription = GetSubscriptionById(uri.Host);
 			var path = uri.LocalPath.Split(new [] {'/'},StringSplitOptions.RemoveEmptyEntries);
 			if(path[0]!="websites") {
@@ -173,6 +187,43 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 				default:
 					throw new Exception("Don't know how to get " + counter);
 			}
+		}
+
+        private static Task<ChartData> Dummy() {
+            var data = new ChartData { 
+                Name = "Dummy",
+                Series = new List<SeriesData> {
+                    new SeriesData {
+                        Name = "200",
+                        DataPoints = GenerateData(TimeSpan.FromHours(12),40)
+                    },
+                    new SeriesData {
+                        Name = "all",
+                        DataPoints = GenerateData(TimeSpan.FromHours(12),50)
+                    },
+                }
+            };
+
+            return Task.FromResult(data);
+        }
+        
+      
+
+		private static List<DataPoint> GenerateData(TimeSpan period,double magnitude) {
+			var res = new List<DataPoint>();
+			var end = DateTime.Now;
+			var start = end.Add(period.Negate());
+
+			var rand = new Random();
+			
+			for(var i = start; i<=end; i = i.AddMinutes(5)) {
+				res.Add(new DataPoint {
+					Timestamp = i.ToUniversalTime().ToString("o"),
+					Value = magnitude * (1 + rand.NextDouble() + Math.Sin(2*Math.PI * (i-start).TotalMinutes / period.TotalMinutes))
+				});
+			}
+
+			return res;
 		}
 
 		private static Task<ChartData> GetWebsiteCPU(AzureSubscription subscription,string webspace,string websiteName) {

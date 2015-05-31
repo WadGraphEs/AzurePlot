@@ -266,6 +266,7 @@
     <Compile Include="MVC\Controllers\AccountController.cs" />
     <Compile Include="MVC\Controllers\SetupController.cs" />
     <Compile Include="MVC\HtmlHelpers\CSSClassHelpers.cs" />
+    <Compile Include="MVC\HtmlHelpers\JsonHelper.cs" />
     <Compile Include="MVC\HtmlHelpers\ValidationHelpers.cs" />
     <Compile Include="MVC\ViewModels\OverviewViewModel.cs" />
     <Compile Include="MVC\ViewModels\ServiceViewModel.cs" />
@@ -279,6 +280,7 @@
     <Compile Include="Setup\AzureSQLDatabases.cs" />
     <Compile Include="Setup\AzureSubscriptions.cs" />
     <Compile Include="Setup\Dashboard.cs" />
+    <Compile Include="Setup\DashboardItem.cs" />
     <Compile Include="Setup\FromPKCSMetricsEndpointConfiguration.cs" />
     <Compile Include="Setup\NeedsSetupAttribute.cs" />
     <Compile Include="Setup\TestAPIResult.cs" />

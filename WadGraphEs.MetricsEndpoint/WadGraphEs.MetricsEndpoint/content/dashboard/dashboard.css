@@ -92,4 +92,20 @@ input.typeahead.tt-query{ /* This is optional */
 	width: 500px;
 	height: 400px;
 	float:left;
+	position: relative;
+}
+
+.chart .dropdown {
+	display: none;
+	position: absolute;
+	top: 0px; 
+	right: 0px;
+}
+
+.chart.hover .dropdown {
+	display: block;
+}
+
+#chart-template {
+	display: none;
 }

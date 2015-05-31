@@ -1,10 +1,10 @@
-﻿@model ICollection<string>
+﻿@model ICollection<WadGraphEs.MetricsEndpoint.DataAccess.DashboardChart>
 
 @{
     Layout = "HomeLayout.cshtml";
 }
 
-<button type="button" class="btn btn-success add-to-dashboard">Add item to dashboard..</button>
+<button type="button" class="btn btn-success add-to-dashboard">Add chart to dashboard..</button>
 
 
 <div class="modal fade" id="add-to-chart-modal" tabindex="-1" role="dialog" aria-labelledby="add-to-chart-modal-label" aria-hidden="true">
@@ -28,9 +28,22 @@
 </div>
 
 <div id="chart-container">
-	@foreach(var uri in Model) { 
-		<input type="hidden" class="load-chart" value="@uri" />
+	@foreach(var chart in Model) { 
+		<input type="hidden" class="load-chart" value="@Html.ToJson(chart)" />
 	}
+</div>
+
+<div id="chart-template" class="chart">
+<div class="chart-area"></div>
+<div class="dropdown">
+	<button class="btn btn-default dropdown-toggle" type="button"  data-toggle="dropdown" >
+		Actions
+    <span class="caret"></span>
+	</button>
+	<ul class="dropdown-menu dropdown-menu-right" role="menu">
+		<li role="presentation"><a role="menuitem" class="remove-chart" tabindex="-1" href="#">Remove from dashboard</a></li>
+	</ul>
+</div>
 </div>
 
 

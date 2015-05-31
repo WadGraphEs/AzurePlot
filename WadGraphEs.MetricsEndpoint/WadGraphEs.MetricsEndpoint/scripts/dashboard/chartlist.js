@@ -71,8 +71,8 @@
 			$.each(toAdd, function (idx,chart) {
 				when.push(
 					addChartApi(chart)
-					.then(function () {
-						return window.Charts.Chart.FromURI(chart.Uri).Render();
+					.then(function (result) {
+						return window.Charts.DashboardChart.FromData(result).Render();
 					})
 				);
 			});

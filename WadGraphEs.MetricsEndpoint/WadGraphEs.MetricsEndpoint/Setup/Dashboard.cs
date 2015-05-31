@@ -6,22 +6,37 @@ using WadGraphEs.MetricsEndpoint.DataAccess;
 
 namespace WadGraphEs.MetricsEndpoint.Setup {
 	public class Dashboard {
-		internal static void AddChart(string uri) {
+		internal static DashboardChart AddChart(string uri) {
 			var ctx = GetDataContext();	
 
-			ctx.DashboardCharts.Add(new DashboardChart {
+
+            var chart = new DashboardChart {
 				Uri = uri
-			});
+			};
+			ctx.DashboardCharts.Add(chart);
 
 			ctx.SaveChanges();
+
+            return chart;
 		}
 
 		private static DataContext GetDataContext() {
 			return new DataContext();
 		}
 
-		internal static ICollection<string> GetCharts() {
-			return GetDataContext().DashboardCharts.Select(_=>_.Uri).ToList();
+		internal static ICollection<DashboardChart> GetCharts() {
+			return GetDataContext().DashboardCharts.ToList();
 		}
-	}
+
+        internal static void RemoveChart(int chartId) {
+            var ctx = GetDataContext();
+            var chart = ctx.DashboardCharts.Find(chartId);
+            ctx.DashboardCharts.Remove(chart);
+            ctx.SaveChanges();
+        }
+
+        internal static DashboardChart GetChartById(int id) {
+            return GetDataContext().DashboardCharts.Find(id);
+        }
+    }
 }

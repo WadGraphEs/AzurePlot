@@ -33,6 +33,9 @@ namespace WadGraphEs.MetricsEndpoint {
 			
 			routes.MapRoute("dashboard", "dashboard", new { controller = "Home", action = "Dashboard" });
 			routes.MapRoute("dashboard-add-chart", "dashboard/add-chart", new { controller = "Home", action = "AddDashboardChart" });
+            routes.MapRoute("dashboard-remove-chart", "dashboard/remove-chart", new { controller = "Home", action = "RemoveDashboardChart" });
+            routes.MapRoute("dashboard-get-chart-info", "dashboard/get-chart-info", new { controller = "Home", action = "GetChartInfoById" });
+            
 			
 			routes.MapRoute("ThankYouForCreatingAccount", "setup/thankyou", new { controller = "Setup", action = "ThankYou" });
 			
