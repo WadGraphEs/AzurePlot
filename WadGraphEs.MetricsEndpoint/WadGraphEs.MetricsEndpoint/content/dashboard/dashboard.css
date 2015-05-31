@@ -112,7 +112,7 @@ input.typeahead.tt-query{ /* This is optional */
 }
 
 .chart .chart-loader {
-    z-index:    2000;
+    z-index:    500;
     background: rgba( 255, 255, 255, .8 ) 
                 url('/images/ajax-loader.gif') 
                 50% 50% 
