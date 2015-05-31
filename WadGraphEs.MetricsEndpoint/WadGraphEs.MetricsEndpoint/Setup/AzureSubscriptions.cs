@@ -155,6 +155,7 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 				initChartInfo("Memory", website.Uri.ToString()+"/memory"),
 				initChartInfo("CPU", website.Uri.ToString()+"/cpu"),
 				initChartInfo("Traffic", website.Uri.ToString()+"/traffic"),
+                initChartInfo("Response Times", website.Uri.ToString()+"/response-times"),
 			};
 			//w=>new ChartInfo {
 			//	Uri = w.Uri.ToString(),
@@ -184,10 +185,21 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 					return GetWebsiteRequests(subscription,webspace,websiteName);
 				case "cpu":
 					return GetWebsiteCPU(subscription,webspace,websiteName);
+                case "memory":
+                    return GetWebsiteMemory(subscription,webspace,websiteName);
+                case "traffic":
+                    return GetWebsiteTraffic(subscription,webspace,websiteName);
+                case "response-times":
+                    return GetWebsiteResponseTimes(subscription,webspace,websiteName);
 				default:
 					throw new Exception("Don't know how to get " + counter);
 			}
 		}
+
+        
+
+        
+
 
         private static Task<ChartData> Dummy() {
             var data = new ChartData { 
@@ -233,6 +245,19 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 		private static Task<ChartData> GetWebsiteRequests(AzureSubscription subscription,string webspace,string websiteName) {
 			return GetWebsiteUsages(subscription,webspace,websiteName,x=>x.Replace(".Count",""),string.Format("{0} requests", websiteName),"^Http", "^Requests");
 		}
+
+        
+        private static Task<ChartData> GetWebsiteMemory(AzureSubscription subscription,string webspace,string websiteName) {
+            return GetWebsiteUsages(subscription,webspace,websiteName,x=>x.Replace(".Bytes",""),string.Format("{0} memory usage (bytes)", websiteName),"MemoryWorkingSet");
+        }
+
+        private static Task<ChartData> GetWebsiteTraffic(AzureSubscription subscription,string webspace,string websiteName) {
+            return GetWebsiteUsages(subscription,webspace,websiteName,x=>x.Replace(".Bytes",""),string.Format("{0} traffic (bytes)", websiteName),"(^BytesSent|^BytesReceived)");
+        }
+
+        private static Task<ChartData> GetWebsiteResponseTimes(AzureSubscription subscription,string webspace,string websiteName) {
+            return GetWebsiteUsages(subscription,webspace,websiteName,x=>x.Replace(".Milliseconds",""),string.Format("{0} response times (ms)", websiteName),"^AverageResponseTime");
+        }
 
 		private static async Task<ChartData> GetWebsiteUsages(AzureSubscription subscription, string webspace,string websiteName,Func<string,string> formatSeries,string charttitle,params string[] filters) {
 			var usageClient = new AzureUsageClient(subscription.GetMetricsConfig());
