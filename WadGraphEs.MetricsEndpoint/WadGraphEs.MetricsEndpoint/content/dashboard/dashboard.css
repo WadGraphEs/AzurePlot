@@ -89,10 +89,9 @@ input.typeahead.tt-query{ /* This is optional */
 }
 
 .chart {
-	width: 500px;
-	height: 400px;
 	float:left;
 	position: relative;
+	width: 100%;
 }
 
 
@@ -118,7 +117,15 @@ input.typeahead.tt-query{ /* This is optional */
                 url('/images/ajax-loader.gif') 
                 50% 50% 
                 no-repeat;
+	position:absolute;
+	left: 0px;
+	top: 0px;
 }
 .chart.loaded .chart-loader {
 	display:none;
+}
+
+.chart-area {
+	width: 100%px;
+	height: 250px;
 }
