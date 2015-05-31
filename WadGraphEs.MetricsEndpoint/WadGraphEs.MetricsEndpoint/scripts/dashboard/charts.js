@@ -69,20 +69,19 @@
 		return new Chart(uri);
 	}
 
-	var DashboardChart = function (chartInfoPromise) {
-		this.chartInfoPromise = chartInfoPromise;
+	var DashboardChart = function (chartInfo) {
+		this.chartInfo = chartInfo;
 	}
 
 	DashboardChart.prototype = {
 		Render: function () {
 			var me = this;
-			return this.chartInfoPromise.then(function (result) {
-				me.chartInfo = result;
-				me.chart = Chart.FromURI(result.Uri);
 
-				return me.chart.Render().done(function () {
-					me.setupEvents();
-				});
+			me.chart = Chart.FromURI(this.chartInfo.Uri);
+
+			return me.chart.Render().done(function () {
+				console.log(arguments);
+				me.setupEvents();
 			});
 		},
 		setupEvents: function () {
@@ -102,20 +101,12 @@
 		},
 	}
 
-	DashboardChart.FromId = function (id) {
-		return new DashboardChart($.ajax({
-			url: '/dashboard/get-chart-info?id=' + id,
-			method: 'get'
-		}));
-	}
-
+	
 	DashboardChart.FromData = function (data) {
-		var def = $.Deferred();
-		def.resolve(data);
-		return new DashboardChart(def);
+		return new DashboardChart(data);
 	}
 
-	$.extend(true,window,{ Charts: { Chart: Chart, DashboardChart: DashboardChart  }});
+	$.extend(true,window,{ Charts: { DashboardChart: DashboardChart  }});
 
 	$(function() {
 		$('.load-chart').each(function(idx, item) {
@@ -129,5 +120,4 @@
 		
 		return $result.attr('id', '');
 	}
-	
 })();
