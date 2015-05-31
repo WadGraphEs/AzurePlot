@@ -2,10 +2,13 @@
 (function() {
 	var Chart = function(uri) {
 		this.uri = uri;
+		this.$AssertChartElementAvailable();
 	}
 
 	Chart.prototype = {
-		Render: function() {
+		Render: function () {
+			this.showLoader();
+
 			var me = this;
 			return $.ajax({
 				url: '/api/charts/get-chart-data?uri=' + this.uri
@@ -14,6 +17,14 @@
 				me.Draw(data);
 			});
 			
+		},
+		showLoader: function () {
+			var $el = $('<div class="chart-loader"></div>');
+			$el.css({
+				width: this.$chart.width(),
+				height: this.$chart.height(),
+			});
+			this.$chart.append($el);
 		},
 		$AssertChartElementAvailable: function() {
 			if(!this.$chart) {
@@ -38,7 +49,9 @@
 			
 		},
 		Draw: function(data) {
-			var $chart = this.$AssertChartElementAvailable();
+			var $chart = this.$chart;
+
+			$chart.addClass('loaded');
 
 			$chart.find('.chart-area').highcharts({
 				title: {
@@ -78,11 +91,8 @@
 			var me = this;
 
 			me.chart = Chart.FromURI(this.chartInfo.Uri);
-
-			return me.chart.Render().done(function () {
-				console.log(arguments);
-				me.setupEvents();
-			});
+			me.setupEvents();
+			return me.chart.Render();
 		},
 		setupEvents: function () {
 			var me = this;

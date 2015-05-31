@@ -24,8 +24,8 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 			return new DataContext();
 		}
 
-		internal static ICollection<DashboardChart> GetCharts() {
-			return GetDataContext().DashboardCharts.ToList();
+		internal static ICollection<DashboardChart> GetDashboardCharts() {
+			return GetDataContext().DashboardCharts.OrderBy(_=>_.Id).ToList();
 		}
 
         internal static void RemoveChart(int chartId) {
