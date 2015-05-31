@@ -1,6 +1,12 @@
 ﻿"use strict";
 (function() {
-	var waitAll = function(deferreds, onSuccess, onFailed, onAlways){
+	var waitAll = function (deferreds, onSuccess, onFailed, onAlways) {
+		if (deferreds.length == 0) {
+			onSuccess([]);
+			onAlways([], []);
+			return;
+		}
+
 		var successes = [];
 		var failed = [];
 			
