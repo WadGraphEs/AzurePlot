@@ -68,6 +68,11 @@
 			//console.log(series);
 
 			$chart.find('.chart-area').highcharts({
+				plotOptions: {
+					series: {
+						animation: false
+					}
+				},
 				title: {
 					text: data.Name
 				},
@@ -75,7 +80,7 @@
 					type: 'datetime'
 				},
 				yAxis: {
-					
+					min: 0,
 				},
 				series: series
 			})
