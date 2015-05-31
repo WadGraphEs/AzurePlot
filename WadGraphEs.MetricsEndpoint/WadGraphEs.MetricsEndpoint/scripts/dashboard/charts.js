@@ -1,5 +1,5 @@
 ﻿"use strict";
-(function() {
+(function () {
 	var Chart = function(uri) {
 		this.uri = uri;
 		this.$AssertChartElementAvailable();
@@ -53,21 +53,31 @@
 
 			$chart.addClass('loaded');
 
+			var series = $.map(data.Series, function (serie) {
+				return {
+					name: serie.Name,
+					data: $.map(serie.DataPoints, function (point) {
+						return [[
+							Common.DateTime.FromISOUTCString(point.Timestamp).AsJSDate().getTime(),
+							point.Value
+						]];
+					})
+				}
+			});
+
+			//console.log(series);
+
 			$chart.find('.chart-area').highcharts({
 				title: {
 					text: data.Name
 				},
 				xAxis: {
+					type: 'datetime'
 				},
 				yAxis: {
 					
 				},
-				series: $.map(data.Series, function(serie) {
-					return {
-						name: serie.Name,
-						data: $.map(serie.DataPoints, function(point) { return point.Value; })
-					}
-				})
+				series: series
 			})
 		},
 		onRemoveClick: function (cb) {

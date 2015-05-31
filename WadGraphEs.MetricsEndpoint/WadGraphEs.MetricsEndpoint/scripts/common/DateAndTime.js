@@ -1,6 +1,9 @@
 ﻿"use strict";
 (function() {
-	var CommonTime = function() {
+	var CommonTime = function (seconds) {
+		this.getSeconds = function () {
+			return seconds;
+		}
 	}
 
 	CommonTime.FromString = function(timeString) {
@@ -12,22 +15,29 @@
 	}
 
 	var CommonDate = function(jsDate) {
-		
+		this.AsJSDate = function () {
+			return new Date(jsDate.getTime());
+		};
 	}
 
 	CommonDate.FromString = function(dateString) {
 		var parts = dateString.split('-');
-		return CommonDate.FromJSDate(new Date(parts[0],part[1]-1,parts[2]));
+		return CommonDate.FromJSDate(new Date(Date.UTC(parts[0],parts[1]-1,parts[2])));
 	}
 
-	CommonDate.FromJSDate = function(jsDate) {
+	CommonDate.FromJSDate = function (jsDate) {
 		return new CommonDate(jsDate);
 	}
 
 	var CommonDateTime = function(date,time) {
-		
+		this.AsJSDate = function () {
+			var dt = date.AsJSDate();
+			dt.setSeconds(dt.getSeconds() + time.getSeconds());
+			return dt;
+		};
 	}
 
+	
 	CommonDateTime.FromISOUTCString = function(isoDateTimeString) {
 		if(isoDateTimeString[isoDateTimeString.length-1] != 'Z') {
 			throw "non-utc not supported";
@@ -36,7 +46,7 @@
 		var date = CommonDate.FromString(parts[0]);
 		var time = CommonTime.FromString(parts[1].substring(0,parts[1].length-1));
 
-		return new DateTime(date,time);
+		return new CommonDateTime(date,time);
 	}
 
 	$.extend(true, window, {

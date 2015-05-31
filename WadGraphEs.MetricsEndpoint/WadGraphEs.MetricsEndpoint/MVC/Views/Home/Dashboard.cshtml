@@ -50,6 +50,9 @@
 @section scripts {
 	@Scripts.Render("~/scripts/dashboard/dashboard")
 	<script src="http://code.highcharts.com/highcharts.js"></script>
+	<script>
+		Highcharts.setOptions({ global: { useUTC: false } });
+	</script>
 }
 
 @section stylesheets {
