@@ -22,6 +22,11 @@
 			currentIntervalValue = newValue;
 			raiseChange();
 		});
+
+		$unit.on('change', function(ev) {
+			currentUnit = $unit.val();
+			raiseChange();
+		});
 	}
 
 

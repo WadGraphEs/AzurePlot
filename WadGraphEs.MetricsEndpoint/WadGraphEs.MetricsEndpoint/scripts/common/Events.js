@@ -3,13 +3,12 @@
 
 	var register = function(name, callback) {
 		$el.on(name, function(ev, data) {
-			console.log(arguments);
-			callback(data);
+			callback.apply(null,data.args);
 		});
 	}
 
 	var trigger = function(name, data) {
-		$el.trigger(name, {args: slice(1, arguments) });
+		$el.trigger(name, {args: Arguments.copy(arguments).slice(1) });
 	}
 
 	$.extend(true, window, {
