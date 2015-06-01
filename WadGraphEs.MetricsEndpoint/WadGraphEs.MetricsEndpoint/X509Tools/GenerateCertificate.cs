@@ -19,7 +19,7 @@ namespace WadGraphEs.MetricsEndpoint.X509Tools {
 			RSA subjectKey = new RSACryptoServiceProvider(2048);
 			
 
-			string hashName = "SHA1";
+			string hashName = "SHA256";
 
 			X509CertificateBuilder cb = new X509CertificateBuilder(3);
 			cb.SerialNumber = sn;
