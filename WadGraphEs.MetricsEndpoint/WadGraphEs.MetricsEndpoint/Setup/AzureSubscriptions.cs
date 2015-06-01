@@ -168,9 +168,12 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 		internal static Task<ChartData> GetChartData(string forUri) {
 			var uri = new Uri(forUri);
 
+            var interval = GetInterval(uri);
+
             if(uri.Host == "dummy") {
-                return Dummy();
+                return Dummy(interval);
             }
+            
 
 			var subscription = GetSubscriptionById(uri.Host);
 			var path = uri.LocalPath.Split(new [] {'/'},StringSplitOptions.RemoveEmptyEntries);
@@ -182,36 +185,61 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 			var counter = path[3];
 			switch(counter) {
 				case "requests":
-					return GetWebsiteRequests(subscription,webspace,websiteName);
+					return GetWebsiteRequests(subscription,webspace,websiteName, interval);
 				case "cpu":
-					return GetWebsiteCPU(subscription,webspace,websiteName);
+					return GetWebsiteCPU(subscription,webspace,websiteName, interval);
                 case "memory":
-                    return GetWebsiteMemory(subscription,webspace,websiteName);
+                    return GetWebsiteMemory(subscription,webspace,websiteName, interval);
                 case "traffic":
-                    return GetWebsiteTraffic(subscription,webspace,websiteName);
+                    return GetWebsiteTraffic(subscription,webspace,websiteName, interval);
                 case "response-times":
-                    return GetWebsiteResponseTimes(subscription,webspace,websiteName);
+                    return GetWebsiteResponseTimes(subscription,webspace,websiteName, interval);
 				default:
 					throw new Exception("Don't know how to get " + counter);
 			}
 		}
 
-        
+        private static TimeSpan GetInterval(Uri uri) {
+            var qs = System.Web.HttpUtility.ParseQueryString(uri.Query);
+            var unit = GetUnit(qs, TimeSpan.FromHours(1));
+            return GetInterval(qs, unit, 1);
+        }
+
+        private static TimeSpan GetInterval(System.Collections.Specialized.NameValueCollection qs,TimeSpan unit,int @defaultValue) {
+            var value = @defaultValue;
+            if(!string.IsNullOrEmpty(qs["interval"])) {
+                value = int.Parse(qs["interval"]);
+            }
+            if(value<=0) {
+                throw new ArgumentException("Cannot have negative interval");
+            }
+            return TimeSpan.FromSeconds(unit.TotalSeconds * value);            
+        }
+
+        private static TimeSpan GetUnit(System.Collections.Specialized.NameValueCollection qs,TimeSpan @default) {
+            if(string.IsNullOrEmpty(qs["unit"])) {
+                return @default;
+            }
+            switch(qs["unit"]) {
+                case "minutes": return TimeSpan.FromMinutes(1);
+                case "hours": return TimeSpan.FromHours(1);
+            }
+            throw new ArgumentOutOfRangeException("Not a valid unit");
+        }
 
         
 
-
-        private static Task<ChartData> Dummy() {
+        private static Task<ChartData> Dummy(TimeSpan interval) {
             var data = new ChartData { 
                 Name = "Dummy",
                 Series = new List<SeriesData> {
                     new SeriesData {
                         Name = "200",
-                        DataPoints = GenerateData(TimeSpan.FromHours(12),40)
+                        DataPoints = GenerateData(interval,40)
                     },
                     new SeriesData {
                         Name = "all",
-                        DataPoints = GenerateData(TimeSpan.FromHours(12),50)
+                        DataPoints = GenerateData(interval,50)
                     },
                 }
             };
@@ -238,30 +266,30 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 			return res;
 		}
 
-		private static Task<ChartData> GetWebsiteCPU(AzureSubscription subscription,string webspace,string websiteName) {
-			return GetWebsiteUsages(subscription,webspace,websiteName,x=>x,string.Format("{0} (website) CPU",websiteName), "^CpuTime");
+		private static Task<ChartData> GetWebsiteCPU(AzureSubscription subscription,string webspace,string websiteName, TimeSpan interval) {
+			return GetWebsiteUsages(subscription,webspace,websiteName,x=>x,string.Format("{0} (website) CPU",websiteName), interval,"^CpuTime");
 		}
 
-		private static Task<ChartData> GetWebsiteRequests(AzureSubscription subscription,string webspace,string websiteName) {
-			return GetWebsiteUsages(subscription,webspace,websiteName,x=>x.Replace(".Count",""),string.Format("{0} (website) requests", websiteName),"^Http", "^Requests");
+		private static Task<ChartData> GetWebsiteRequests(AzureSubscription subscription,string webspace,string websiteName, TimeSpan interval) {
+			return GetWebsiteUsages(subscription,webspace,websiteName,x=>x.Replace(".Count",""),string.Format("{0} (website) requests", websiteName),interval,"^Http", "^Requests");
 		}
 
         
-        private static Task<ChartData> GetWebsiteMemory(AzureSubscription subscription,string webspace,string websiteName) {
-            return GetWebsiteUsages(subscription,webspace,websiteName,x=>x.Replace(".Bytes",""),string.Format("{0} (website) memory usage (bytes)", websiteName),"MemoryWorkingSet");
+        private static Task<ChartData> GetWebsiteMemory(AzureSubscription subscription,string webspace,string websiteName, TimeSpan interval) {
+            return GetWebsiteUsages(subscription,webspace,websiteName,x=>x.Replace(".Bytes",""),string.Format("{0} (website) memory usage (bytes)", websiteName),interval,"MemoryWorkingSet");
         }
 
-        private static Task<ChartData> GetWebsiteTraffic(AzureSubscription subscription,string webspace,string websiteName) {
-            return GetWebsiteUsages(subscription,webspace,websiteName,x=>x.Replace(".Bytes",""),string.Format("{0} (website) traffic (bytes)", websiteName),"(^BytesSent|^BytesReceived)");
+        private static Task<ChartData> GetWebsiteTraffic(AzureSubscription subscription,string webspace,string websiteName, TimeSpan interval) {
+            return GetWebsiteUsages(subscription,webspace,websiteName,x=>x.Replace(".Bytes",""),string.Format("{0} (website) traffic (bytes)", websiteName),interval,"(^BytesSent|^BytesReceived)");
         }
 
-        private static Task<ChartData> GetWebsiteResponseTimes(AzureSubscription subscription,string webspace,string websiteName) {
-            return GetWebsiteUsages(subscription,webspace,websiteName,x=>x.Replace(".Milliseconds",""),string.Format("{0} (website) response times (ms)", websiteName),"^AverageResponseTime");
+        private static Task<ChartData> GetWebsiteResponseTimes(AzureSubscription subscription,string webspace,string websiteName, TimeSpan interval) {
+            return GetWebsiteUsages(subscription,webspace,websiteName,x=>x.Replace(".Milliseconds",""),string.Format("{0} (website) response times (ms)", websiteName),interval,"^AverageResponseTime");
         }
 
-		private static async Task<ChartData> GetWebsiteUsages(AzureSubscription subscription, string webspace,string websiteName,Func<string,string> formatSeries,string charttitle,params string[] filters) {
+		private static async Task<ChartData> GetWebsiteUsages(AzureSubscription subscription, string webspace,string websiteName,Func<string,string> formatSeries,string charttitle, TimeSpan interval,params string[] filters) {
 			var usageClient = new AzureUsageClient(subscription.GetMetricsConfig());
-			var usages = await usageClient.GetWebsitesUsageForWebsite(webspace,websiteName,TimeSpan.FromHours(1),filters);
+			var usages = await usageClient.GetWebsitesUsageForWebsite(webspace,websiteName,interval,filters);
 			return new ChartData {
 				Name = charttitle,
 				Series = usages.GroupBy(_ => _.GraphiteCounterName).Select(_ =>

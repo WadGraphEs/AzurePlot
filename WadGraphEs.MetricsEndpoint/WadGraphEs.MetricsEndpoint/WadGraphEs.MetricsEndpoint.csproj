@@ -360,8 +360,11 @@
     <None Include="scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
+    <Content Include="scripts\common\Arguments.js" />
+    <Content Include="scripts\common\Events.js" />
     <Content Include="scripts\common\WaitAll.js" />
     <Content Include="scripts\dashboard\ajaxcache.js" />
+    <Content Include="scripts\dashboard\chart-interval-selector.js" />
     <Content Include="scripts\dashboard\chartlist.js" />
     <Content Include="scripts\common\DateAndTime.js" />
     <Content Include="scripts\dashboard\charts.js" />

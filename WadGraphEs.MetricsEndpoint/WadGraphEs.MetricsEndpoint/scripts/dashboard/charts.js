@@ -3,28 +3,23 @@
 	var Chart = function(uri) {
 		this.uri = uri;
 		this.$AssertChartElementAvailable();
+		this.setNotRendered();
 	}
 
 	Chart.prototype = {
-		Render: function () {
-			this.showLoader();
+		Render: function (uri) {
+			uri = encodeURIComponent(uri || this.uri);
+
+			this.setLoading();
 
 			var me = this;
 			return $.ajax({
-				url: '/api/charts/get-chart-data?uri=' + this.uri
+				url: '/api/charts/get-chart-data?uri=' + uri
 			})
 			.done(function (data) {
 				me.Draw(data);
 			});
 			
-		},
-		showLoader: function () {
-			var $el = $('<div class="chart-loader"></div>');
-			$el.css({
-				width: this.$chart.width(),
-				height: this.$chart.height(),
-			});
-			this.$chart.append($el);
 		},
 		$AssertChartElementAvailable: function() {
 			if(!this.$chart) {
@@ -51,7 +46,7 @@
 		Draw: function(data) {
 			var $chart = this.$chart;
 
-			$chart.addClass('loaded');
+			this.setLoaded();
 
 			var series = $.map(data.Series, function (serie) {
 				return {
@@ -64,8 +59,6 @@
 					})
 				}
 			});
-
-			//console.log(series);
 
 			$chart.find('.chart-area').highcharts({
 				plotOptions: {
@@ -90,6 +83,30 @@
 		},
 		remove: function () {
 			this.$chart.remove();
+		},
+		showLast: function(interval, unit) {
+			this.Render(this.uri+"?interval="+interval+"&unit="+unit);
+		},
+		setNotRendered: function() {
+		},
+		setLoading: function() {
+			this.assertLoaderElement();
+			this.$chart.removeClass('loaded');
+		},
+		setLoaded: function() {
+			this.$chart.addClass('loaded');
+		},
+		assertLoaderElement: function () {
+			if(this.$loader) {
+				return;
+			}
+			var $el = $('<div class="chart-loader"></div>');
+			$el.css({
+				width: this.$chart.width(),
+				height: this.$chart.height(),
+			});
+			this.$chart.append($el);
+			this.$loader = $el;
 		}
 	}
 
@@ -99,18 +116,18 @@
 
 	var DashboardChart = function (chartInfo) {
 		this.chartInfo = chartInfo;
-		Events.Register("Dashboard.IntervalChanged", function() {
-			console.log(arguments);
+		this.chart = Chart.FromURI(this.chartInfo.Uri);
+		this.setupEvents();
+
+		var me = this;
+		Events.Register("Dashboard.IntervalChanged", function(interval, unit) {
+			me.chart.showLast(interval, unit);
 		});
 	}
 
 	DashboardChart.prototype = {
 		Render: function () {
-			var me = this;
-
-			me.chart = Chart.FromURI(this.chartInfo.Uri);
-			me.setupEvents();
-			return me.chart.Render();
+			return this.chart.Render();
 		},
 		setupEvents: function () {
 			var me = this;
