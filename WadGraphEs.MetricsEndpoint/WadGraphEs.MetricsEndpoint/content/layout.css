@@ -21,3 +21,7 @@ body.loading {
 body.loading .loading-modal {
     display: block;
 }
+
+#error-box-template {
+	display: none;
+}

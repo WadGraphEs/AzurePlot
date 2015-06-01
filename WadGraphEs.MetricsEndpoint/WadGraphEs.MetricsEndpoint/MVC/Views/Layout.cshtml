@@ -22,6 +22,13 @@
 	@RenderBody()
     @System.Web.Optimization.Scripts.Render("~/scripts/layout")
 	@RenderSection("scripts", required:false)
-	  <div class="loading-modal"></div>
+	<div class="loading-modal"></div>
+	<div id="error-box-template" class="load-error-box alert alert-danger alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		<span class="sr-only">Error:</span>
+		<strong class="error-title"></strong>
+		<p class="error-message"></p>
+	</div>
   </body>
 </html>

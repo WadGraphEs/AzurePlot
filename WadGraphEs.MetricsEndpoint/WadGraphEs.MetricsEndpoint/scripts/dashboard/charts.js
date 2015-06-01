@@ -18,6 +18,9 @@
 			})
 			.done(function (data) {
 				me.Draw(data);
+			})
+			.fail(function(result) {
+				me.DisplayError(JSON.parse(result.responseText));
 			});
 			
 		},
@@ -37,8 +40,6 @@
 			});
 
 			$('#chart-container').append($chart);
-
-			
 
 			this.$chart = $chart;
 			
@@ -78,6 +79,9 @@
 				series: series
 			})
 		},
+		DisplayError: function(msg) {
+			new ErrorBox(this.$chart, msg.Message, msg.ExceptionMessage);
+		},
 		onRemoveClick: function (cb) {
 			this.$chart.find('.dropdown .remove-chart').on('click', cb);
 		},
@@ -92,6 +96,7 @@
 		setLoading: function() {
 			this.assertLoaderElement();
 			this.$chart.removeClass('loaded');
+			this.$chart.find('.load-error-box').remove();
 		},
 		setLoaded: function() {
 			this.$chart.addClass('loaded');
