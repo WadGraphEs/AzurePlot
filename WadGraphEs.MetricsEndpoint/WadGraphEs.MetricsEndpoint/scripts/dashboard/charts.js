@@ -99,6 +99,9 @@
 
 	var DashboardChart = function (chartInfo) {
 		this.chartInfo = chartInfo;
+		Events.Register("Dashboard.IntervalChanged", function() {
+			console.log(arguments);
+		});
 	}
 
 	DashboardChart.prototype = {

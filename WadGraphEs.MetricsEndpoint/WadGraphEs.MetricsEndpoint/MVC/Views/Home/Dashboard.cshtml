@@ -4,7 +4,19 @@
     Layout = "HomeLayout.cshtml";
 }
 
+<div class="dashboard-controls">
 <button type="button" class="btn btn-success add-to-dashboard">Add chart to dashboard..</button>
+<div class="pull-right">
+<form class="form-inline">
+	<div class="form-group">
+		<label for="select-chart-interval">Show last:</label> <input class="form-control" id="select-chart-interval" type="text" value="60" />
+	</div>
+	<div class="form-group">
+	<select id="interval-unit" class="form-control"><option value="minutes">minutes</option><option value="hours">hours</option></select>
+	</div>
+</form>
+</div>
+</div>
 
 
 <div class="modal fade" id="add-to-chart-modal" tabindex="-1" role="dialog" aria-labelledby="add-to-chart-modal-label" aria-hidden="true">

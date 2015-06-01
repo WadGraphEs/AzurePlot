@@ -126,6 +126,15 @@ input.typeahead.tt-query{ /* This is optional */
 }
 
 .chart-area {
-	width: 100%px;
+	width: 100%;
 	height: 250px;
+}
+
+#select-chart-interval {
+	width: 50px;
+	text-align: right;
+}
+
+.dashboard-controls {
+	margin-bottom: 15px;
 }
