@@ -96,9 +96,6 @@
     <Reference Include="Microsoft.WindowsAzure.Management.Monitoring">
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.Monitoring.2.0.0\lib\net40\Microsoft.WindowsAzure.Management.Monitoring.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Security">
-      <HintPath>..\packages\Mono.Security.3.2.3.0\lib\net45\Mono.Security.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -285,7 +282,6 @@
     <Compile Include="Setup\NeedsSetupAttribute.cs" />
     <Compile Include="Setup\TestAPIResult.cs" />
     <Compile Include="Setup\Users.cs" />
-    <Compile Include="X509Tools\GenerateCertificate.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\dontdelete.txt" />
@@ -361,6 +357,7 @@
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
     <Content Include="scripts\common\Arguments.js" />
+    <Content Include="scripts\common\ErrorBox.js" />
     <Content Include="scripts\common\Events.js" />
     <Content Include="scripts\common\WaitAll.js" />
     <Content Include="scripts\dashboard\ajaxcache.js" />
@@ -388,6 +385,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Configuration\" />
+    <Folder Include="X509Tools\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -396,6 +394,10 @@
     <ProjectReference Include="..\WadGraphEs.MetricsEndpoint.Lib\WadGraphEs.MetricsEndpoint.Lib.csproj">
       <Project>{a2653e29-7ece-43f0-a7c4-1574374813c3}</Project>
       <Name>WadGraphEs.MetricsEndpoint.Lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WadGraphEs.X509Tools\WadGraphEs.X509Tools.csproj">
+      <Project>{3865d83a-2f19-4d83-b648-6b5cd4b4ecec}</Project>
+      <Name>WadGraphEs.X509Tools</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
