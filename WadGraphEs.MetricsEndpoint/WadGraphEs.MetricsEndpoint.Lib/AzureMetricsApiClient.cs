@@ -18,8 +18,9 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 			return await GetMetricsForResourceId(websiteId.ResourceId,history);
 		}
 
+        //the limit seems to be 2880 metrics per request
 		async System.Threading.Tasks.Task<ICollection<MetricValueSet>> GetMetricsForResourceId(string resourceId, TimeSpan forHistory) {
-			var metricsResult = await _metricsClient.MetricDefinitions.ListAsync(resourceId,null,null);
+            var metricsResult = await _metricsClient.MetricDefinitions.ListAsync(resourceId,null,null);
 
 			var metrics = metricsResult.MetricDefinitionCollection.Value.Where(_=>_.MetricAvailabilities.Any()).ToList();
 
@@ -27,7 +28,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 				return new MetricValueSet[0];
 			}
 
-			var minTimeGrain = metrics.SelectMany(_=>_.MetricAvailabilities.Select(a=>a.TimeGrain)).Min();
+            var minTimeGrain = metrics.SelectMany(_=>_.MetricAvailabilities.Select(a=>a.TimeGrain)).Min();
 
 			var metricNames = metrics.Select(_=>_.Name).ToList();
 
