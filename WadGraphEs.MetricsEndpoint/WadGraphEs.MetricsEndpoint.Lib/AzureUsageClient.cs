@@ -32,6 +32,10 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 			var websiteId = new AzureWebsiteId(websiteName,webspace);
 			var res = await new AzureWebsitesUsageClient(_client,_credentials).GetUsageCollectionForWebsite(websiteId,history);
 
+            if(!filters.Any()) {
+                return res;
+            }
+
 			var filtersRegex = filters.Select(_=>new Regex(_,RegexOptions.IgnoreCase)).ToList();
 			return res.Where(_=>filtersRegex.Any(f=>f.IsMatch(_.GraphiteCounterName))).ToList();
 		}

@@ -25,49 +25,17 @@ namespace WadGraphEs.MetricsEndpoint.Console {
                 case "gen-certificate":
                     GenerateCertificate();
                     return;
-                case "get-subscription-stats":
-                    GetSubscriptionStats(args[1]);
+                case "get-website-stats":
+                    
+                    new GetWebsiteStats(args.Skip(1).ToList()).PrintStats();
                     return;
                 default:
                     Console.WriteLine("Unknown operation {0}", args[0]);
                     Environment.Exit(1);
                     return;
             }
-
-
-            //var username = args[0];
-            //var password = args[1];
-            //var servername = args[2];
-            //var databasename = "master";
-
-            //Console.WriteLine("Connecting to {0} with username {1} on database {2}", servername,username,databasename);
-
-            //var serverUsagesClient = SQLDatabaseUsageClient.CreateServerUsagesClient(servername,username,password);
-
-            //var result = serverUsagesClient.TestConnection();
-
-            //if(result.Failed) {
-            //    Console.WriteLine("Error\n{0}\n{1}", result.Message,result.Exception);
-            //}
-
-            //var usages = serverUsagesClient.GetUsages(DateTime.Today.ToUniversalTime());
-
-            //foreach(var usage in usages) {
-            //    Console.WriteLine("{0}\t{1}\t{2}", usage.GraphiteCounterName,usage.Timestamp,usage.Value);
-            //}
 		}
 
-        private static void GetSubscriptionStats(string metricsConfigFileName) {
-            var config = new MetricsConfigEndpointConfiguration(metricsConfigFileName);
-
-            var usages = new AzureUsageClient(config)
-				.GetWebsitesUsage()
-				.Result;
-
-			var cloudservices = new AzureUsageClient(config).GetCloudServiceUsages().Result;
-
-			Console.WriteLine(JsonConvert.SerializeObject(cloudservices,Formatting.Indented));
-        }
 
         private static void GenerateCertificate() {
             var certName = ReadStringOrDefault("Output certificate?", "certificate.cer");
@@ -108,6 +76,29 @@ namespace WadGraphEs.MetricsEndpoint.Console {
             }
 
             return read;
+        }
+
+        private static void GetSQL() {    
+             //var username = args[0];
+            //var password = args[1];
+            //var servername = args[2];
+            //var databasename = "master";
+
+            //Console.WriteLine("Connecting to {0} with username {1} on database {2}", servername,username,databasename);
+
+            //var serverUsagesClient = SQLDatabaseUsageClient.CreateServerUsagesClient(servername,username,password);
+
+            //var result = serverUsagesClient.TestConnection();
+
+            //if(result.Failed) {
+            //    Console.WriteLine("Error\n{0}\n{1}", result.Message,result.Exception);
+            //}
+
+            //var usages = serverUsagesClient.GetUsages(DateTime.Today.ToUniversalTime());
+
+            //foreach(var usage in usages) {
+            //    Console.WriteLine("{0}\t{1}\t{2}", usage.GraphiteCounterName,usage.Timestamp,usage.Value);
+            //}
         }
 	}
 }
