@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace WadGraphEs.MetricsEndpoint.Lib {
 	class AzureMetricsApiClient {
@@ -32,23 +33,44 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 				return new MetricValueSet[0];
 			}
 
-            var minTimeGrain = metrics.SelectMany(_=>_.MetricAvailabilities.Select(a=>a.TimeGrain)).Min();
+            var minTimeGrain = metrics.SelectMany(_=>_.MetricAvailabilities.Where(ma=>forHistory<ma.Retention).Select(a=>a.TimeGrain)).Min();
 
 			var metricNames = metrics.Select(_=>_.Name).ToList();
 
-			var values = await _metricsClient.MetricValues.ListAsync(
-				resourceId, 
-				metricNames,
-				"",
-				minTimeGrain,
-				DateTime.UtcNow.Add(forHistory.Negate()),
-				DateTime.UtcNow);
-								
+            var till = DateTime.UtcNow.AddMinutes(1);
+            var from = till.Add(forHistory.Negate());
 
-			//var res = await _client.GETJson(string.Format("/services/monitoring/metricdefinitions/query?resourceId={0}", Uri.EscapeDataString(resourceId)),apiVersion:ApiVersion);
-
-			return values.MetricValueSetCollection.Value;
+                
+			return await Partition(resourceId,metricNames,minTimeGrain,from,till);
 		}
+
+        private async Task<ICollection<MetricValueSet>> Partition(string resourceId,List<string> metricNames,TimeSpan timeGrain,DateTime from,DateTime till) {
+            try {
+                var values = await _metricsClient.MetricValues.ListAsync(
+				    resourceId, 
+				    metricNames,
+                    "",
+				    timeGrain,
+				    from,
+				    till);
+			
+			    return values.MetricValueSetCollection.Value;
+            }
+            catch(CloudException e) {
+                if(e.Response.StatusCode == System.Net.HttpStatusCode.BadRequest && e.Message.Contains(TooManyValuesErrorMessage)) {
+                    if(CanStillPartition(metricNames,timeGrain,from,till)) {
+                        throw;
+                    }
+                }
+                throw;
+            }
+        }
+
+        private static bool CanStillPartition(List<string> metricNames,TimeSpan timeGrain,DateTime from,DateTime till) {
+            return metricNames.Count * ((from-till).TotalSeconds / timeGrain.TotalSeconds) >= 100;
+        }
+
+        const string TooManyValuesErrorMessage = "You've exceeded the maximum number of allowed values per metric in a single request.";
 
 		const string ApiVersion = "2013-10-01";
 
