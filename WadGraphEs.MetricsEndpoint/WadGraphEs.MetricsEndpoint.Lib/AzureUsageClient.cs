@@ -28,16 +28,10 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 			return await websiteClient.GetUsageCollection();
         }
 
-		public async Task<ICollection<UsageObject>> GetWebsitesUsageForWebsite(string webspace, string websiteName,TimeSpan history, params string[] filters) {
+		public Task<ICollection<UsageObject>> GetWebsitesUsageForWebsite(string webspace, string websiteName,TimeSpan history, params string[] filters) {
 			var websiteId = new AzureWebsiteId(websiteName,webspace);
-			var res = await new AzureWebsitesUsageClient(_client,_credentials).GetUsageCollectionForWebsite(websiteId,history);
+			return new AzureWebsitesUsageClient(_client,_credentials).GetUsageCollectionForWebsite(websiteId,history, MetricsFilter.FromRegexes(filters));
 
-            if(!filters.Any()) {
-                return res;
-            }
-
-			var filtersRegex = filters.Select(_=>new Regex(_,RegexOptions.IgnoreCase)).ToList();
-			return res.Where(_=>filtersRegex.Any(f=>f.IsMatch(_.GraphiteCounterName))).ToList();
 		}
 
 		private static AzureManagementRestClient GetClient(CertificateCloudCredentials credentials) {

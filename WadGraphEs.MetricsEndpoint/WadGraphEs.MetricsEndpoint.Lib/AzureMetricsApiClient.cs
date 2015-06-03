@@ -13,17 +13,21 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 			_metricsClient = new MetricsClient(credentials);
 		}
 
-		internal async System.Threading.Tasks.Task<ICollection<MetricValueSet>> GetMetricsForWebsite(AzureWebsiteId websiteId, TimeSpan history) {
+        internal System.Threading.Tasks.Task<ICollection<MetricValueSet>> GetMetricsForWebsite(AzureWebsiteId websiteId, TimeSpan history) {
+            return GetMetricsForWebsite(websiteId,history,MetricsFilter.None);
+        }
+
+		internal async System.Threading.Tasks.Task<ICollection<MetricValueSet>> GetMetricsForWebsite(AzureWebsiteId websiteId, TimeSpan history,MetricsFilter filter) {
 			
-			return await GetMetricsForResourceId(websiteId.ResourceId,history);
+			return await GetMetricsForResourceId(websiteId.ResourceId,history,filter);
 		}
 
         //the limit seems to be 2880 metrics per request
-		async System.Threading.Tasks.Task<ICollection<MetricValueSet>> GetMetricsForResourceId(string resourceId, TimeSpan forHistory) {
+		async System.Threading.Tasks.Task<ICollection<MetricValueSet>> GetMetricsForResourceId(string resourceId, TimeSpan forHistory, MetricsFilter filter) {
             var metricsResult = await _metricsClient.MetricDefinitions.ListAsync(resourceId,null,null);
 
-			var metrics = metricsResult.MetricDefinitionCollection.Value.Where(_=>_.MetricAvailabilities.Any()).ToList();
-
+			var metrics = filter.FilterMetrics(metricsResult.MetricDefinitionCollection.Value.Where(_=>_.MetricAvailabilities.Any()).ToList());
+            
 			if(!metrics.Any()) {
 				return new MetricValueSet[0];
 			}
@@ -50,7 +54,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 
 
 		internal async System.Threading.Tasks.Task<ICollection<MetricValueSet>> GetMetricsForCloudService(CloudServiceInstanceId instance,TimeSpan history) {
-			return await GetMetricsForResourceId(instance.ResourceId,history);
+			return await GetMetricsForResourceId(instance.ResourceId,history, MetricsFilter.None);
 		}
 	}
 }

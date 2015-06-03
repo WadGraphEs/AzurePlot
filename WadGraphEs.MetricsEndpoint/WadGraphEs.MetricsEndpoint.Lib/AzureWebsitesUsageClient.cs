@@ -39,8 +39,8 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 		}
 
 
-		internal async Task<ICollection<UsageObject>> GetUsageCollectionForWebsite(AzureWebsiteId websiteId, TimeSpan history) {
-			var metrics = await _metricsApiClient.GetMetricsForWebsite(websiteId, history);
+		internal async Task<ICollection<UsageObject>> GetUsageCollectionForWebsite(AzureWebsiteId websiteId, TimeSpan history, MetricsFilter filter) {
+			var metrics = await _metricsApiClient.GetMetricsForWebsite(websiteId, history,filter);
 			var res = new List<UsageObject>();
 			foreach(var metric in metrics) {
 				foreach(var result in metric.MetricValues.OrderBy(_=>_.Timestamp)) {
