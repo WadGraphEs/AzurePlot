@@ -40,35 +40,90 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
             var till = DateTime.UtcNow.AddMinutes(1);
             var from = till.Add(forHistory.Negate());
 
-                
-			return await Partition(resourceId,metricNames,minTimeGrain,from,till);
+
+			return await Fetch(new FetchData {
+                ResourceId = resourceId,
+                MetricNames = metricNames,
+                TimeGrain = minTimeGrain,
+                From = from,
+                Till = till
+            });
 		}
 
-        private async Task<ICollection<MetricValueSet>> Partition(string resourceId,List<string> metricNames,TimeSpan timeGrain,DateTime from,DateTime till) {
+        class FetchData {
+            public string ResourceId{get;set;}
+            public List<string> MetricNames{get;set;}
+            public TimeSpan TimeGrain{get;set;}
+            public DateTime From{get;set;}
+            public DateTime Till{get;set;}
+                
+            public bool PartitionTresholdReached() {
+                return MetricNames.Count * ((From-Till).TotalSeconds / TimeGrain.TotalSeconds) >= MinDataPoints;
+            }
+
+            const int MinDataPoints = 100;
+
+            internal ICollection<FetchData> Partition() {
+                //TODO: maybe partition on MetricNames first, but not sure if that's gonna affect minimal timegrain
+                //TODO: make sure we actually decreased the interval
+                var range = Till-From;
+                var half = TimeSpan.FromSeconds(Math.Floor(range.TotalSeconds/2));
+                return new [] {
+                    new FetchData { ResourceId = ResourceId, From = From, Till = From.Add(half), MetricNames = MetricNames, TimeGrain = TimeGrain },
+                    new FetchData { ResourceId = ResourceId, From = From.Add(half), Till = Till, MetricNames = MetricNames, TimeGrain = TimeGrain },
+                };
+            }
+        }
+
+        private async Task<ICollection<MetricValueSet>> Fetch(FetchData data) {
+            CloudException thrown = null;
             try {
                 var values = await _metricsClient.MetricValues.ListAsync(
-				    resourceId, 
-				    metricNames,
+				    data.ResourceId, 
+				    data.MetricNames,
                     "",
-				    timeGrain,
-				    from,
-				    till);
+				    data.TimeGrain,
+				    data.From,
+				    data.Till);
 			
 			    return values.MetricValueSetCollection.Value;
             }
             catch(CloudException e) {
-                if(e.Response.StatusCode == System.Net.HttpStatusCode.BadRequest && e.Message.Contains(TooManyValuesErrorMessage)) {
-                    if(CanStillPartition(metricNames,timeGrain,from,till)) {
-                        throw;
-                    }
-                }
-                throw;
+                thrown = e;
             }
+
+            if(thrown.Response.StatusCode == System.Net.HttpStatusCode.BadRequest && thrown.Message.Contains(TooManyValuesErrorMessage)) {
+                if(!data.PartitionTresholdReached()) {
+                    return await PartitionAndFetch(data);
+                }
+            }
+
+            throw thrown;
         }
 
-        private static bool CanStillPartition(List<string> metricNames,TimeSpan timeGrain,DateTime from,DateTime till) {
-            return metricNames.Count * ((from-till).TotalSeconds / timeGrain.TotalSeconds) >= 100;
+        private async Task<ICollection<MetricValueSet>> PartitionAndFetch(FetchData data) {
+            var results = data.Partition().Select(_=>Fetch(_)).ToArray();
+
+            return Join(await Task.WhenAll(results));
         }
+
+        private ICollection<MetricValueSet> Join(ICollection<ICollection<MetricValueSet>> resultSets) {
+            var byName = new Dictionary<string,MetricValueSet>();
+            foreach(var resultSet in resultSets) {
+                foreach(var metricResult in resultSet) {
+                    if(!byName.ContainsKey(metricResult.Name)) {
+                        byName[metricResult.Name] = metricResult;
+                        continue;
+                    }
+                    
+                    byName[metricResult.Name].MetricValues = byName[metricResult.Name].MetricValues.Concat(metricResult.MetricValues).OrderBy(_=>_.Timestamp).ToList();
+                }
+            }
+
+            return byName.Values;
+        }
+        
+        
 
         const string TooManyValuesErrorMessage = "You've exceeded the maximum number of allowed values per metric in a single request.";
 
