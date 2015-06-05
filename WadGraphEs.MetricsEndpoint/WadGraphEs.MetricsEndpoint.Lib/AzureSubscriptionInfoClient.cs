@@ -34,7 +34,9 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
             var services = await infoClient.ListInstances();
 
             return services.GroupBy(_=>_.CloudServiceId).Select(_=> new AzureCloudService {
-                ServiceId = _.Key,
+                ServiceResourceId = _.Key,
+                ServiceName = _.First().ServiceName,
+                SubscriptionId = _subscriptionId,
                 Instances = _.ToList()
             }).ToList();
         }

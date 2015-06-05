@@ -10,7 +10,12 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 		readonly string _rolename;
 		readonly string _deploymentSlot;
 		readonly string _deploymentName;
-		readonly string _serviceName;
+        readonly string _serviceName;
+
+        public string ServiceName {
+            get { return _serviceName; }
+        } 
+
 
 		public CloudServiceInstanceId(string serviceName, string deploymentName, string deploymentSlot, string rolename, string instanceName) {
 			_serviceName=serviceName;
@@ -54,6 +59,8 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 				_instanceName
 			);
 		}
+
+
 
 
 

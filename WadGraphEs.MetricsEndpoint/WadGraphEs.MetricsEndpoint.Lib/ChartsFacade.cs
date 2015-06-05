@@ -9,10 +9,27 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
         public static async Task<ICollection<ChartInfo>> ListAllChartsForSubscription(MetricsEndpointConfiguration subscriptionConfig, string serviceName) {
             var infoClient = new AzureSubscriptionInfoClient(subscriptionConfig);
 
-			var websites = await infoClient.ListWebsites();
-            var cloudservices = await infoClient.ListCloudserviceInstances();
+			var websites = infoClient.ListWebsites();
+            var cloudservices = infoClient.ListCloudserviceInstances();
 
-			return websites.SelectMany(_=>GetWebsiteCharts(serviceName,_)).ToList();
+			return 
+                (await websites).SelectMany(_=>GetWebsiteCharts(serviceName,_))
+                .Concat(
+                    (await cloudservices ).SelectMany(_=>GetCloudServiceCharts(serviceName,_)))
+                .ToList();
+        }
+
+        private static ICollection<ChartInfo> GetCloudServiceCharts(string serviceName, AzureCloudService cs) {
+            return new ChartInfo[] {
+                new ChartInfo {
+                    ResourceName = cs.FriendlyName,
+                    ResourceType = "cloud service",
+                    ServiceName = serviceName,
+                    ServiceType = "Azure Subscription",
+                    Name = string.Format("{0} (cloud service) {1}", cs.FriendlyName,"CPU"),
+                    Uri =  string.Format("wadgraphes://{0}/cloud-services{1}/cpu", cs.SubscriptionId, cs.ServiceResourceId)
+                }
+            };
         }
 
         private static ICollection<ChartInfo> GetWebsiteCharts(string serviceName, AzureWebsite website) {
@@ -22,7 +39,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 					ResourceType = "website",
 					ServiceName = serviceName,
 					ServiceType = "Azure Subscription",
-					Name = string.Format("{0} ({1}) {2}", website.Name, "website", name),
+					Name = string.Format("{0} (website) {1}", website.Name,  name),
 					Uri = uri
 				};
 			return new ChartInfo[] {
