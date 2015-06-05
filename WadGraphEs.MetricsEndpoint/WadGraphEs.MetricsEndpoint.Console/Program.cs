@@ -26,9 +26,10 @@ namespace WadGraphEs.MetricsEndpoint.Console {
                     GenerateCertificate();
                     return;
                 case "get-website-stats":
+                    //get-website-stats <endpointconfig> <website-name> 24:00:00 ^Http
                     new GetWebsiteStats(args.Skip(1).ToList()).PrintStats();
                     return;
-                case "list-charts":
+                case "list-all-charts":
                     new ListAllCharts(args.Skip(1).ToList()).Print();
                     return;
                 default:
