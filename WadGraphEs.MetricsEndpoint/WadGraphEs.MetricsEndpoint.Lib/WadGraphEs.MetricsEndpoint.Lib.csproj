@@ -75,6 +75,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AzureCloudService.cs" />
     <Compile Include="AzureCloudServiceInfoApiClient.cs" />
     <Compile Include="AzureCloudServiceMetricsApiClient.cs" />
     <Compile Include="AzureCloudServicesClient.cs" />

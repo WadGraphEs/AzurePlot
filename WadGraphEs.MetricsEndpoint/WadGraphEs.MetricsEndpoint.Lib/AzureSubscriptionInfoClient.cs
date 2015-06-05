@@ -19,13 +19,24 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 			return (await _websiteInfoClient.ListAzureWebsites()).Select(_=>
 				new AzureWebsite {
 					Name = _.Name,
-					Uri = GetUri(_)
+					Uri = GetWebsiteUri(_)
 				}
 			).ToList();
 		}
 
-		private Uri GetUri(AzureWebsiteId azureWebsiteId) {
+		private Uri GetWebsiteUri(AzureWebsiteId azureWebsiteId) {
 			return new Uri(string.Format("wadgraphes://{0}/websites/{1}/{2}", _subscriptionId, azureWebsiteId.Webspace, azureWebsiteId.Name));
 		}
-	}
+
+        internal async Task<ICollection<AzureCloudService>> ListCloudserviceInstances() {
+            var infoClient =new AzureCloudServiceInfoApiClient(_client);
+
+            var services = await infoClient.ListInstances();
+
+            return services.GroupBy(_=>_.CloudServiceId).Select(_=> new AzureCloudService {
+                ServiceId = _.Key,
+                Instances = _.ToList()
+            }).ToList();
+        }
+    }
 }

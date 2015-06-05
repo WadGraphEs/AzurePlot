@@ -33,6 +33,12 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 			}
 		}
 
+        public string CloudServiceId {
+            get {
+                return ResourceIdBuilder.BuildCloudServiceResourceId(_serviceName,_deploymentName,_rolename);
+            }
+        }
+
 		//Azure.CloudServices.MetricsApi.<servicename>.<deploymentslot>.<rolename>.<metricname>.<unit>.<typeofvalue>.<instancename>
 
 
@@ -49,6 +55,8 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 			);
 		}
 
-	
-	}
+
+
+        
+    }
 }

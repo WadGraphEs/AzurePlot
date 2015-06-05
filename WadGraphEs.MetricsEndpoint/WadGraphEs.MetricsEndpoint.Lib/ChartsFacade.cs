@@ -8,8 +8,9 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
     public class ChartsFacade {
         public static async Task<ICollection<ChartInfo>> ListAllChartsForSubscription(MetricsEndpointConfiguration subscriptionConfig, string serviceName) {
             var infoClient = new AzureSubscriptionInfoClient(subscriptionConfig);
-			
+
 			var websites = await infoClient.ListWebsites();
+            var cloudservices = await infoClient.ListCloudserviceInstances();
 
 			return websites.SelectMany(_=>GetWebsiteCharts(serviceName,_)).ToList();
         }
