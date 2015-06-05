@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WadGraphEs.MetricsEndpoint.ApiControllers {
+namespace WadGraphEs.MetricsEndpoint {
 	public class ChartInfo {
 		
 		public string Name { get; set; }

@@ -117,51 +117,23 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 			return GetDataContext().AzureSubscriptions.ToList();
 		}
 
-		internal static async Task<ICollection<ApiControllers.ChartInfo>> ListAllCharts() {
+		internal static async Task<ICollection<ChartInfo>> ListAllCharts() {
 			var result = await Task.WhenAll(ListAll().Select(ListAllCharts));
 			return result.SelectMany(_=>_)
-            .Concat(new [] { new ChartInfo {
-                Name = "Dummy",
-                ResourceName = "DummyResourceName",
-                ResourceType ="DummyResourceType",
-                ServiceName = "Dummy Service",
-                ServiceType = "DummyService",
-                Uri = "wadgraphes://dummy"
-            }})            
-            .ToList();
+                .Concat(new [] { new ChartInfo {
+                    Name = "Dummy",
+                    ResourceName = "DummyResourceName",
+                    ResourceType ="DummyResourceType",
+                    ServiceName = "Dummy Service",
+                    ServiceType = "DummyService",
+                    Uri = "wadgraphes://dummy"
+                }})            
+                .ToList();
 		}
 
-		private static async Task<ICollection<ChartInfo>> ListAllCharts(AzureSubscription subscription) {
-			var infoClient = new AzureSubscriptionInfoClient(subscription.GetMetricsConfig());
+		private static Task<ICollection<ChartInfo>> ListAllCharts(AzureSubscription subscription) {
+            return ChartsFacade.ListAllChartsForSubscription(subscription.GetMetricsConfig(),subscription.FormatName());
 			
-			var websites = await infoClient.ListWebsites();
-
-			return websites.SelectMany(_=>GetWebsiteCharts(subscription,_)).ToList();
-		}
-
-		private static ICollection<ChartInfo> GetWebsiteCharts(AzureSubscription subscription, AzureWebsite website) {
-			Func<string,string,ChartInfo> initChartInfo = (name,uri)=>
-				new ChartInfo {
-					ResourceName = website.Name,
-					ResourceType = "website",
-					ServiceName = subscription.FormatName(),
-					ServiceType = "Azure Subscription",
-					Name = string.Format("{0} {1}", website.Name,name),
-					Uri = uri
-				};
-			return new ChartInfo[] {
-				initChartInfo("Requests", website.Uri.ToString()+"/requests"),
-				initChartInfo("Memory", website.Uri.ToString()+"/memory"),
-				initChartInfo("CPU", website.Uri.ToString()+"/cpu"),
-				initChartInfo("Traffic", website.Uri.ToString()+"/traffic"),
-                initChartInfo("Response Times", website.Uri.ToString()+"/response-times"),
-			};
-			//w=>new ChartInfo {
-			//	Uri = w.Uri.ToString(),
-			//	Name = w.Name,
-			//	Service = subscription.FormatName(),
-			//	ServiceType = "Azure Subscription"				
-			//}
 		}
 
 		internal static Task<ChartData> GetChartData(string forUri) {

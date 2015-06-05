@@ -26,8 +26,10 @@ namespace WadGraphEs.MetricsEndpoint.Console {
                     GenerateCertificate();
                     return;
                 case "get-website-stats":
-                    
                     new GetWebsiteStats(args.Skip(1).ToList()).PrintStats();
+                    return;
+                case "list-charts":
+                    new ListAllCharts(args.Skip(1).ToList()).Print();
                     return;
                 default:
                     Console.WriteLine("Unknown operation {0}", args[0]);

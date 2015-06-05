@@ -89,6 +89,8 @@
     <Compile Include="AzureWebsitesInfoApiClient.cs" />
     <Compile Include="AzureWebsitesMetricsApiClient.cs" />
     <Compile Include="AzureWebsitesUsageClient.cs" />
+    <Compile Include="ChartInfo.cs" />
+    <Compile Include="ChartsFacade.cs" />
     <Compile Include="CloudServiceInstanceId.cs" />
     <Compile Include="CloudServiceUsage.cs" />
     <Compile Include="GraphiteCounterName.cs" />

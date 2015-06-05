@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GetWebsiteStats.cs" />
+    <Compile Include="ListAllCharts.cs" />
     <Compile Include="MetricsConfigEndpointConfiguration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
