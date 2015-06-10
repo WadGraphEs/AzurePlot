@@ -1,0 +1,189 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using WadGraphEs.MetricsEndpoint.ApiControllers;
+
+namespace WadGraphEs.MetricsEndpoint.Lib {
+    public class ChartDataFacade {
+        public ChartDataFacade(string forUri) {
+            _uri = new Uri(forUri);
+            SubscriptionCredentialsProvider = s=>{ throw new InvalidOperationException("set SubscriptionCredentialsProvider"); };
+        }
+
+        public Func<string,MetricsEndpointConfiguration> SubscriptionCredentialsProvider;
+        private Uri _uri;
+
+        public Task<ChartData> FromUri() {
+            var interval = GetInterval(_uri);
+
+            if(_uri.Host == "dummy") {
+                return Dummy(interval);
+            }
+
+			var path = _uri.LocalPath.Split(new [] {'/'},StringSplitOptions.RemoveEmptyEntries);
+			if(path[0]!="websites") {
+				throw new Exception("don't know how to handle " + path[0]);
+			}
+			var webspace = path[1];
+			var websiteName = path[2];
+			var counter = path[3];
+			switch(counter) {
+				case "requests":
+					return GetWebsiteRequests(webspace,websiteName, interval);
+				case "cpu":
+					return GetWebsiteCPU(webspace,websiteName, interval);
+                case "memory":
+                    return GetWebsiteMemory(webspace,websiteName, interval);
+                case "traffic":
+                    return GetWebsiteTraffic(webspace,websiteName, interval);
+                case "response-times":
+                    return GetWebsiteResponseTimes(webspace,websiteName, interval);
+				default:
+					throw new Exception("Don't know how to get " + counter);
+			}
+        }
+
+
+        private Task<ChartData> GetWebsiteCPU(string webspace,string websiteName, TimeSpan interval) {
+			return GetWebsiteUsages(webspace,websiteName,x=>x,string.Format("{0} (website) CPU",websiteName), interval,"^CpuTime");
+		}
+
+		private Task<ChartData> GetWebsiteRequests(string webspace,string websiteName, TimeSpan interval) {
+			return GetWebsiteUsages(webspace,websiteName,x=>x.Replace(".Count",""),string.Format("{0} (website) requests", websiteName),interval,"^Http", "^Requests");
+		}
+
+        
+        private Task<ChartData> GetWebsiteMemory(string webspace,string websiteName, TimeSpan interval) {
+            return GetWebsiteUsages(webspace,websiteName,x=>x.Replace(".Bytes",""),string.Format("{0} (website) memory usage (bytes)", websiteName),interval,"MemoryWorkingSet");
+        }
+
+        private Task<ChartData> GetWebsiteTraffic(string webspace,string websiteName, TimeSpan interval) {
+            return GetWebsiteUsages(webspace,websiteName,x=>x.Replace(".Bytes",""),string.Format("{0} (website) traffic (bytes)", websiteName),interval,"(^BytesSent|^BytesReceived)");
+        }
+
+        private Task<ChartData> GetWebsiteResponseTimes(string webspace,string websiteName, TimeSpan interval) {
+            return GetWebsiteUsages(webspace,websiteName,x=>x.Replace(".Milliseconds",""),string.Format("{0} (website) response times (ms)", websiteName),interval,"^AverageResponseTime");
+        }
+
+		private async Task<ChartData> GetWebsiteUsages(string webspace,string websiteName,Func<string,string> formatSeries,string charttitle, TimeSpan interval,params string[] filters) {
+			var usageClient = new AzureUsageClient(GetCredentials());
+			var usages = await usageClient.GetWebsitesUsageForWebsite(webspace,websiteName,interval,filters);
+			return new ChartData {
+				Name = charttitle,
+				Series = usages.GroupBy(_ => _.GraphiteCounterName).Select(_ =>
+					new SeriesData {
+						Name = formatSeries(_.Key),
+						DataPoints = _.Select(dp => new DataPoint { Timestamp = dp.Timestamp,Value = dp.Value }).ToList()
+					}
+				).ToList()
+			};
+		}
+
+        private MetricsEndpointConfiguration GetCredentials() {
+            return SubscriptionCredentialsProvider(_uri.Host);
+        }
+
+         private static TimeSpan GetInterval(Uri uri) {
+
+             var qs = ParseQueryString(uri);
+
+            var unit = GetUnit(qs, TimeSpan.FromHours(1));
+            return GetInterval(qs, unit, 1);
+        }
+
+         private static NameValueCollection ParseQueryString(Uri uri) {
+             //todo: add decent implementation without relying on system.web
+             if(string.IsNullOrEmpty(uri.Query)) {
+                return new NameValueCollection();
+             }
+
+             var query = uri.Query;
+
+             query = query.Substring(1);
+
+             var spl = query.Split('&');
+
+             var pairs  = spl.Select(_ => _.Split('=')).ToDictionary(p => p[0],p => p[1]);
+
+             var qs = new NameValueCollection();
+             foreach(var pair in pairs) {
+                 qs.Add(pair.Key,pair.Value);
+             }
+             return qs;
+         }
+
+        private static TimeSpan GetInterval(System.Collections.Specialized.NameValueCollection qs,TimeSpan unit,int @defaultValue) {
+            var value = @defaultValue;
+            if(!string.IsNullOrEmpty(qs["interval"])) {
+                value = int.Parse(qs["interval"]);
+            }
+            if(value<=0) {
+                throw new ArgumentException("Cannot have negative interval");
+            }
+            return TimeSpan.FromSeconds(unit.TotalSeconds * value);            
+        }
+
+        private static TimeSpan GetUnit(System.Collections.Specialized.NameValueCollection qs,TimeSpan @default) {
+            if(string.IsNullOrEmpty(qs["unit"])) {
+                return @default;
+            }
+            switch(qs["unit"]) {
+                case "minutes": return TimeSpan.FromMinutes(1);
+                case "hours": return TimeSpan.FromHours(1);
+            }
+            throw new ArgumentOutOfRangeException("Not a valid unit");
+        }
+
+        
+
+        private static Task<ChartData> Dummy(TimeSpan interval) {
+            var data = new ChartData { 
+                Name = "Dummy",
+                Series = new List<SeriesData> {
+                    new SeriesData {
+                        Name = "200",
+                        DataPoints = GenerateData(interval,40)
+                    },
+                    new SeriesData {
+                        Name = "all",
+                        DataPoints = GenerateData(interval,50)
+                    },
+                }
+            };
+
+            return Task.FromResult(data);
+        }
+        
+      
+
+		private static List<DataPoint> GenerateData(TimeSpan period,double magnitude) {
+			var res = new List<DataPoint>();
+			var end = DateTime.Now;
+			var start = end.Add(period.Negate());
+
+			var rand = new Random();
+			
+			for(var i = start; i<=end; i = i.AddMinutes(5)) {
+				res.Add(new DataPoint {
+					Timestamp = i.ToUniversalTime().ToString("o"),
+					Value = magnitude * (1 + rand.NextDouble() + Math.Sin(2*Math.PI * (i-start).TotalMinutes / period.TotalMinutes))
+				});
+			}
+
+			return res;
+		}
+                     //var usages = GetUsageClient()
+            //    .GetWebsitesUsageForWebsite(GetWebspace(), _website,_history, _filters.ToArray())
+            //    .Result;
+        //private string GetWebspace() {
+        //    return AzureWebsitesInfoApiClientFacade.FindWebspace(_config,_website);
+        //}
+
+        //private AzureUsageClient GetUsageClient() {
+        //    return new AzureUsageClient(_config);
+        //}
+    }
+}

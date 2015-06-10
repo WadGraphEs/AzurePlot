@@ -72,6 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DisplayChartData.cs" />
     <Compile Include="GetWebsiteStats.cs" />
     <Compile Include="ListAllCharts.cs" />
     <Compile Include="MetricsConfigEndpointConfiguration.cs" />

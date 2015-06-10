@@ -29,6 +29,10 @@ namespace WadGraphEs.MetricsEndpoint.Console {
                     //get-website-stats <endpointconfig> <website-name> 24:00:00 ^Http
                     new GetWebsiteStats(args.Skip(1).ToList()).PrintStats();
                     return;
+                case "display-chart-data":
+                    //display-chart-data uri 24:00:00 [optional-arguments]
+                    new DisplayChartData(args.Skip(1).ToList()).PrintData();
+                    return;
                 case "list-all-charts":
                     new ListAllCharts(args.Skip(1).ToList()).Print();
                     return;

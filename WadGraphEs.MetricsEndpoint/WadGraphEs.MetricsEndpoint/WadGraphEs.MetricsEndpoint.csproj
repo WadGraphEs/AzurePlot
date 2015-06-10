@@ -183,10 +183,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiControllers\ChartData.cs" />
     <Compile Include="ApiControllers\ChartsController.cs" />
-    <Compile Include="ApiControllers\DataPoint.cs" />
-    <Compile Include="ApiControllers\SeriesData.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
