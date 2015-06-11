@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using WadGraphEs.MetricsEndpoint.ApiControllers;
 
 namespace WadGraphEs.MetricsEndpoint.Lib {
 	class AzureCloudServicesClient {
@@ -36,5 +37,25 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 		internal string GetSubscriptionNameSync() {
 			return _azureCloudServiceInfoClient.GetSubscriptionNameSync();
 		}
-	}
+
+        internal Task<ICollection<CloudServiceInstanceId>> ListInstancesForService(string serviceResourceId) {
+            //serviceResourceId = /hostedservices/wge-win/deployments/wge-win/roles/wge-win
+
+            var serviceName = serviceResourceId.Split('/')[1];
+
+            return _azureCloudServiceInfoClient.ListInstancesForServiceName(serviceName);
+        }
+
+        internal async Task<Dictionary<CloudServiceInstanceId,ICollection<UsageObject>>> GetUsage(ICollection<CloudServiceInstanceId> instances,TimeSpan history,MetricsFilter filter) {
+            var res = await Task.WhenAll(
+                instances.Select(async _=>new {
+                    Instance = _,
+                    Usages = await new CloudServiceUsage(_,_azureMetricsApiClient,filter).GetMetrics(history)
+                })
+            );
+
+
+            return res.ToDictionary(_=>_.Instance, _=>_.Usages);
+        }
+    }
 }

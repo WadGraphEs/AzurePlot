@@ -96,5 +96,10 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 
 			return SelectElementsInXmlByXPath(xml,"/a:Subscription/a:SubscriptionName").Select(_=>_.Value).FirstOrDefault()??"Unknown";
 		}
-	}
+
+        internal Task<ICollection<CloudServiceInstanceId>> ListInstancesForServiceName(string serviceName) {
+            
+            return GetInstancesForService(serviceName);
+        }
+    }
 }

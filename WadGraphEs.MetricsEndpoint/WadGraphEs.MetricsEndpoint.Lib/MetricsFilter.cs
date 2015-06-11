@@ -19,7 +19,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
             return metrics.Where(_filter).ToList();
         }
 
-        internal static MetricsFilter FromRegexes(string[] filters) {
+        internal static MetricsFilter FromRegexes(params string[] filters) {
             if(!filters.Any()) {
                 return MetricsFilter.None;
             }

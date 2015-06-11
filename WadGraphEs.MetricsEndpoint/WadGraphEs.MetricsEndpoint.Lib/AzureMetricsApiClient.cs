@@ -130,8 +130,8 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 		const string ApiVersion = "2013-10-01";
 
 
-		internal async System.Threading.Tasks.Task<ICollection<MetricValueSet>> GetMetricsForCloudService(CloudServiceInstanceId instance,TimeSpan history) {
-			return await GetMetricsForResourceId(instance.ResourceId,history, MetricsFilter.None);
+		internal async System.Threading.Tasks.Task<ICollection<MetricValueSet>> GetMetricsForCloudService(CloudServiceInstanceId instance,TimeSpan history, MetricsFilter filter) {
+			return await GetMetricsForResourceId(instance.ResourceId,history, filter);
 		}
 	}
 }

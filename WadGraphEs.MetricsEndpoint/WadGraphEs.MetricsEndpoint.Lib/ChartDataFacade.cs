@@ -24,26 +24,65 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
             }
 
 			var path = _uri.LocalPath.Split(new [] {'/'},StringSplitOptions.RemoveEmptyEntries);
-			if(path[0]!="websites") {
-				throw new Exception("don't know how to handle " + path[0]);
-			}
-			var webspace = path[1];
-			var websiteName = path[2];
-			var counter = path[3];
-			switch(counter) {
-				case "requests":
-					return GetWebsiteRequests(webspace,websiteName, interval);
-				case "cpu":
-					return GetWebsiteCPU(webspace,websiteName, interval);
+			
+            switch(path[0]) {
+                case "websites":
+                    return GetWebsiteChartData(interval,path);
+                case "cloud-services":
+                    return GetCloudServiceChartData(interval,path);
+                default:
+                    throw new Exception("don't know how to handle " + path[0]);
+            }
+        }
+
+        private Task<ChartData> GetCloudServiceChartData(TimeSpan interval,string[] path) {
+            var serviceResourceId = string.Join("/",path.Skip(1).Take(path.Length-2));
+
+            var counter = path[path.Length-1];
+
+            switch(counter) {
+                case "cpu":
+                    return GetCloudServiceCPU(serviceResourceId, interval);
+                default:
+                    throw new ArgumentException("don't now how to get " + counter);
+            }
+
+        }
+
+        private async Task<ChartData> GetCloudServiceCPU(string serviceResourceId, TimeSpan history) {
+            var client = new AzureCloudServicesClient(new AzureManagementRestClient(GetCredentials().GetCertificateCloudCredentials()),GetCredentials().GetCertificateCloudCredentials());
+
+            var instances = await client.ListInstancesForService(serviceResourceId);
+
+            var usages = await client.GetUsage(instances,history,MetricsFilter.FromRegexes("CPU"));
+
+            return new ChartData {
+                Name = serviceResourceId,
+                Series = usages.Select(_=> new SeriesData{
+                    Name = _.Key.ResourceId,
+                    DataPoints = _.Value.Select(uo=>new DataPoint { Timestamp = uo.Timestamp, Value = uo.Value }).ToList()
+                }).ToList()
+            };
+        }
+
+        private Task<ChartData> GetWebsiteChartData(TimeSpan interval,string[] path) {
+            var webspace = path[1];
+            var websiteName = path[2];
+            var counter = path[3];
+            switch(counter) {
+                case "requests":
+                    return GetWebsiteRequests(webspace,websiteName,interval);
+                case "cpu":
+                    return GetWebsiteCPU(webspace,websiteName,interval);
                 case "memory":
-                    return GetWebsiteMemory(webspace,websiteName, interval);
+                    return GetWebsiteMemory(webspace,websiteName,interval);
                 case "traffic":
-                    return GetWebsiteTraffic(webspace,websiteName, interval);
+                    return GetWebsiteTraffic(webspace,websiteName,interval);
                 case "response-times":
-                    return GetWebsiteResponseTimes(webspace,websiteName, interval);
-				default:
-					throw new Exception("Don't know how to get " + counter);
-			}
+                    return GetWebsiteResponseTimes(webspace,websiteName,interval);
+                default:
+                    throw new Exception("Don't know how to get " + counter);
+            }
         }
 
 

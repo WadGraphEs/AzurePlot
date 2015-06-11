@@ -14,9 +14,9 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 			_azureMetricsApiClient = azureMetricsApiClient;
 		}
 
-		public async Task<ICollection<MetricValueSet>> GetMetricsForInstance(CloudServiceInstanceId instance, TimeSpan history) {
+		public async Task<ICollection<MetricValueSet>> GetMetricsForInstance(CloudServiceInstanceId instance, TimeSpan history, MetricsFilter filter) {
 			//var resourceId=ResourceIdBuilder.BuildCloudServiceResourceId(instance.ServiceName,instance.DeploymentName,instance.RoleName,instance.InstanceName);
-			return await _azureMetricsApiClient.GetMetricsForCloudService(instance, history);
+			return await _azureMetricsApiClient.GetMetricsForCloudService(instance, history,filter);
 
 		}
 	}
