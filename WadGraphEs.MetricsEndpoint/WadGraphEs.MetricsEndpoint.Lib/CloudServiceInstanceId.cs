@@ -11,27 +11,33 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 		readonly string _deploymentSlot;
 		readonly string _deploymentName;
         readonly string _serviceName;
+        readonly string _subscriptionId;
 
         public string ServiceName {
             get { return _serviceName; }
-        } 
+        }
+
+        public AMDCloudServiceRoleId RoleId {
+            get {
+                return new AMDCloudServiceRoleId {  
+                     CloudServiceName = _serviceName,
+                     Role = _rolename,
+                     Slot = _deploymentSlot,
+                     SubscriptionId = _subscriptionId
+                };
+            }
+        }
 
 
-		public CloudServiceInstanceId(string serviceName, string deploymentName, string deploymentSlot, string rolename, string instanceName) {
+		public CloudServiceInstanceId(string subscriptionId, string serviceName, string deploymentName, string deploymentSlot, string rolename, string instanceName) {
 			_serviceName=serviceName;
 			_deploymentName=deploymentName;
 			_deploymentSlot=deploymentSlot;
 			_rolename=  rolename;
 			_instanceName = instanceName;
+            _subscriptionId = subscriptionId;
 		}
-		//public string ServiceName{get;set;}
-		//public string DeploymentName{get;set;}
-		//public string DeploymentSlot{get;set;}
-
-		//public string RoleName { get; set; }
-
-		//public string InstanceName { get; set; }
-
+	
 		public string ResourceId { 
 			get {
 				return ResourceIdBuilder.BuildCloudServiceResourceId(_serviceName,_deploymentName,_rolename,_instanceName);

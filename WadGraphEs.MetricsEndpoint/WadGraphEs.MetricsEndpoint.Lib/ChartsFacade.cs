@@ -10,7 +10,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
             var infoClient = new AzureSubscriptionInfoClient(subscriptionConfig);
 
 			var websites = infoClient.ListWebsites();
-            var cloudservices = infoClient.ListCloudserviceInstances();
+            var cloudservices = infoClient.ListCloudServiceRoles();
 
 			return 
                 (await websites).SelectMany(_=>GetWebsiteCharts(serviceName,_))
@@ -19,15 +19,15 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
                 .ToList();
         }
 
-        private static ICollection<ChartInfo> GetCloudServiceCharts(string serviceName, AzureCloudService cs) {
+        private static ICollection<ChartInfo> GetCloudServiceCharts(string serviceName, AMDCloudServiceRoleId cs) {
             return new ChartInfo[] {
                 new ChartInfo {
-                    ResourceName = cs.FriendlyName,
+                    ResourceName = cs.DisplayName,
                     ResourceType = "cloud service",
                     ServiceName = serviceName,
                     ServiceType = "Azure Subscription",
-                    Name = string.Format("{0} (cloud service) {1}", cs.FriendlyName,"CPU"),
-                    Uri =  string.Format("wadgraphes://{0}/cloud-services{1}/cpu", cs.SubscriptionId, cs.ServiceResourceId)
+                    Name = string.Format("{0} (cloud service) {1}", cs.DisplayName,"CPU"),
+                    Uri =  cs.CpuUri
                 }
             };
         }

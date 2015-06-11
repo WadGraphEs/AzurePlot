@@ -28,7 +28,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 			return new Uri(string.Format("wadgraphes://{0}/websites/{1}/{2}", _subscriptionId, azureWebsiteId.Webspace, azureWebsiteId.Name));
 		}
 
-        internal async Task<ICollection<AzureCloudService>> ListCloudserviceInstances() {
+        internal async Task<ICollection<AzureCloudService>> ListCloudservices() {
             var infoClient =new AzureCloudServiceInfoApiClient(_client);
 
             var services = await infoClient.ListInstances();
@@ -39,6 +39,14 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
                 SubscriptionId = _subscriptionId,
                 Instances = _.ToList()
             }).ToList();
+        }
+
+        internal async Task<ICollection<AMDCloudServiceRoleId>> ListCloudServiceRoles() {
+            var infoClient =new AzureCloudServiceInfoApiClient(_client);
+
+            var services = await infoClient.ListInstances();
+
+            return services.Select(_=>_.RoleId).Distinct().ToList();
         }
     }
 }
