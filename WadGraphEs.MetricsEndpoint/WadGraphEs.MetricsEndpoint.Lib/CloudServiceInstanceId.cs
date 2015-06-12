@@ -6,7 +6,12 @@ using System.Text;
 
 namespace WadGraphEs.MetricsEndpoint.Lib {
 	class CloudServiceInstanceId {
-		readonly string _instanceName;
+        readonly string _instanceName;
+
+        public string InstanceName {
+            get { return _instanceName; }
+        } 
+
 		readonly string _rolename;
 		readonly string _deploymentSlot;
 		readonly string _deploymentName;

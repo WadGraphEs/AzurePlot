@@ -61,9 +61,9 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
             var usages = await client.GetUsage(instances,history,MetricsFilter.FromRegexes("CPU"));
 
             return new ChartData {
-                Name = serviceRoleId.DisplayName,
+                Name = string.Format("{0} CPU", serviceRoleId.DisplayName),
                 Series = usages.Select(_=> new SeriesData{
-                    Name = _.Key.ResourceId,
+                    Name = _.Key.InstanceName,
                     DataPoints = _.Value.Select(uo=>new DataPoint { Timestamp = uo.Timestamp, Value = uo.Value }).ToList()
                 }).ToList()
             };
