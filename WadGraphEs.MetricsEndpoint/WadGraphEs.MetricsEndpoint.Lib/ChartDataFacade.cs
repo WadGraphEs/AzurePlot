@@ -57,7 +57,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
             return GetCloudServiceMetrics(serviceRoleId,history, 
                 label: "Network traffic",
                 regex:"Network",
-                formatSeriesLabel:(instanceName,metricName)=>string.Format("{0} {1}", instanceName, metricName)
+                formatSeriesLabel:(instanceName,metricName)=>string.Format("{0} {1} bytes", instanceName, metricName)
             );
         }
 
