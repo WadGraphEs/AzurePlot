@@ -45,10 +45,20 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
                     return GetCloudServiceCPU(serviceId, interval);
                 case "disk":
                     return GetCloudServiceDisk(serviceId,interval);
+                case "network":
+                    return GetCloudServiceNetwork(serviceId,interval);
                 default:
                     throw new ArgumentException("don't now how to get " + counter);
             }
 
+        }
+
+        private Task<ChartData> GetCloudServiceNetwork(AMDCloudServiceRoleId serviceRoleId,TimeSpan history) {
+            return GetCloudServiceMetrics(serviceRoleId,history, 
+                label: "Network traffic",
+                regex:"Network",
+                formatSeriesLabel:(instanceName,metricName)=>string.Format("{0} {1}", instanceName, metricName)
+            );
         }
 
         private Task<ChartData> GetCloudServiceDisk(AMDCloudServiceRoleId serviceRoleId,TimeSpan history) {
