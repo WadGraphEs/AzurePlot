@@ -16,7 +16,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
         public Func<string,MetricsEndpointConfiguration> SubscriptionCredentialsProvider;
         private Uri _uri;
 
-        public Task<ChartData> FromUri() {
+        public Task<ChartData> FetchChartData() {
             var interval = GetInterval(_uri);
 
             if(_uri.Host == "dummy") {
@@ -36,28 +36,32 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
         }
 
         private Task<ChartData> GetCloudServiceChartData(TimeSpan interval,string[] path) {
-            var serviceResourceId = string.Join("/",path.Skip(1).Take(path.Length-2));
+            var serviceId = AMDCloudServiceRoleId.FromUri(_uri);
 
             var counter = path[path.Length-1];
 
             switch(counter) {
                 case "cpu":
-                    return GetCloudServiceCPU(serviceResourceId, interval);
+                    return GetCloudServiceCPU(serviceId, interval);
                 default:
                     throw new ArgumentException("don't now how to get " + counter);
             }
 
         }
 
-        private async Task<ChartData> GetCloudServiceCPU(string serviceResourceId, TimeSpan history) {
+        private string GetSubscriptionId() {
+            return GetCredentials().SubscriptionId;
+        }
+
+        private async Task<ChartData> GetCloudServiceCPU(AMDCloudServiceRoleId serviceRoleId, TimeSpan history) {
             var client = new AzureCloudServicesClient(new AzureManagementRestClient(GetCredentials().GetCertificateCloudCredentials()),GetCredentials().GetCertificateCloudCredentials());
 
-            var instances = await client.ListInstancesForService(serviceResourceId);
+            var instances = await client.ListInstancesForServiceRole(serviceRoleId);
 
             var usages = await client.GetUsage(instances,history,MetricsFilter.FromRegexes("CPU"));
 
             return new ChartData {
-                Name = serviceResourceId,
+                Name = serviceRoleId.DisplayName,
                 Series = usages.Select(_=> new SeriesData{
                     Name = _.Key.ResourceId,
                     DataPoints = _.Value.Select(uo=>new DataPoint { Timestamp = uo.Timestamp, Value = uo.Value }).ToList()

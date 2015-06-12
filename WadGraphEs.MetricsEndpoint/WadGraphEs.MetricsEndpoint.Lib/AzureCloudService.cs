@@ -39,5 +39,15 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
                 return string.Format("{0}.{1} ({2})", CloudServiceName,Role,Slot);
             }
         }
+
+        internal static AMDCloudServiceRoleId FromUri(Uri uri) {
+            var pathSegments = uri.LocalPath.Split(new [] { '/' },StringSplitOptions.RemoveEmptyEntries);
+            return new AMDCloudServiceRoleId { 
+                CloudServiceName = pathSegments[1],
+                Slot = pathSegments[2],
+                Role = pathSegments[3],
+                SubscriptionId = uri.Host
+            };
+        }
     }
 }

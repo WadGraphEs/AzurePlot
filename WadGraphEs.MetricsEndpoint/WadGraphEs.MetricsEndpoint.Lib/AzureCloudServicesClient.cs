@@ -38,12 +38,12 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 			return _azureCloudServiceInfoClient.GetSubscriptionNameSync();
 		}
 
-        internal Task<ICollection<CloudServiceInstanceId>> ListInstancesForService(string serviceResourceId) {
+        internal async Task<ICollection<CloudServiceInstanceId>> ListInstancesForServiceRole(AMDCloudServiceRoleId roleId) {
             //serviceResourceId = /hostedservices/wge-win/deployments/wge-win/roles/wge-win
 
-            var serviceName = serviceResourceId.Split('/')[1];
+            var instances = await _azureCloudServiceInfoClient.ListInstancesForServiceName(roleId.CloudServiceName);
 
-            return _azureCloudServiceInfoClient.ListInstancesForServiceName(serviceName);
+            return instances.Where(_=>_.RoleId.Equals(roleId)).ToList();
         }
 
         internal async Task<Dictionary<CloudServiceInstanceId,ICollection<UsageObject>>> GetUsage(ICollection<CloudServiceInstanceId> instances,TimeSpan history,MetricsFilter filter) {

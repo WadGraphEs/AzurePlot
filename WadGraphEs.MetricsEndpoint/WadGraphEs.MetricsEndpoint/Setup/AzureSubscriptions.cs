@@ -141,7 +141,7 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 
             fc.SubscriptionCredentialsProvider = s => GetSubscriptionById(s).GetMetricsConfig();
 
-            return fc.FromUri();
+            return fc.FetchChartData();
 
 			
 		}

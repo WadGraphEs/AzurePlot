@@ -21,7 +21,7 @@ namespace WadGraphEs.MetricsEndpoint.Console {
 
             facade.SubscriptionCredentialsProvider = GetSubscriptionCredentials;
 
-            var usages = facade.FromUri().Result;
+            var usages = facade.FetchChartData().Result;
 
 			Console.WriteLine(JsonConvert.SerializeObject(usages,Formatting.Indented));
         }
