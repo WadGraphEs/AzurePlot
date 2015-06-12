@@ -43,30 +43,64 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
             switch(counter) {
                 case "cpu":
                     return GetCloudServiceCPU(serviceId, interval);
+                case "disk":
+                    return GetCloudServiceDisk(serviceId,interval);
                 default:
                     throw new ArgumentException("don't now how to get " + counter);
             }
 
         }
 
+        private Task<ChartData> GetCloudServiceDisk(AMDCloudServiceRoleId serviceRoleId,TimeSpan history) {
+            return GetCloudServiceMetrics(serviceRoleId,history, 
+                label: "Disk performance",
+                regex:"Disk",
+                formatSeriesLabel:(instanceName,metricName)=>string.Format("{0} {1}", instanceName, metricName)
+            );
+        }
+
         private string GetSubscriptionId() {
             return GetCredentials().SubscriptionId;
         }
 
-        private async Task<ChartData> GetCloudServiceCPU(AMDCloudServiceRoleId serviceRoleId, TimeSpan history) {
+        private Task<ChartData> GetCloudServiceCPU(AMDCloudServiceRoleId serviceRoleId, TimeSpan history) {
+            return GetCloudServiceMetrics(serviceRoleId,history, label: "CPU",regex:"CPU",formatSeriesLabel:(instanceName,metricname)=>instanceName);
+        }
+
+        private async Task<ChartData> GetCloudServiceMetrics(AMDCloudServiceRoleId serviceRoleId, TimeSpan history, string label,string regex,Func<string,string,string> formatSeriesLabel) {
             var client = new AzureCloudServicesClient(new AzureManagementRestClient(GetCredentials().GetCertificateCloudCredentials()),GetCredentials().GetCertificateCloudCredentials());
 
             var instances = await client.ListInstancesForServiceRole(serviceRoleId);
 
-            var usages = await client.GetUsage(instances,history,MetricsFilter.FromRegexes("CPU"));
+            var usages = await client.GetUsage(instances,history,MetricsFilter.FromRegexes(regex));
+
+            var usagesPartitioned = PartitionByInstanceNameAndMetric(usages);
 
             return new ChartData {
-                Name = string.Format("{0} CPU", serviceRoleId.DisplayName),
-                Series = usages.Select(_=> new SeriesData{
-                    Name = _.Key.InstanceName,
-                    DataPoints = _.Value.Select(uo=>new DataPoint { Timestamp = uo.Timestamp, Value = uo.Value }).ToList()
-                }).ToList()
+                Name = string.Format("{0} {1}", serviceRoleId.DisplayName,label),
+                Series = usagesPartitioned.Keys.SelectMany(
+                    instance=>usagesPartitioned[instance].Keys.Select(metricName=>new SeriesData {
+                        Name = formatSeriesLabel(instance,metricName),
+                        DataPoints = usagesPartitioned[instance][metricName].Select(uo=>new DataPoint { Timestamp = uo.Timestamp, Value = uo.Value }).ToList()
+                    })).ToList()
             };
+                
+                
+                //usages.Select(_=> new SeriesData{
+                //    Name = formatInstanceName(_.Key.InstanceName),
+                //    DataPoints = _.Value.Select(uo=>new DataPoint { Timestamp = uo.Timestamp, Value = uo.Value }).ToList()
+                //}).ToList()
+            
+        }
+
+        private Dictionary<string,Dictionary<string,List<UsageObject>>> PartitionByInstanceNameAndMetric(ICollection<UsageObject> usages) {
+            //fmt: Azure.CloudServices.MetricsApi.<servicename>.<slot>.<role>.<metricname>.<unit>.<aggregation>.<instancename>
+            const int instanceNameIndex = 9;
+            const int metricNameIndex = 6;
+            return usages.GroupBy(_=>_.GraphiteCounterName.Split('.')[instanceNameIndex])
+                .ToDictionary(
+                    _=>_.Key,
+                    _=>_.GroupBy(x=>x.GraphiteCounterName.Split('.')[metricNameIndex]).ToDictionary(y=>y.Key,y=>y.ToList()));
         }
 
         private Task<ChartData> GetWebsiteChartData(TimeSpan interval,string[] path) {

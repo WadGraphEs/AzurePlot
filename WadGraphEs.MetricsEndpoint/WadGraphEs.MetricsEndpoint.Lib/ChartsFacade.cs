@@ -20,15 +20,20 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
         }
 
         private static ICollection<ChartInfo> GetCloudServiceCharts(string serviceName, AMDCloudServiceRoleId cs) {
-            return new ChartInfo[] {
+            Func<string,Uri,ChartInfo> buildChartInfo = (counter,uri)=>
                 new ChartInfo {
                     ResourceName = cs.DisplayName,
                     ResourceType = "cloud service",
                     ServiceName = serviceName,
                     ServiceType = "Azure Subscription",
-                    Name = string.Format("{0} (cloud service) {1}", cs.DisplayName,"CPU"),
-                    Uri =  cs.CpuUri
-                }
+                    Name = string.Format("{0} (cloud service) {1}", cs.DisplayName,counter),
+                    Uri = uri.ToString()
+                };
+
+            return new ChartInfo[] {
+                buildChartInfo("CPU", cs.AppendToUri("/cpu")),
+                buildChartInfo("Network", cs.AppendToUri("/network")),
+                buildChartInfo("Disk Performance", cs.AppendToUri("/disk"))
             };
         }
 

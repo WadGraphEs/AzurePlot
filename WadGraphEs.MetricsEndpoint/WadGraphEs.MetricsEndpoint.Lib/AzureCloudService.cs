@@ -28,9 +28,9 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 
         public string SubscriptionId{get;set;}
 
-        public string CpuUri {
+        Uri Uri {
             get {
-                return string.Format("wadgraphes://{0}/cloud-services/{1}/{2}/{3}/cpu", SubscriptionId, CloudServiceName, Slot,Role);
+                return new Uri(string.Format("wadgraphes://{0}/cloud-services/{1}/{2}/{3}", SubscriptionId, CloudServiceName, Slot,Role));
             }
         }
 
@@ -48,6 +48,10 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
                 Role = pathSegments[3],
                 SubscriptionId = uri.Host
             };
+        }
+
+        internal Uri AppendToUri(string path) {
+            return new Uri(Uri.ToString()+path);
         }
     }
 }

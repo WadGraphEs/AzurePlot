@@ -46,16 +46,13 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
             return instances.Where(_=>_.RoleId.Equals(roleId)).ToList();
         }
 
-        internal async Task<Dictionary<CloudServiceInstanceId,ICollection<UsageObject>>> GetUsage(ICollection<CloudServiceInstanceId> instances,TimeSpan history,MetricsFilter filter) {
+        internal async Task<ICollection<UsageObject>> GetUsage(ICollection<CloudServiceInstanceId> instances,TimeSpan history,MetricsFilter filter) {
             var res = await Task.WhenAll(
-                instances.Select(async _=>new {
-                    Instance = _,
-                    Usages = await new CloudServiceUsage(_,_azureMetricsApiClient,filter).GetMetrics(history)
-                })
+                instances.Select(_=>new CloudServiceUsage(_,_azureMetricsApiClient,filter).GetMetrics(history))
             );
 
 
-            return res.ToDictionary(_=>_.Instance, _=>_.Usages);
+            return res.SelectMany(_=>_).ToList();
         }
     }
 }
