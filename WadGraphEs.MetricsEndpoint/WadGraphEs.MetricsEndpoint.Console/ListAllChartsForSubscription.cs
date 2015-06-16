@@ -6,11 +6,11 @@ using WadGraphEs.MetricsEndpoint.Lib;
 
 namespace WadGraphEs.MetricsEndpoint.Console {
     using Console = System.Console;
-    class ListAllCharts {
+    class ListAllChartsForSubscription {
         readonly MetricsConfigEndpointConfiguration _config;
         readonly Lazy<string> _subscriptionName;
 
-        public ListAllCharts(List<string> args) {
+        public ListAllChartsForSubscription(List<string> args) {
             _config = new MetricsConfigEndpointConfiguration(args[0]);
             _subscriptionName = new Lazy<string>(FindSubcriptionName);
         }

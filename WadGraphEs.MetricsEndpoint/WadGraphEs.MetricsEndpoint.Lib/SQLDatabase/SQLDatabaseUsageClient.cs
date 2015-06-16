@@ -62,6 +62,16 @@ namespace WadGraphEs.MetricsEndpoint.Lib.SQLDatabase {
 
 		public string GetVersionString() {
 			return GetVersion().DetailedVersion;
-		}		
-	}
+		}
+
+        public string ServerName {
+            get {
+                return _connection.Servername;
+            }
+        }
+
+        internal List<string> ListDatabases() {
+            return GetUsagesClient().ListDatabases();
+        }
+    }
 }

@@ -33,8 +33,11 @@ namespace WadGraphEs.MetricsEndpoint.Console {
                     //display-chart-data uri 24:00:00 [optional-arguments]
                     new DisplayChartData(args.Skip(1).ToList()).PrintData();
                     return;
-                case "list-all-charts":
-                    new ListAllCharts(args.Skip(1).ToList()).Print();
+                case "list-all-charts-for-subscription":
+                    new ListAllChartsForSubscription(args.Skip(1).ToList()).Print();
+                    return;
+                case "list-all-charts-for-sql-database":
+                    new ListAllChartsForSqlDatabase(args.Skip(1).ToList()).Print();
                     return;
                 default:
                     Console.WriteLine("Unknown operation {0}", args[0]);

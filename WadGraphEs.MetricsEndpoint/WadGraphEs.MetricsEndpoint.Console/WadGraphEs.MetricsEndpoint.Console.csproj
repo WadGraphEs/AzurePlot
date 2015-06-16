@@ -74,7 +74,8 @@
   <ItemGroup>
     <Compile Include="DisplayChartData.cs" />
     <Compile Include="GetWebsiteStats.cs" />
-    <Compile Include="ListAllCharts.cs" />
+    <Compile Include="ListAllChartsForSqlDatabase.cs" />
+    <Compile Include="ListAllChartsForSubscription.cs" />
     <Compile Include="MetricsConfigEndpointConfiguration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

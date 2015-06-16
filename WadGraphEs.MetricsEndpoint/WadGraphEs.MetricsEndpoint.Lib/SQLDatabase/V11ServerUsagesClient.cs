@@ -72,5 +72,23 @@ namespace WadGraphEs.MetricsEndpoint.Lib.SQLDatabase {
 		private string GetCounterName(string database, string name) {
 			return new GraphiteCounterName("Azure.SQLDatabase", _connection.Servername, database, name).ToString();
 		}
-	}
+
+
+        public List<string> ListDatabases() {
+            var result = new List<string>();
+
+			using(var connection = _connection.GetConnection()) {
+				connection.Open();
+				var cmd =connection.CreateCommand();
+				cmd.CommandText = "select distinct(database_name) from sys.resource_stats";
+					
+				using(var reader = cmd.ExecuteReader()) {
+					while(reader.Read()) {
+						result.Add((string)reader["database_name"]);
+					}
+				}
+			}
+			return result;
+        }
+    }
 }

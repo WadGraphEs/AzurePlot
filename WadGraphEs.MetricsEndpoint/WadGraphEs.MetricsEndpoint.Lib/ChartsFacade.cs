@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WadGraphEs.MetricsEndpoint.Lib.SQLDatabase;
 
 namespace WadGraphEs.MetricsEndpoint.Lib {
     public class ChartsFacade {
@@ -55,5 +56,33 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
                 initChartInfo("Response Times", website.Uri.ToString()+"/response-times"),
 			};
 		}
+
+        public static ICollection<ChartInfo> ListAllChartsForSqlDatabaseServer(string servername,string username,string password) {
+            var client = SQLDatabaseUsageClient.CreateServerUsagesClient(servername,username,password);
+
+            Func<string,string,string,ChartInfo> initChartInfo = (databaseName,uriPath,counterName)=>
+				new ChartInfo {
+					ResourceName =databaseName,
+					ResourceType = "database",
+					ServiceName = servername,
+					ServiceType = "Azure SQL Database",
+					Name = string.Format("{0} {1}", databaseName,counterName),
+					Uri = string.Format("wadgraphes://{0}/{1}/{2}", client.ServerName, databaseName, uriPath)
+				};
+             
+
+             var res = new List<ChartInfo>();
+
+             foreach(var database in client.ListDatabases()) {
+                res.Add(initChartInfo(database,"logio", "Log I/O"));
+                res.Add(initChartInfo(database,"dataio", "Data I/O"));
+                res.Add(initChartInfo(database,"cpu", "CPU"));
+                res.Add(initChartInfo(database,"storage", "Storage"));
+                res.Add(initChartInfo(database,"memory", "Memory"));
+                res.Add(initChartInfo(database,"session", "Sessions"));
+             }   
+
+             return res;
+        }
     }
 }
