@@ -67,7 +67,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 					ServiceName = servername,
 					ServiceType = "Azure SQL Database",
 					Name = string.Format("{0} {1}", databaseName,counterName),
-					Uri = string.Format("wadgraphes://{0}/{1}/{2}", client.ServerName, databaseName, uriPath)
+					Uri = string.Format("wadgraphes://sql-database/{0}/{1}/{2}", client.ServerName, databaseName, uriPath)
 				};
              
 
@@ -79,7 +79,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
                 res.Add(initChartInfo(database,"cpu", "CPU"));
                 res.Add(initChartInfo(database,"storage", "Storage"));
                 res.Add(initChartInfo(database,"memory", "Memory"));
-                res.Add(initChartInfo(database,"session", "Sessions"));
+                res.Add(initChartInfo(database,"sessions", "Sessions"));
              }   
 
              return res;

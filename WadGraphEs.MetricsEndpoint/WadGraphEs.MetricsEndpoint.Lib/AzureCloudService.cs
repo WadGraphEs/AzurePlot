@@ -30,7 +30,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 
         Uri Uri {
             get {
-                return new Uri(string.Format("wadgraphes://{0}/cloud-services/{1}/{2}/{3}", SubscriptionId, CloudServiceName, Slot,Role));
+                return new Uri(string.Format("wadgraphes://subscription/{0}/cloud-services/{1}/{2}/{3}", SubscriptionId, CloudServiceName, Slot,Role));
             }
         }
 
@@ -43,10 +43,10 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
         internal static AMDCloudServiceRoleId FromUri(Uri uri) {
             var pathSegments = uri.LocalPath.Split(new [] { '/' },StringSplitOptions.RemoveEmptyEntries);
             return new AMDCloudServiceRoleId { 
-                CloudServiceName = pathSegments[1],
-                Slot = pathSegments[2],
-                Role = pathSegments[3],
-                SubscriptionId = uri.Host
+                CloudServiceName = pathSegments[2],
+                Slot = pathSegments[3],
+                Role = pathSegments[4],
+                SubscriptionId = pathSegments[0]
             };
         }
 

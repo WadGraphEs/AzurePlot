@@ -10,11 +10,13 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
     public class ChartDataFacade {
         public ChartDataFacade(string forUri) {
             _uri = new Uri(forUri);
+            _path = _uri.LocalPath.Split(new [] {'/'},StringSplitOptions.RemoveEmptyEntries);
             SubscriptionCredentialsProvider = s=>{ throw new InvalidOperationException("set SubscriptionCredentialsProvider"); };
         }
 
         public Func<string,MetricsEndpointConfiguration> SubscriptionCredentialsProvider;
         private Uri _uri;
+        private string[] _path;
 
         public Task<ChartData> FetchChartData() {
             var interval = GetInterval(_uri);
@@ -23,22 +25,31 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
                 return Dummy(interval);
             }
 
-			var path = _uri.LocalPath.Split(new [] {'/'},StringSplitOptions.RemoveEmptyEntries);
 			
-            switch(path[0]) {
-                case "websites":
-                    return GetWebsiteChartData(interval,path);
-                case "cloud-services":
-                    return GetCloudServiceChartData(interval,path);
+            switch(_uri.Host) {
+                case "subscription":
+                    return GetSubscriptionChartData(interval);
+              
                 default:
-                    throw new Exception("don't know how to handle " + path[0]);
+                    throw new Exception("don't know how to handle " + _path[0]);
             }
         }
 
-        private Task<ChartData> GetCloudServiceChartData(TimeSpan interval,string[] path) {
+        private Task<ChartData> GetSubscriptionChartData(TimeSpan interval) {
+            switch(_path[1]) {
+                case "websites":
+                    return GetWebsiteChartData(interval);
+                case "cloud-services":
+                    return GetCloudServiceChartData(interval);
+                default:
+                    throw new Exception(string.Format("Don't know how to handle {0}", _path[1]));
+            }
+        }
+
+        private Task<ChartData> GetCloudServiceChartData(TimeSpan interval) {
             var serviceId = AMDCloudServiceRoleId.FromUri(_uri);
 
-            var counter = path[path.Length-1];
+            var counter = _path[_path.Length-1];
 
             switch(counter) {
                 case "cpu":
@@ -113,10 +124,10 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
                     _=>_.GroupBy(x=>x.GraphiteCounterName.Split('.')[metricNameIndex]).ToDictionary(y=>y.Key,y=>y.ToList()));
         }
 
-        private Task<ChartData> GetWebsiteChartData(TimeSpan interval,string[] path) {
-            var webspace = path[1];
-            var websiteName = path[2];
-            var counter = path[3];
+        private Task<ChartData> GetWebsiteChartData(TimeSpan interval) {
+            var webspace = _path[2];
+            var websiteName = _path[3];
+            var counter = _path[4];
             switch(counter) {
                 case "requests":
                     return GetWebsiteRequests(webspace,websiteName,interval);
@@ -170,7 +181,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 		}
 
         private MetricsEndpointConfiguration GetCredentials() {
-            return SubscriptionCredentialsProvider(_uri.Host);
+            return SubscriptionCredentialsProvider(_path[0]);
         }
 
          private static TimeSpan GetInterval(Uri uri) {

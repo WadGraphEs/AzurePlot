@@ -25,7 +25,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 		}
 
 		private Uri GetWebsiteUri(AzureWebsiteId azureWebsiteId) {
-			return new Uri(string.Format("wadgraphes://{0}/websites/{1}/{2}", _subscriptionId, azureWebsiteId.Webspace, azureWebsiteId.Name));
+			return new Uri(string.Format("wadgraphes://subscription/{0}/websites/{1}/{2}", _subscriptionId, azureWebsiteId.Webspace, azureWebsiteId.Name));
 		}
 
         internal async Task<ICollection<AzureCloudService>> ListCloudservices() {
