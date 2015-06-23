@@ -103,6 +103,7 @@
     <Compile Include="MetricsFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SeriesData.cs" />
+    <Compile Include="SqlCredentials.cs" />
     <Compile Include="SQLDatabase\ServerUsagesClient.cs" />
     <Compile Include="SQLDatabase\SQLDatabaseConnection.cs" />
     <Compile Include="SQLDatabase\SQLDatabaseUsageClient.cs" />

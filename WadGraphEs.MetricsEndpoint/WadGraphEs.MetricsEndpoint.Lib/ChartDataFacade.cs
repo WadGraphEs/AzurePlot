@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WadGraphEs.MetricsEndpoint.ApiControllers;
+using WadGraphEs.MetricsEndpoint.Lib.SQLDatabase;
 
 namespace WadGraphEs.MetricsEndpoint.Lib {
     public class ChartDataFacade {
@@ -15,25 +16,55 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
         }
 
         public Func<string,MetricsEndpointConfiguration> SubscriptionCredentialsProvider;
+        public Func<string,SqlCredentials> SqlCredentialsProvider;
         private Uri _uri;
         private string[] _path;
 
         public Task<ChartData> FetchChartData() {
             var interval = GetInterval(_uri);
 
-            if(_uri.Host == "dummy") {
-                return Dummy(interval);
-            }
-
-			
             switch(_uri.Host) {
+                case "dummy":
+                    return Dummy(interval);
                 case "subscription":
                     return GetSubscriptionChartData(interval);
-              
+                case "sql-database":
+                    return GetSQLDatabaseChartData(interval);
                 default:
-                    throw new Exception("don't know how to handle " + _path[0]);
+                    throw new Exception("don't know how to handle service " + _path[0]);
             }
         }
+
+        private Task<ChartData> GetSQLDatabaseChartData(TimeSpan interval) {
+            var client = SQLDatabaseUsageClient.CreateServerUsagesClient(_path[0], SqlCredentialsProvider(_path[0]).Username, SqlCredentialsProvider(_path[0]).Password);
+            var usages = client.GetUsages(DateTime.UtcNow.Add(interval.Negate()));
+
+            var counter = _path[_path.Length-1];
+            var database = _path[_path.Length-2];
+
+            switch(counter) {
+                case "logio":
+                    return FilterSQLUsages(usages, database,"avg_log_write_percent");
+                case "dataio":
+                    return FilterSQLUsages(usages, database,"avg_physical_data_read_percent", "avg_data_io_percent");
+                case "cpu":
+                    return FilterSQLUsages(usages, database,"avg_cpu_percent");
+                case "storage":
+                    return FilterSQLUsages(usages, database,"storage_in_megabytes");
+                case "memory":
+                    return FilterSQLUsages(usages, database,"active_memory_used_kb");
+                case "sessions":
+                    return FilterSQLUsages(usages, database,"active_session_count");
+                default:
+                    throw new Exception("Unknown counter " +counter);
+            }
+        }
+
+        private Task<ChartData> FilterSQLUsages(ICollection<UsageObject> usages,string database, params string[] counters) {
+            throw new NotImplementedException();
+        }
+
+
 
         private Task<ChartData> GetSubscriptionChartData(TimeSpan interval) {
             switch(_path[1]) {

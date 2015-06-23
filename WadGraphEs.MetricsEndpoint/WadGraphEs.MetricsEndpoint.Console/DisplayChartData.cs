@@ -20,10 +20,18 @@ namespace WadGraphEs.MetricsEndpoint.Console {
             var facade = new ChartDataFacade(_uri);
 
             facade.SubscriptionCredentialsProvider = GetSubscriptionCredentials;
+            facade.SqlCredentialsProvider = GetSqlCredentials;
 
             var usages = facade.FetchChartData().Result;
 
 			Console.WriteLine(JsonConvert.SerializeObject(usages,Formatting.Indented));
+        }
+
+        private SqlCredentials GetSqlCredentials(string db) {
+            return new SqlCredentials {
+                Username = _optionalArguments[0],
+                Password = _optionalArguments[1],
+            };
         }
 
         private MetricsEndpointConfiguration GetSubscriptionCredentials(string subscriptionId) {
