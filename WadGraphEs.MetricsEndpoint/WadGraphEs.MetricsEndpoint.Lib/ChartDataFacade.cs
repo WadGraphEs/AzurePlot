@@ -39,28 +39,29 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
             var client = SQLDatabaseUsageClient.CreateServerUsagesClient(_path[0], SqlCredentialsProvider(_path[0]).Username, SqlCredentialsProvider(_path[0]).Password);
             var usages = client.GetUsages(DateTime.UtcNow.Add(interval.Negate()));
 
+            var serverName = _path[0];
             var counter = _path[_path.Length-1];
             var database = _path[_path.Length-2];
 
             switch(counter) {
                 case "logio":
-                    return FilterSQLUsages(usages, database,"Log I/O","avg_log_write_percent");
+                    return FilterSQLUsages(usages, serverName,database,"Log I/O","avg_log_write_percent");
                 case "dataio":
-                    return FilterSQLUsages(usages, database,"Data I/O", "avg_physical_data_read_percent", "avg_data_io_percent");
+                    return FilterSQLUsages(usages, serverName,database,"Data I/O", "avg_physical_data_read_percent", "avg_data_io_percent");
                 case "cpu":
-                    return FilterSQLUsages(usages, database, "CPU", "avg_cpu_percent");
+                    return FilterSQLUsages(usages, serverName,database, "CPU", "avg_cpu_percent");
                 case "storage":
-                    return FilterSQLUsages(usages, database,"Storage", "storage_in_megabytes");
+                    return FilterSQLUsages(usages, serverName,database,"Storage", "storage_in_megabytes");
                 case "memory":
-                    return FilterSQLUsages(usages, database,"Memory","active_memory_used_kb");
+                    return FilterSQLUsages(usages, serverName,database,"Memory","active_memory_used_kb");
                 case "sessions":
-                    return FilterSQLUsages(usages, database,"Sessions", "active_session_count");
+                    return FilterSQLUsages(usages, serverName,database,"Sessions", "active_session_count");
                 default:
                     throw new Exception("Unknown counter " +counter);
             }
         }
 
-        private Task<ChartData> FilterSQLUsages(ICollection<UsageObject> usages,string database, string chartName, params string[] counters) {
+        private Task<ChartData> FilterSQLUsages(ICollection<UsageObject> usages,string servername,string database, string chartName, params string[] counters) {
             //usage format: "Azure.SQLDatabase.r2vd5rudps.wadgraphes.usage_in_seconds"
             const int databaseNameField = 3;
             const int counterNameField = 4;
@@ -80,7 +81,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
                 });
             }
 
-            return Task.FromResult(new ChartData() { Name = chartName, Series = res });
+            return Task.FromResult(new ChartData() { Name = string.Format("{0}.{1} {2} (SQL Database)", servername,database, chartName), Series = res });
         }
 
 
@@ -148,7 +149,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
             var usagesPartitioned = PartitionByInstanceNameAndMetric(usages);
 
             return new ChartData {
-                Name = string.Format("{0} {1}", serviceRoleId.DisplayName,label),
+                Name = string.Format("{0} {1} (Cloud Service)", serviceRoleId.DisplayName,label),
                 Series = usagesPartitioned.Keys.SelectMany(
                     instance=>usagesPartitioned[instance].Keys.Select(metricName=>new SeriesData {
                         Name = formatSeriesLabel(instance,metricName),
@@ -196,31 +197,31 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 
 
         private Task<ChartData> GetWebsiteCPU(string webspace,string websiteName, TimeSpan interval) {
-			return GetWebsiteUsages(webspace,websiteName,x=>x,string.Format("{0} (website) CPU",websiteName), interval,"^CpuTime");
+			return GetWebsiteUsages(webspace,websiteName,x=>x,string.Format("{0} CPU",websiteName), interval,"^CpuTime");
 		}
 
 		private Task<ChartData> GetWebsiteRequests(string webspace,string websiteName, TimeSpan interval) {
-			return GetWebsiteUsages(webspace,websiteName,x=>x.Replace(".Count",""),string.Format("{0} (website) requests", websiteName),interval,"^Http", "^Requests");
+			return GetWebsiteUsages(webspace,websiteName,x=>x.Replace(".Count",""),string.Format("{0} requests", websiteName),interval,"^Http", "^Requests");
 		}
 
         
         private Task<ChartData> GetWebsiteMemory(string webspace,string websiteName, TimeSpan interval) {
-            return GetWebsiteUsages(webspace,websiteName,x=>x.Replace(".Bytes",""),string.Format("{0} (website) memory usage (bytes)", websiteName),interval,"MemoryWorkingSet");
+            return GetWebsiteUsages(webspace,websiteName,x=>x.Replace(".Bytes",""),string.Format("{0} memory usage (bytes)", websiteName),interval,"MemoryWorkingSet");
         }
 
         private Task<ChartData> GetWebsiteTraffic(string webspace,string websiteName, TimeSpan interval) {
-            return GetWebsiteUsages(webspace,websiteName,x=>x.Replace(".Bytes",""),string.Format("{0} (website) traffic (bytes)", websiteName),interval,"(^BytesSent|^BytesReceived)");
+            return GetWebsiteUsages(webspace,websiteName,x=>x.Replace(".Bytes",""),string.Format("{0} traffic (bytes)", websiteName),interval,"(^BytesSent|^BytesReceived)");
         }
 
         private Task<ChartData> GetWebsiteResponseTimes(string webspace,string websiteName, TimeSpan interval) {
-            return GetWebsiteUsages(webspace,websiteName,x=>x.Replace(".Milliseconds",""),string.Format("{0} (website) response times (ms)", websiteName),interval,"^AverageResponseTime");
+            return GetWebsiteUsages(webspace,websiteName,x=>x.Replace(".Milliseconds",""),string.Format("{0} response times (ms)", websiteName),interval,"^AverageResponseTime");
         }
 
 		private async Task<ChartData> GetWebsiteUsages(string webspace,string websiteName,Func<string,string> formatSeries,string charttitle, TimeSpan interval,params string[] filters) {
 			var usageClient = new AzureUsageClient(GetCredentials());
 			var usages = await usageClient.GetWebsitesUsageForWebsite(webspace,websiteName,interval,filters);
 			return new ChartData {
-				Name = charttitle,
+				Name = charttitle + " (website)",
 				Series = usages.GroupBy(_ => _.GraphiteCounterName).Select(_ =>
 					new SeriesData {
 						Name = formatSeries(_.Key),

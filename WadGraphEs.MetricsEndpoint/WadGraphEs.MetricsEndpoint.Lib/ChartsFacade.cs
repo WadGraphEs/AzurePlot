@@ -45,7 +45,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 					ResourceType = "website",
 					ServiceName = serviceName,
 					ServiceType = "Azure Subscription",
-					Name = string.Format("{0} (website) {1}", website.Name,  name),
+					Name = string.Format("{0} {1} (website) ", website.Name,  name),
 					Uri = uri
 				};
 			return new ChartInfo[] {
