@@ -44,24 +44,43 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 
             switch(counter) {
                 case "logio":
-                    return FilterSQLUsages(usages, database,"avg_log_write_percent");
+                    return FilterSQLUsages(usages, database,"Log I/O","avg_log_write_percent");
                 case "dataio":
-                    return FilterSQLUsages(usages, database,"avg_physical_data_read_percent", "avg_data_io_percent");
+                    return FilterSQLUsages(usages, database,"Data I/O", "avg_physical_data_read_percent", "avg_data_io_percent");
                 case "cpu":
-                    return FilterSQLUsages(usages, database,"avg_cpu_percent");
+                    return FilterSQLUsages(usages, database, "CPU", "avg_cpu_percent");
                 case "storage":
-                    return FilterSQLUsages(usages, database,"storage_in_megabytes");
+                    return FilterSQLUsages(usages, database,"Storage", "storage_in_megabytes");
                 case "memory":
-                    return FilterSQLUsages(usages, database,"active_memory_used_kb");
+                    return FilterSQLUsages(usages, database,"Memory","active_memory_used_kb");
                 case "sessions":
-                    return FilterSQLUsages(usages, database,"active_session_count");
+                    return FilterSQLUsages(usages, database,"Sessions", "active_session_count");
                 default:
                     throw new Exception("Unknown counter " +counter);
             }
         }
 
-        private Task<ChartData> FilterSQLUsages(ICollection<UsageObject> usages,string database, params string[] counters) {
-            throw new NotImplementedException();
+        private Task<ChartData> FilterSQLUsages(ICollection<UsageObject> usages,string database, string chartName, params string[] counters) {
+            //usage format: "Azure.SQLDatabase.r2vd5rudps.wadgraphes.usage_in_seconds"
+            const int databaseNameField = 3;
+            const int counterNameField = 4;
+            var perCounter = usages
+                .GroupBy(_=>_.GraphiteCounterName)
+                .Select(_=>new { usages = _.ToList(), split = _.Key.Split('.') })
+                .Where(_=>_.split[databaseNameField] == database).ToDictionary(_=>_.split[counterNameField]);
+
+            var res = new List<SeriesData>();
+            foreach(var counter in counters) {
+                if(!perCounter.ContainsKey(counter)) {
+                    continue;
+                }
+                res.Add(new SeriesData {
+                    DataPoints = perCounter[counter].usages.Select(_=>new DataPoint { Timestamp = _.Timestamp,  Value = _.Value }).ToList(),
+                    Name = counter
+                });
+            }
+
+            return Task.FromResult(new ChartData() { Name = chartName, Series = res });
         }
 
 
