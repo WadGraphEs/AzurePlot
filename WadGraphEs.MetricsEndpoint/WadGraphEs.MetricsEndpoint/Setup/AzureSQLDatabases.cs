@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using WadGraphEs.MetricsEndpoint.DataAccess;
+using WadGraphEs.MetricsEndpoint.Lib;
 using WadGraphEs.MetricsEndpoint.Lib.SQLDatabase;
 using WadGraphEs.MetricsEndpoint.MVC.Commands;
 using WadGraphEs.MetricsEndpoint.MVC.ViewModels;
@@ -94,5 +95,25 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 				return ctx.SQLDatabases.ToList();
 			}
 		}
-	}
+
+        internal static ICollection<ChartInfo> ListAllCharts() {
+            return ListAll().SelectMany(ListAllCharts).ToList();
+        }
+
+        private static IEnumerable<ChartInfo> ListAllCharts(SQLDatabase sqlDatabase) {
+            return ChartsFacade.ListAllChartsForSqlDatabaseServer(sqlDatabase.Servername,sqlDatabase.Username,sqlDatabase.Password);
+        }
+
+        internal static SqlCredentials GetCredentials(string forServer) {
+            using(var ctx = GetDataContext()) {
+                forServer = SQLDatabaseUsageClient.NormalizeServername(forServer);
+                var record = ctx.SQLDatabases.FirstOrDefault(_=>_.Servername == forServer);
+                if(record == null) {
+                    throw new InvalidOperationException(string.Format("Couldn't fetch credentials for database server {0}", forServer));
+                }
+
+                return record.Credentials;
+            }
+        }
+    }
 }

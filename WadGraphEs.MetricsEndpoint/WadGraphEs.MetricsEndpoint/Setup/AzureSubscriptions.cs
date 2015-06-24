@@ -63,7 +63,7 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 
 		
 		private static AzureUsageClient GetAzureUsageClient(string azureSubscriptionId,AddAzureSubscriptionSession record) {
-			return new AzureUsageClient(new FromPKCSMetricsEndpointConfiguration(record.Pfx,record.Password,azureSubscriptionId));
+			return new AzureUsageClient(record.MetricsEndpointConfiguration);
 		}
 
 		internal static FinishAddingAzureSubscription CreateFinishCommandForSession(string sessionId) {
@@ -119,16 +119,8 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 
 		internal static async Task<ICollection<ChartInfo>> ListAllCharts() {
 			var result = await Task.WhenAll(ListAll().Select(ListAllCharts));
-			return result.SelectMany(_=>_)
-                .Concat(new [] { new ChartInfo {
-                    Name = "Dummy",
-                    ResourceName = "DummyResourceName",
-                    ResourceType ="DummyResourceType",
-                    ServiceName = "Dummy Service",
-                    ServiceType = "DummyService",
-                    Uri = "wadgraphes://dummy"
-                }})            
-                .ToList();
+			return result.SelectMany(_=>_).ToList();
+              
 		}
 
 		private static Task<ICollection<ChartInfo>> ListAllCharts(AzureSubscription subscription) {
@@ -153,5 +145,14 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 		private static AzureSubscription GetSubscriptionById(string subscriptionId) {
 			return GetDataContext().AzureSubscriptions.ToList().FirstOrDefault(_=>_.AzureSubscriptionId == subscriptionId);
 		}
-	}
+
+        internal static MetricsEndpointConfiguration GetCredentials(string forSubscriptionId) {
+            var subscription = GetSubscriptionById(forSubscriptionId);
+            if(subscription == null) {
+                throw new InvalidOperationException("Couldn't fetch credentiasl for subscription " + forSubscriptionId);
+            }
+
+            return subscription.GetMetricsConfig();
+        }
+    }
 }

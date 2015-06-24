@@ -31,7 +31,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib.SQLDatabase {
 
 		private ICollection<UsageObject> GetResultFromReader(System.Data.SqlClient.SqlDataReader reader) {
 			var databaseName = (string)reader["database_name"];
-			var start_time = (DateTime)reader["start_time"];
+			var start_time = DateTime.SpecifyKind((DateTime)reader["start_time"],DateTimeKind.Utc);
 			var result = new List<UsageObject>();
 			for(var i=0;i<reader.FieldCount;i++) {
 				var name = reader.GetName(i);

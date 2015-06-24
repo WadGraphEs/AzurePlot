@@ -66,7 +66,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 					ResourceType = "database",
 					ServiceName = servername,
 					ServiceType = "Azure SQL Database",
-					Name = string.Format("{0} {1}", databaseName,counterName),
+					Name = string.Format("{0} {1} (SQL Database)", databaseName,counterName),
 					Uri = string.Format("wadgraphes://sql-database/{0}/{1}/{2}", client.ServerName, databaseName, uriPath)
 				};
              
