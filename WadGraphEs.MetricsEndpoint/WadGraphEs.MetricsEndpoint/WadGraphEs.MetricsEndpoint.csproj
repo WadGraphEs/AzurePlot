@@ -346,8 +346,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="content\bootstrap-theme.css.map" />
     <Content Include="content\bootstrap.css.map" />
-    <None Include="Properties\PublishProfiles\freeksmonitoring - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\freeksmonitoring - Web Deploy.pubxml" />
     <None Include="README.txt" />
     <None Include="scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="scripts\bootstrap.js" />
@@ -381,6 +379,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Configuration\" />
+    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="X509Tools\" />
   </ItemGroup>
   <ItemGroup>
