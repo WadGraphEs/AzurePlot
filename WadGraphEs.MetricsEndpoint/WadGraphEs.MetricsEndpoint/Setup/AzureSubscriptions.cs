@@ -12,26 +12,23 @@ using WadGraphEs.MetricsEndpoint.MVC.ViewModels;
 namespace WadGraphEs.MetricsEndpoint.Setup {
 	public class AzureSubscriptions {
 		internal static void StorePfxForSession(string sessionId,byte[] pfx,string password) {
-			var dataContext = GetDataContext();
-
-			var session = dataContext.AddAzureSubscriptionSessions.Find(sessionId);
-			if(session == null) {
-				session = new AddAzureSubscriptionSession {
-					SessionId = sessionId
-				};
-				dataContext.AddAzureSubscriptionSessions.Add(session);
-			}
+			DataContext.Do(ctx=>{
+			    var session = ctx.AddAzureSubscriptionSessions.Find(sessionId);
+			    if(session == null) {
+				    session = new AddAzureSubscriptionSession {
+					    SessionId = sessionId
+				    };
+				    ctx.AddAzureSubscriptionSessions.Add(session);
+			    }
 			
-			session.Pfx = pfx;
-			session.Password = password;
+			    session.Pfx = pfx;
+			    session.Password = password;
 
-			dataContext.SaveChanges();
+			    ctx.SaveChanges();
+            });
 		}
 
-		private static DataContext GetDataContext() {
-			return new DataContext();
-		}
-
+		
 		internal static byte[] GetCertificateForSession(string sessionId) {
 			var record = GetSessionRecord(sessionId);
 
@@ -39,11 +36,13 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 		}
 
 		private static AddAzureSubscriptionSession GetSessionRecord(string sessionId) {
-			var record = GetDataContext().AddAzureSubscriptionSessions.Find(sessionId);
-			if(record==null) {
-				throw new KeyNotFoundException("Session not found");
-			}
-			return record;
+            return DataContext.Do(ctx=>{
+			    var record = ctx.AddAzureSubscriptionSessions.Find(sessionId);
+			    if(record==null) {
+				    throw new KeyNotFoundException("Session not found");
+			    }
+			    return record;
+            });
 		}
 
 		internal static ICollection<Exception> TestConnection(string sessionId,string azureSubscriptionId) {
@@ -77,44 +76,45 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 		}
 
 		internal static void AddAzureSubscriptionIdForSession(string sessionId,string subscriptionId) {
-			var context = GetDataContext();
-			var record = context.AddAzureSubscriptionSessions.Find(sessionId);
-			record.AzureSubscriptionId = subscriptionId;
-			context.SaveChanges();
+			DataContext.Do(context=>{
+			    var record = context.AddAzureSubscriptionSessions.Find(sessionId);
+			    record.AzureSubscriptionId = subscriptionId;
+			    context.SaveChanges();
+            });
 		}
 
 		internal static void Handle(FinishAddingAzureSubscription cmd) {
-			var context = GetDataContext();
+            DataContext.Do(context=>{
+			    var session = context.AddAzureSubscriptionSessions.Find(cmd.SessionId);
 
-			var session = context.AddAzureSubscriptionSessions.Find(cmd.SessionId);
+			    context.AzureSubscriptions.Add(new AzureSubscription {
+				    Name = cmd.AzureSubscriptionName,
+				    AzureSubscriptionId  = session.AzureSubscriptionId,
+				    AddedOnUtc = DateTime.UtcNow,
+				    FromSessionId = cmd.SessionId,
+				    Pfx = session.Pfx,
+				    Password= session.Password,
+			    });
 
-			context.AzureSubscriptions.Add(new AzureSubscription {
-				Name = cmd.AzureSubscriptionName,
-				AzureSubscriptionId  = session.AzureSubscriptionId,
-				AddedOnUtc = DateTime.UtcNow,
-				FromSessionId = cmd.SessionId,
-				Pfx = session.Pfx,
-				Password= session.Password,
-			});
+			    context.AddAzureSubscriptionSessions.Remove(session);
 
-			context.AddAzureSubscriptionSessions.Remove(session);
-
-			context.SaveChanges();
+			    context.SaveChanges();
+            });
 		}
 
 		internal static ICollection<ServiceViewModel> ListForOverview() {
-			var ctx = GetDataContext();
-
-			return ctx.AzureSubscriptions.ToList().Select(_=>new ServiceViewModel {
-				//Id = _.Id,
-				Name = _.FormatName(),
-				Record = _
-			}).ToList();
+			return DataContext.Do(ctx=>{
+			    return ctx.AzureSubscriptions.ToList().Select(_=>new ServiceViewModel {
+				    //Id = _.Id,
+				    Name = _.FormatName(),
+				    Record = _
+			    }).ToList();
+            });
 		}
 
 
 		internal static ICollection<AzureSubscription> ListAll() {
-			return GetDataContext().AzureSubscriptions.ToList();
+			return DataContext.Do(ctx=>ctx.AzureSubscriptions.ToList());
 		}
 
 		internal static async Task<ICollection<ChartInfo>> ListAllCharts() {
@@ -143,7 +143,7 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 		
 
 		private static AzureSubscription GetSubscriptionById(string subscriptionId) {
-			return GetDataContext().AzureSubscriptions.ToList().FirstOrDefault(_=>_.AzureSubscriptionId == subscriptionId);
+			return DataContext.Do(ctx=>ctx.AzureSubscriptions.ToList().FirstOrDefault(_=>_.AzureSubscriptionId == subscriptionId));
 		}
 
         internal static MetricsEndpointConfiguration GetCredentials(string forSubscriptionId) {

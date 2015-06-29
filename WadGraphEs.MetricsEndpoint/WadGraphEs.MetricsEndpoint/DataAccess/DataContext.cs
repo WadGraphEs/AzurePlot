@@ -21,5 +21,25 @@ namespace WadGraphEs.MetricsEndpoint.DataAccess {
 		public DbSet<AddSQLDatabaseSession> AddSQLDatabaseSessions{get;set;}
 
 		public DbSet<DashboardChart> DashboardCharts{get;set;}
-	}
+
+        public static T Do<T>(Func<DataContext,T> action) {
+            using(var ctx = new DataContext()) {
+                return action(ctx);
+            }
+        }
+
+        public static void Do(Action<DataContext> action) {
+            using(var ctx = new DataContext()) {
+                action(ctx);
+            }
+        }
+
+        internal static void CreateDatabase() {
+            Do(ctx=>ctx.Database.Create());
+        }
+
+        internal static bool IsDatabaseCreated() {
+            return Do(ctx=>ctx.Database.Exists());
+        }
+    }
 }

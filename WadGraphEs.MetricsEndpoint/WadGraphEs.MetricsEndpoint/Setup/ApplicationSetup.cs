@@ -29,13 +29,13 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 		}
 
 		private static void CreateDatabase() {
-			var dbContext = new DataContext();
-			dbContext.Database.Create();
+			DataContext.CreateDatabase();
+			
 		}
 
 		public static bool IsDatabaseCreated() {
-			var dbContext = new DataContext();
-			return dbContext.Database.Exists();
+			
+			return DataContext.IsDatabaseCreated();
 		}
 
 		internal static bool HasAdminUser() {
