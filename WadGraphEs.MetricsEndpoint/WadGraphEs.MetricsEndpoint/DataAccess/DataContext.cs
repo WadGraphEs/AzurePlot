@@ -22,15 +22,21 @@ namespace WadGraphEs.MetricsEndpoint.DataAccess {
 
 		public DbSet<DashboardChart> DashboardCharts{get;set;}
 
+        static object _synchronization = new object();
+
         public static T Do<T>(Func<DataContext,T> action) {
-            using(var ctx = new DataContext()) {
-                return action(ctx);
+            lock(_synchronization) {
+                using(var ctx = new DataContext()) {
+                    return action(ctx);
+                }
             }
         }
 
         public static void Do(Action<DataContext> action) {
-            using(var ctx = new DataContext()) {
-                action(ctx);
+            lock(_synchronization) {
+                using(var ctx = new DataContext()) {
+                    action(ctx);
+                }
             }
         }
 
