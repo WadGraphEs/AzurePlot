@@ -30,5 +30,15 @@ namespace WadGraphEs.MetricsEndpoint {
             razorViewEngine.ViewLocationFormats = new [] {"~/MVC/Views/{1}/{0}.cshtml"};
 			razorViewEngine.PartialViewLocationFormats = new [] {"~/MVC/Views/{1}/{0}.cshtml"};
         }
+
+        readonly static Logger _errorLogger = LogManager.GetLogger("Application_Error");
+
+        protected void Application_Error(object sender, EventArgs e) {
+            var exception = Server.GetLastError();
+            
+            _errorLogger.Log(LogLevel.Error, exception.Message, exception);
+
+            return;
+        }
     }
 }
