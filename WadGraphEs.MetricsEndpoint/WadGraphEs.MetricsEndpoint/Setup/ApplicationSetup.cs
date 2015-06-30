@@ -49,8 +49,7 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 		}
 
 		public static bool IsSchemaUpToDate() {
-			var migrator = GetDbMigrator();
-			return !migrator.GetPendingMigrations().Any();
+			return !GetPendingMigrations().Any();
 		}
 
 		internal static bool IsApplicationConfigured() {
@@ -78,9 +77,10 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 		}
 
 
+        static Lazy<ICollection<string>> _pendingMigrations = new Lazy<ICollection<string>>(() => GetDbMigrator().GetPendingMigrations().ToList());
 
 		internal static ICollection<string> GetPendingMigrations() {
-			return GetDbMigrator().GetPendingMigrations().ToList();
+            return _pendingMigrations.Value;
 		}
 	}
 }
