@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
 using WadGraphEs.MetricsEndpoint.Authentication;
+using WadGraphEs.MetricsEndpoint.Logging;
 
 namespace WadGraphEs.MetricsEndpoint {
     public static class WebApiConfig {
@@ -35,6 +37,8 @@ namespace WadGraphEs.MetricsEndpoint {
 
             config.MessageHandlers.Add(new AuthenticationMessageHandler());
 			config.Filters.Add(new AuthorizeAttribute());
+
+            config.Services.Add(typeof(IExceptionLogger), new NLogExceptionLogger());
         }
     }
 }

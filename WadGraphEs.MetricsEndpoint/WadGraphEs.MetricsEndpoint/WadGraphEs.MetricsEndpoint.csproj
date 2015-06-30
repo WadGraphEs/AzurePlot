@@ -204,6 +204,7 @@
     </Compile>
     <Compile Include="Logging\CircularBuffer.cs" />
     <Compile Include="Logging\LogMessage.cs" />
+    <Compile Include="Logging\NLogExceptionLogger.cs" />
     <Compile Include="Logging\ViewableLogTarget.cs" />
     <Compile Include="Migrations\201503141543398_initial-schema.cs" />
     <Compile Include="Migrations\201503141543398_initial-schema.Designer.cs">
