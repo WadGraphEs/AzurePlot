@@ -21,6 +21,8 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 			var dbMigrator = GetDbMigrator();
 
 			dbMigrator.Update();
+
+            ResetPendingMigrations();
 		}
 
 		private static System.Data.Entity.Migrations.DbMigrator GetDbMigrator() {
@@ -77,7 +79,15 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 		}
 
 
-        static Lazy<ICollection<string>> _pendingMigrations = new Lazy<ICollection<string>>(() => GetDbMigrator().GetPendingMigrations().ToList());
+        static Lazy<ICollection<string>> _pendingMigrations;
+
+        static ApplicationSetup() {
+            ResetPendingMigrations();
+        }
+
+        private static void ResetPendingMigrations() {
+            _pendingMigrations = new Lazy<ICollection<string>>(() => GetDbMigrator().GetPendingMigrations().ToList());
+        }
 
 		internal static ICollection<string> GetPendingMigrations() {
             return _pendingMigrations.Value;
