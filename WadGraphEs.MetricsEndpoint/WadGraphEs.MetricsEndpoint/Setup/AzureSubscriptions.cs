@@ -62,7 +62,7 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 
 		
 		private static AzureUsageClient GetAzureUsageClient(string azureSubscriptionId,AddAzureSubscriptionSession record) {
-			return new AzureUsageClient(record.MetricsEndpointConfiguration);
+			return new AzureUsageClient(new FromPKCSMetricsEndpointConfiguration(record.Pfx,record.Password,azureSubscriptionId));
 		}
 
 		internal static FinishAddingAzureSubscription CreateFinishCommandForSession(string sessionId) {
