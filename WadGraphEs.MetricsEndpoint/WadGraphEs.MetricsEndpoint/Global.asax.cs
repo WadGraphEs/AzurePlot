@@ -30,9 +30,22 @@ namespace WadGraphEs.MetricsEndpoint {
             razorViewEngine.ViewLocationFormats = new [] {"~/MVC/Views/{1}/{0}.cshtml"};
 			razorViewEngine.PartialViewLocationFormats = new [] {"~/MVC/Views/{1}/{0}.cshtml"};
 
-            //Add this if you want to monitor connections to the Azure API
-            //var logger = LogManager.GetLogger("ServicePointMonitor");
-            //WadGraphEs.MetricsEndpoint.Lib.ServicePointMonitor.Start(TimeSpan.FromSeconds(5),logger.Info);
+            StartServicePointLogger();
+        }
+
+        private static void StartServicePointLogger() {
+            bool doStart;
+            
+            if(!bool.TryParse(System.Configuration.ConfigurationManager.AppSettings["StartServicePointLogger"],out doStart)) {
+                return;
+            }
+            if(!doStart) {
+                return;
+            }
+
+            var logger = LogManager.GetLogger("ServicePointMonitor");
+            logger.Info("Logging is enabled");
+            WadGraphEs.MetricsEndpoint.Lib.ServicePointMonitor.Start(TimeSpan.FromSeconds(5),logger.Info);
         }
 
         readonly static Logger _errorLogger = LogManager.GetLogger("Application_Error");
