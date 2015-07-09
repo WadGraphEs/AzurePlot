@@ -9,9 +9,10 @@ using System.Threading.Tasks;
 
 namespace WadGraphEs.MetricsEndpoint.Lib {
 	class AzureMetricsApiClient {
-		readonly MetricsClient _metricsClient;
+		readonly CertificateCloudCredentials _credentials;
+
 		public AzureMetricsApiClient(CertificateCloudCredentials credentials) {
-			_metricsClient = new MetricsClient(credentials);
+            _credentials = credentials;
 		}
 
         internal System.Threading.Tasks.Task<ICollection<MetricValueSet>> GetMetricsForWebsite(AzureWebsiteId websiteId, TimeSpan history) {
@@ -25,7 +26,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 
         //the limit seems to be 2880 metrics per request
 		async System.Threading.Tasks.Task<ICollection<MetricValueSet>> GetMetricsForResourceId(string resourceId, TimeSpan forHistory, MetricsFilter filter) {
-            var metricsResult = await _metricsClient.MetricDefinitions.ListAsync(resourceId,null,null);
+            var metricsResult = await MetricsClientFacade.ListDefinitionsAsync(_credentials, resourceId,null,null);
 
 			var metrics = filter.FilterMetrics(metricsResult.MetricDefinitionCollection.Value.Where(_=>_.MetricAvailabilities.Any()).ToList());
             
@@ -78,7 +79,8 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
         private async Task<ICollection<MetricValueSet>> Fetch(FetchData data) {
             CloudException thrown = null;
             try {
-                var values = await _metricsClient.MetricValues.ListAsync(
+                var values = await MetricsClientFacade.ListValuesAsync(
+                    _credentials,
 				    data.ResourceId, 
 				    data.MetricNames,
                     "",
@@ -128,6 +130,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
         const string TooManyValuesErrorMessage = "You've exceeded the maximum number of allowed values per metric in a single request.";
 
 		const string ApiVersion = "2013-10-01";
+        
 
 
 		internal async System.Threading.Tasks.Task<ICollection<MetricValueSet>> GetMetricsForCloudService(CloudServiceInstanceId instance,TimeSpan history, MetricsFilter filter) {

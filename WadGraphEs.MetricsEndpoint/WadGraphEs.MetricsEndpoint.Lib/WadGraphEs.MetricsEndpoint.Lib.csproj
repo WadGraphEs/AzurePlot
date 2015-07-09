@@ -99,6 +99,7 @@
     <Compile Include="CloudServiceUsage.cs" />
     <Compile Include="DataPoint.cs" />
     <Compile Include="GraphiteCounterName.cs" />
+    <Compile Include="MetricsClientFacade.cs" />
     <Compile Include="MetricsEndpointConfiguration.cs" />
     <Compile Include="MetricsFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
