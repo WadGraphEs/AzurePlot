@@ -27,7 +27,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
             var table = (Hashtable)tableField.GetValue(null);
             var keys = table.Keys.Cast<object>().ToList();
 
-            Output("ServicePoint count: {0}", keys.Count);
+            Output("ServicePoint count: {0}, DefaultConnectionLimit: {1}", keys.Count, ServicePointManager.DefaultConnectionLimit);
             foreach(var key in keys) {
                 var val = ((WeakReference)table[key]);
 
@@ -55,7 +55,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
             var value = (Hashtable)connectionGroupField.GetValue(sp);
             var connectionGroups = value.Keys.Cast<object>().ToList();
             var totalConnections = 0;
-            Output("ServicePoint: {0}", sp.Address);
+            Output("ServicePoint: {0} (Connection Limit: {1}, Reported connections: {2})", sp.Address,sp.ConnectionLimit,sp.CurrentConnections);
             foreach(var key in connectionGroups) {
                 var connectionGroup = value[key];
                 var groupType = connectionGroup.GetType();
