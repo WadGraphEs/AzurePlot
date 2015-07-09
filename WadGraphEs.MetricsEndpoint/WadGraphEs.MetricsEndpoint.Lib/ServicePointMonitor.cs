@@ -6,32 +6,28 @@ using System.Net;
 using System.Text;
 using System.Threading;
 
-namespace WadGraphEs.MetricsEndpoint.Console {
+namespace WadGraphEs.MetricsEndpoint.Lib {
     using System.Reflection;
     using Console = System.Console;
-    class ServicePointMonitor {
+    public class ServicePointMonitor {
+        private Action<string> _output;
+
+        public ServicePointMonitor(Action<string> output) {
+            _output = output;
+        }
         
-        internal static void Start(TimeSpan interval) {
-            var thread = new Thread(()=> {
-                while(true) {
-                    foreach(var serviceEndpoint in ListServicePoints()) {
-                        PrintServicePointConnections(serviceEndpoint);
-                    }
-
-                    Thread.Sleep(interval);
-                }
-            });
-
-            thread.IsBackground = true;
-            thread.Start();
+        private void Print() {
+            foreach(var serviceEndpoint in ListServicePoints()) {
+                PrintServicePointConnections(serviceEndpoint);
+            }
         }
 
-        private static IEnumerable<ServicePoint> ListServicePoints() {
+        private IEnumerable<ServicePoint> ListServicePoints(){
             var tableField = typeof(ServicePointManager).GetField("s_ServicePointTable", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
             var table = (Hashtable)tableField.GetValue(null);
             var keys = table.Keys.Cast<object>().ToList();
 
-            Console.WriteLine("ServicePoint count: {0}", keys.Count);
+            Output("ServicePoint count: {0}", keys.Count);
             foreach(var key in keys) {
                 var val = ((WeakReference)table[key]);
 
@@ -47,25 +43,49 @@ namespace WadGraphEs.MetricsEndpoint.Console {
             
         }
 
-        private static void PrintServicePointConnections(ServicePoint sp) {
+        private void Output(string fmt,params object[] args)
+        {
+            _output(string.Format(fmt,args));
+        }
+
+        private void PrintServicePointConnections(ServicePoint sp) {
             var spType = sp.GetType();
             var privateOrPublicInstanceField = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
             var connectionGroupField = spType.GetField("m_ConnectionGroupList",privateOrPublicInstanceField);
             var value = (Hashtable)connectionGroupField.GetValue(sp);
             var connectionGroups = value.Keys.Cast<object>().ToList();
             var totalConnections = 0;
-            Console.WriteLine("ServicePoint: {0}", sp.Address);
+            Output("ServicePoint: {0}", sp.Address);
             foreach(var key in connectionGroups) {
                 var connectionGroup = value[key];
                 var groupType = connectionGroup.GetType();
                 var listField = groupType.GetField("m_ConnectionList",privateOrPublicInstanceField);
                 var listValue = (ArrayList)listField.GetValue(connectionGroup);
                 //Console.WriteLine("{3} {0}\nConnectionGroup: {1} Count: {2}",sp.Address, key,listValue.Count, DateTime.Now);
-                Console.WriteLine("{0}", key);
+                Output("{0}", key);
                 totalConnections+=listValue.Count;
             }
             
-            Console.WriteLine("ConnectionGroupCount: {0}, Total Connections: {1}", connectionGroups.Count, totalConnections);
+            Output("ConnectionGroupCount: {0}, Total Connections: {1}", connectionGroups.Count, totalConnections);
+        }
+
+        public static void Start(TimeSpan interval) {
+            Start(interval,Console.WriteLine);
+        }
+
+        public static void Start(TimeSpan interval, Action<string> output) {
+            var thread = new Thread(()=> {
+                while(true) {
+                    var monitor = new ServicePointMonitor(output);
+                    monitor.Print();
+                    
+
+                    Thread.Sleep(interval);
+                }
+            });
+
+            thread.IsBackground = true;
+            thread.Start();
         }
     }
 }
