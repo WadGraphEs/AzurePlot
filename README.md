@@ -97,6 +97,7 @@ We're working on:
 * Cache API results for better performance
 * Windows Azure Diagnostiscs performance counters
 * Better chart manipulation
+
 Please let us know if you have suggestions or like to contribute.
 
 ## Acknowledgments
