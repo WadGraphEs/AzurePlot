@@ -1,15 +1,15 @@
 # AzurePlot
-AzurePlot charts metrics from various Azure services. It's designed to be an alternative to the Azure portal, focusing on usability and performance. If you're running on Azure and occasionally need to diagnose problems, this tool is for you.
+AzurePlot plots metrics from various Azure services. It's designed to be a better alternative to the native charting/monitoring capabilities of the Azure portal, focusing on usability and performance. It works by accessing the APIs provided by the individual services. If you're operating applications running on Azure and occasionally need to diagnose problems, this tool is for you.
 
 * [Features](#features)
-* [Screenshots](#screenshots)
 * [Getting started](#getting-started)
+* [Screenshots](#screenshots)
 * [Roadmap](#roadmap) 
 * [Acknowledgments](#acknowledgments)
 * [External tools](#external-tools)
 
 ## Features
-* Chart metrics from Azure Web apps (formerly Windows Azure Websites), Web roles, Worker roles, VMs and SQL Database
+* Chart metrics from Azure Web apps (formerly Windows Azure Websites), Web/Worker roles, VMs and SQL Database
 * Dashboard for displaying multiple charts
 * Beautiful Highcharts based charts
 * Very easy to setup
@@ -19,15 +19,6 @@ AzurePlot charts metrics from various Azure services. It's designed to be an alt
 * Integrated log viewer to quickly diagnose problems
 * Can run on any IIS web server including Windows Azure Web Sites
 
-## Screenshots
-### Last 48 hours for an Azure VM
-![VM Last 48](http://wadgraphes.github.io/AzurePlot/screenshots/vm-last-48-hours.png)
-### 5 Web role instances last 36 hours
-![Web role last 36](http://wadgraphes.github.io/AzurePlot/screenshots/5-web-roles-36-hours.png)
-### Web Sites last 48 hours
-![web sites last 48](http://wadgraphes.github.io/AzurePlot/screenshots/websites-48-hours.png)
-### SQL Database last week
-![SQL Database last week](http://wadgraphes.github.io/AzurePlot/screenshots/sqldb-1-week.png)
 ## Getting started
 ### Prerequisites
 To run AzurePlot you will need to have Visual Studio (>=2012) installed on your computer.
@@ -87,6 +78,17 @@ Click "Add to dashboard", and the charts will be added to your dashboard:
 ![Add chart dialog](http://wadgraphes.github.io/AzurePlot/docs/installation/subscription-step10-done.png)
 
 Congratulations, you've now added your first subscription to the dashboard.
+
+
+## Screenshots
+### Last 48 hours for an Azure VM
+![VM Last 48](http://wadgraphes.github.io/AzurePlot/screenshots/vm-last-48-hours.png)
+### 5 Web role instances last 36 hours
+![Web role last 36](http://wadgraphes.github.io/AzurePlot/screenshots/5-web-roles-36-hours.png)
+### Web Sites last 48 hours
+![web sites last 48](http://wadgraphes.github.io/AzurePlot/screenshots/websites-48-hours.png)
+### SQL Database last week
+![SQL Database last week](http://wadgraphes.github.io/AzurePlot/screenshots/sqldb-1-week.png)
 
 ## Roadmap
 We're working on:
