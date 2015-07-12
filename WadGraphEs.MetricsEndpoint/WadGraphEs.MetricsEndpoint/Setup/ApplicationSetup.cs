@@ -21,6 +21,8 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 			var dbMigrator = GetDbMigrator();
 
 			dbMigrator.Update();
+
+            ResetPendingMigrations();
 		}
 
 		private static System.Data.Entity.Migrations.DbMigrator GetDbMigrator() {
@@ -29,13 +31,13 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 		}
 
 		private static void CreateDatabase() {
-			var dbContext = new DataContext();
-			dbContext.Database.Create();
+			DataContext.CreateDatabase();
+			
 		}
 
 		public static bool IsDatabaseCreated() {
-			var dbContext = new DataContext();
-			return dbContext.Database.Exists();
+			
+			return DataContext.IsDatabaseCreated();
 		}
 
 		internal static bool HasAdminUser() {
@@ -49,8 +51,7 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 		}
 
 		public static bool IsSchemaUpToDate() {
-			var migrator = GetDbMigrator();
-			return !migrator.GetPendingMigrations().Any();
+			return !GetPendingMigrations().Any();
 		}
 
 		internal static bool IsApplicationConfigured() {
@@ -78,9 +79,18 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 		}
 
 
+        static Lazy<ICollection<string>> _pendingMigrations;
+
+        static ApplicationSetup() {
+            ResetPendingMigrations();
+        }
+
+        private static void ResetPendingMigrations() {
+            _pendingMigrations = new Lazy<ICollection<string>>(() => GetDbMigrator().GetPendingMigrations().ToList());
+        }
 
 		internal static ICollection<string> GetPendingMigrations() {
-			return GetDbMigrator().GetPendingMigrations().ToList();
+            return _pendingMigrations.Value;
 		}
 	}
 }

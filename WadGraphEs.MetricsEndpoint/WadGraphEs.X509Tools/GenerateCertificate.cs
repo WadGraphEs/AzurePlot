@@ -6,7 +6,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Web;
 
-namespace WadGraphEs.MetricsEndpoint.X509Tools {
+namespace WadGraphEs.X509Tools {
 	public class GenerateCertificate {
 		//adapted from https://github.com/mono/mono/blob/master/mcs/tools/security/makecert.cs
 		public static byte[] GeneratePfx(string certificateName, string password) {
@@ -19,7 +19,7 @@ namespace WadGraphEs.MetricsEndpoint.X509Tools {
 			RSA subjectKey = new RSACryptoServiceProvider(2048);
 			
 
-			string hashName = "SHA1";
+			string hashName = "SHA256";
 
 			X509CertificateBuilder cb = new X509CertificateBuilder(3);
 			cb.SerialNumber = sn;
@@ -63,7 +63,7 @@ namespace WadGraphEs.MetricsEndpoint.X509Tools {
 			return sn;
 		}
 
-		internal static byte[] GetCertificateForBytes(byte[] pfx,string password) {
+		public static byte[] GetCertificateForBytes(byte[] pfx,string password) {
 			var pkcs = new PKCS12(pfx,password);
 			var cert = pkcs.GetCertificate(GetAttributes());
 			

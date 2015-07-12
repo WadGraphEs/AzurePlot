@@ -46,6 +46,7 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 			foreach(var deployment in deployments) {
 				foreach(var instance in deployment.Element(GetElementName("RoleInstanceList")).Elements(GetElementName("RoleInstance"))) {
 					res.Add(new CloudServiceInstanceId(
+                        _client.SubscriptionId,
 						service,
 						deployment.Element(GetElementName("Name")).Value,
 						deployment.Element(GetElementName("DeploymentSlot")).Value,
@@ -96,5 +97,10 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 
 			return SelectElementsInXmlByXPath(xml,"/a:Subscription/a:SubscriptionName").Select(_=>_.Value).FirstOrDefault()??"Unknown";
 		}
-	}
+
+        internal Task<ICollection<CloudServiceInstanceId>> ListInstancesForServiceName(string serviceName) {
+            
+            return GetInstancesForService(serviceName);
+        }
+    }
 }

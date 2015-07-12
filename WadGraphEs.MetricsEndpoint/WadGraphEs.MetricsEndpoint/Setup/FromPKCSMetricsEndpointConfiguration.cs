@@ -12,6 +12,10 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 		private string _password;
 		private string _azureSubscriptionId;
 
+		public string SubscriptionId {
+			get { return _azureSubscriptionId; }
+		}
+
 		public FromPKCSMetricsEndpointConfiguration(byte[] pfx,string password,string azureSubscriptionId) {
 			_pfx = pfx;
 			_password = password;

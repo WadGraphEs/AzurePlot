@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WadGraphEs.MetricsEndpoint.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WadGraphEs.MetricsEndpoint.Console", "WadGraphEs.MetricsEndpoint.Console\WadGraphEs.MetricsEndpoint.Console.csproj", "{31B97C17-8044-4752-B2B3-2595C5D7107B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WadGraphEs.X509Tools", "WadGraphEs.X509Tools\WadGraphEs.X509Tools.csproj", "{3865D83A-2F19-4D83-B648-6B5CD4B4ECEC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{31B97C17-8044-4752-B2B3-2595C5D7107B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31B97C17-8044-4752-B2B3-2595C5D7107B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31B97C17-8044-4752-B2B3-2595C5D7107B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3865D83A-2F19-4D83-B648-6B5CD4B4ECEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3865D83A-2F19-4D83-B648-6B5CD4B4ECEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3865D83A-2F19-4D83-B648-6B5CD4B4ECEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3865D83A-2F19-4D83-B648-6B5CD4B4ECEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

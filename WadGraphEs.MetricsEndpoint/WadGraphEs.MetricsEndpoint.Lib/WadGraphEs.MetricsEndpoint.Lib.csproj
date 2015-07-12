@@ -75,28 +75,44 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AzureCloudService.cs" />
     <Compile Include="AzureCloudServiceInfoApiClient.cs" />
     <Compile Include="AzureCloudServiceMetricsApiClient.cs" />
     <Compile Include="AzureCloudServicesClient.cs" />
     <Compile Include="AzureManagementRestClient.cs" />
     <Compile Include="AzureMetricsApiClient.cs" />
+    <Compile Include="AzureSubscriptionInfoClient.cs" />
+    <Compile Include="AzureSubscriptionInfoFacade.cs" />
     <Compile Include="AzureUsageClient.cs" />
+    <Compile Include="AzureWebsite.cs" />
     <Compile Include="AzureWebsiteUsage.cs" />
     <Compile Include="AzureWebsiteApiClient.cs" />
     <Compile Include="AzureWebsiteId.cs" />
     <Compile Include="AzureWebsitesInfoApiClient.cs" />
     <Compile Include="AzureWebsitesMetricsApiClient.cs" />
     <Compile Include="AzureWebsitesUsageClient.cs" />
+    <Compile Include="ChartData.cs" />
+    <Compile Include="ChartDataFacade.cs" />
+    <Compile Include="ChartInfo.cs" />
+    <Compile Include="ChartsFacade.cs" />
     <Compile Include="CloudServiceInstanceId.cs" />
     <Compile Include="CloudServiceUsage.cs" />
+    <Compile Include="DataPoint.cs" />
     <Compile Include="GraphiteCounterName.cs" />
+    <Compile Include="MetricsClientFacade.cs" />
     <Compile Include="MetricsEndpointConfiguration.cs" />
+    <Compile Include="MetricsFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SeriesData.cs" />
+    <Compile Include="ServicePointMonitor.cs" />
+    <Compile Include="SqlCredentials.cs" />
     <Compile Include="SQLDatabase\ServerUsagesClient.cs" />
     <Compile Include="SQLDatabase\SQLDatabaseConnection.cs" />
     <Compile Include="SQLDatabase\SQLDatabaseUsageClient.cs" />
     <Compile Include="SQLDatabase\SQLDatabaseVersion.cs" />
-    <Compile Include="SQLDatabase\SQLDatabaseVersionEnum.cs" />
+    <Compile Include="SQLDatabase\SQLDatabaseVersionEnum.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="SQLDatabase\SQLErrorNumbers.cs" />
     <Compile Include="SQLDatabase\TestConnectionResult.cs" />
     <Compile Include="SQLDatabase\V11ServerUsagesClient.cs" />

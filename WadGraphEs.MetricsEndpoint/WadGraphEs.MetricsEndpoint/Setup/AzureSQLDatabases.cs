@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using WadGraphEs.MetricsEndpoint.DataAccess;
+using WadGraphEs.MetricsEndpoint.Lib;
 using WadGraphEs.MetricsEndpoint.Lib.SQLDatabase;
 using WadGraphEs.MetricsEndpoint.MVC.Commands;
 using WadGraphEs.MetricsEndpoint.MVC.ViewModels;
@@ -16,19 +17,15 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 		internal static bool AlreadyHasServer(string servername) {
 			var normalized = SQLDatabaseUsageClient.NormalizeServername(servername);
 
-			using(var ctx = GetDataContext()) {
+			return DataContext.Do(ctx=>{
 				var db = ctx.SQLDatabases.FirstOrDefault(_=>_.Servername == normalized);
 				return db != null;
-			}
-		}
-
-		private static DataContext GetDataContext() {
-			return new DataContext();
+			});
 		}
 
 		
 		internal static void StoreInSession(string sessionId,MVC.Commands.CreateAzureSQLDatabaseCommand cmd) {
-			using(var ctx = GetDataContext()) {
+			DataContext.Do(ctx=>{
 				ctx.AddSQLDatabaseSessions.Add(new AddSQLDatabaseSession {
 					SessionId = sessionId,
 					Username = cmd.Username,
@@ -36,11 +33,11 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 					Servername = cmd.Servername
 				});
 				ctx.SaveChanges();
-			}
+			});
 		}
 
 		internal static CreateAzureSQLDatabaseCommand RetrieveCreateCommandFromSession(string sessionId) {
-			using(var ctx=  GetDataContext()) {
+			return DataContext.Do(ctx=>{
 				var result = ctx.AddSQLDatabaseSessions.Find(sessionId);
 
 				return new CreateAzureSQLDatabaseCommand {
@@ -49,11 +46,11 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 					SessionId = result.SessionId,
 					Username = result.Username
 				};
-			}
+			});
 		}
 
 		internal static object GetFinishCommandForSession(string sessionId) {
-			using(var ctx = GetDataContext()) {
+			return DataContext.Do(ctx=>{
 
 				var session = ctx.AddSQLDatabaseSessions.Find(sessionId);
 
@@ -63,7 +60,7 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 					Username = session.Username,
 					Version = GetVersionFromSession(session)
 				};
-			}
+			});
 		}
 
 		private static string GetVersionFromSession(AddSQLDatabaseSession session) {
@@ -71,7 +68,7 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 		}
 
 		internal static void FinishSession(string sessionId) {
-			using(var ctx = GetDataContext()) {
+			DataContext.Do(ctx=>{
 				var session = ctx.AddSQLDatabaseSessions.Find(sessionId);
 				ctx.SQLDatabases.Add(new SQLDatabase {
 					Servername = SQLDatabaseUsageClient.NormalizeServername(session.Servername),
@@ -80,19 +77,39 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 					Version = GetVersionFromSession(session)
 				});
 				ctx.SaveChanges();
-			}
+			});
 		}
 
 		internal static List<ServiceViewModel> ListForOverview() {
-			using(var ctx = GetDataContext()) {
+			return DataContext.Do(ctx=>{
 				return ctx.SQLDatabases.ToList().Select(_=>new ServiceViewModel { Name = _.Servername, Record = _ }).ToList();
-			}
+			});
 		}
 
 		internal static ICollection<SQLDatabase> ListAll() {
-			using(var ctx = GetDataContext()) {
+			return DataContext.Do(ctx=>{
 				return ctx.SQLDatabases.ToList();
-			}
+			});
 		}
-	}
+
+        internal static ICollection<ChartInfo> ListAllCharts() {
+            return ListAll().SelectMany(ListAllCharts).ToList();
+        }
+
+        private static IEnumerable<ChartInfo> ListAllCharts(SQLDatabase sqlDatabase) {
+            return ChartsFacade.ListAllChartsForSqlDatabaseServer(sqlDatabase.Servername,sqlDatabase.Username,sqlDatabase.Password);
+        }
+
+        internal static SqlCredentials GetCredentials(string forServer) {
+            return DataContext.Do(ctx=>{
+                forServer = SQLDatabaseUsageClient.NormalizeServername(forServer);
+                var record = ctx.SQLDatabases.FirstOrDefault(_=>_.Servername == forServer);
+                if(record == null) {
+                    throw new InvalidOperationException(string.Format("Couldn't fetch credentials for database server {0}", forServer));
+                }
+
+                return record.Credentials;
+            });
+        }
+    }
 }

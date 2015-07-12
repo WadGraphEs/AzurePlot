@@ -42,4 +42,16 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 				.ToList();
         }
 	}
+
+    public class AzureWebsitesInfoApiClientFacade {
+        public static string FindWebspace(MetricsEndpointConfiguration config, string websiteName) {
+            var infoClient = new AzureWebsitesInfoApiClient(new AzureWebsiteApiClient(new AzureManagementRestClient(config.GetCertificateCloudCredentials())));
+
+            var website = infoClient.ListAzureWebsites().Result.FirstOrDefault(_=>_.Name ==  websiteName);
+            if(website == null) {
+                return null;
+            }
+            return website.Webspace;
+        }
+    }
 }

@@ -3,20 +3,21 @@
 }
 
 @section stylesheets{
-	@Styles.Render("~/content/dashboard")	
+	@Styles.Render("~/content/home")
+	@RenderSection("stylesheets", required:false)
 }
 
 @functions {
-	string FormatNavigationLink(string routeName, string title) {
+	MvcHtmlString FormatNavigationLink(string routeName, string title) {
 		var route = RouteTable.Routes[routeName];
 
 		var routeUrl = @Url.RouteUrl(routeName);
 
 		if(ViewContext.RouteData.Route.Equals(route)) {
-			return string.Format(@"<li class=""active""><a href=""{0}"">{1} <span class=""sr-only"">(current)</span></a></li>", routeUrl,title);
+			return new MvcHtmlString(string.Format(@"<li class=""active""><a href=""{0}"">{1} <span class=""sr-only"">(current)</span></a></li>",routeUrl,title));
 		} 
 
-		return string.Format(@"<li><a href=""{0}"">{1}</a></li>", routeUrl,title);
+		return new MvcHtmlString(string.Format(@"<li><a href=""{0}"">{1}</a></li>", routeUrl,title));
 		
 	}
 }
@@ -24,7 +25,7 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="#">WadGraphEs Azure Dashboard</a>
+			<a class="navbar-brand" href="#">Azure Metrics Dashboard</a>
 		</div>
 	</div>
 </nav>
@@ -33,12 +34,13 @@
 	<div class="row">
 		<div class="col-sm-3 col-md-2 sidebar">
 			<ul class="nav nav-sidebar">
-				@Html.Raw(FormatNavigationLink("home", "Overview"))
-				@Html.Raw(FormatNavigationLink("logs","Application Logs"))
+				@FormatNavigationLink("home", "Overview")
+				@FormatNavigationLink("dashboard","Dashboard")
+				@FormatNavigationLink("logs","Application Logs")
 			</ul>
 			<ul class="nav nav-sidebar">
-				@Html.Raw(FormatNavigationLink("test-api", "Test API"))
-				@Html.Raw(FormatNavigationLink("api-settings", "API Settings"))
+				@FormatNavigationLink("test-api", "Test API")
+				@FormatNavigationLink("api-settings", "API Settings")
 			</ul>
 			<ul class="nav nav-sidebar">
 				<li><a href="@Url.RouteUrl("logout")">Sign out</a></li>
@@ -49,3 +51,7 @@
 		</div>
 	</div>
 </div>
+
+@section scripts {
+	@RenderSection("scripts", required:false)
+}

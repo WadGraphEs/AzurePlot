@@ -21,6 +21,12 @@ namespace WadGraphEs.MetricsEndpoint.DataAccess {
 			return string.Format("{0}@{1}", Username,Servername);
 		}
 
-		
-	}
+
+
+        public Lib.SqlCredentials Credentials {
+            get {
+                return new Lib.SqlCredentials { Username = Username, Password = Password };
+            }
+        }
+    }
 }

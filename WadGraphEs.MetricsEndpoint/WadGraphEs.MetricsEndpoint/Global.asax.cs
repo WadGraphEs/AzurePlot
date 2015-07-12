@@ -29,6 +29,33 @@ namespace WadGraphEs.MetricsEndpoint {
             var razorViewEngine = ViewEngines.Engines.OfType<RazorViewEngine>().First();
             razorViewEngine.ViewLocationFormats = new [] {"~/MVC/Views/{1}/{0}.cshtml"};
 			razorViewEngine.PartialViewLocationFormats = new [] {"~/MVC/Views/{1}/{0}.cshtml"};
+
+            StartServicePointLogger();
+        }
+
+        private static void StartServicePointLogger() {
+            bool doStart;
+            
+            if(!bool.TryParse(System.Configuration.ConfigurationManager.AppSettings["StartServicePointLogger"],out doStart)) {
+                return;
+            }
+            if(!doStart) {
+                return;
+            }
+
+            var logger = LogManager.GetLogger("ServicePointMonitor");
+            logger.Info("Logging is enabled");
+            WadGraphEs.MetricsEndpoint.Lib.ServicePointMonitor.Start(TimeSpan.FromSeconds(5),logger.Info);
+        }
+
+        readonly static Logger _errorLogger = LogManager.GetLogger("Application_Error");
+
+        protected void Application_Error(object sender, EventArgs e) {
+            var exception = Server.GetLastError();
+            
+            _errorLogger.Log(LogLevel.Error, exception.Message, exception);
+
+            return;
         }
     }
 }

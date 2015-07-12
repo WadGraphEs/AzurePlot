@@ -9,16 +9,21 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 	class CloudServiceUsage {
 		readonly CloudServiceInstanceId _instanceId;
 		readonly AzureCloudServiceMetricsApiClient _azureMetricsApiClient;
+        readonly MetricsFilter _filter;
 
-		public CloudServiceUsage(CloudServiceInstanceId instanceId,AzureCloudServiceMetricsApiClient azureMetricsApiClient) {
+        public CloudServiceUsage(CloudServiceInstanceId instanceId,AzureCloudServiceMetricsApiClient azureMetricsApiClient)  : this(instanceId,azureMetricsApiClient,MetricsFilter.None) {
+        }
+
+		public CloudServiceUsage(CloudServiceInstanceId instanceId,AzureCloudServiceMetricsApiClient azureMetricsApiClient, MetricsFilter filter) {
 			_azureMetricsApiClient = azureMetricsApiClient;
 			_instanceId = instanceId;
+            _filter = filter;
 		}
 
 		
 
 		internal async Task<ICollection<UsageObject>> GetMetrics(TimeSpan history) {
-			var metrics = await _azureMetricsApiClient.GetMetricsForInstance(_instanceId,history);
+			var metrics = await _azureMetricsApiClient.GetMetricsForInstance(_instanceId,history,_filter);
 
 			var res = new List<UsageObject>();
 

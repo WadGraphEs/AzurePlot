@@ -96,9 +96,6 @@
     <Reference Include="Microsoft.WindowsAzure.Management.Monitoring">
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.Monitoring.2.0.0\lib\net40\Microsoft.WindowsAzure.Management.Monitoring.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Security">
-      <HintPath>..\packages\Mono.Security.3.2.3.0\lib\net45\Mono.Security.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -186,6 +183,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\ChartsController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -197,6 +195,7 @@
     <Compile Include="DataAccess\AddAzureSubscriptionSession.cs" />
     <Compile Include="DataAccess\APIKeyRecord.cs" />
     <Compile Include="DataAccess\AzureSubscription.cs" />
+    <Compile Include="DataAccess\DashboardChart.cs" />
     <Compile Include="DataAccess\DataContext.cs" />
     <Compile Include="DataAccess\ProxyUser.cs" />
     <Compile Include="DataAccess\SQLDatabase.cs" />
@@ -205,6 +204,7 @@
     </Compile>
     <Compile Include="Logging\CircularBuffer.cs" />
     <Compile Include="Logging\LogMessage.cs" />
+    <Compile Include="Logging\NLogExceptionLogger.cs" />
     <Compile Include="Logging\ViewableLogTarget.cs" />
     <Compile Include="Migrations\201503141543398_initial-schema.cs" />
     <Compile Include="Migrations\201503141543398_initial-schema.Designer.cs">
@@ -242,6 +242,10 @@
     <Compile Include="Migrations\201503281814575_sql-database-version.Designer.cs">
       <DependentUpon>201503281814575_sql-database-version.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201505302038478_dashboard-charts.cs" />
+    <Compile Include="Migrations\201505302038478_dashboard-charts.Designer.cs">
+      <DependentUpon>201505302038478_dashboard-charts.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MVC\Commands\CreateAzureSQLDatabaseCommand.cs" />
     <Compile Include="MVC\Commands\CreateAdminAccount.cs" />
@@ -256,6 +260,7 @@
     <Compile Include="MVC\Controllers\AccountController.cs" />
     <Compile Include="MVC\Controllers\SetupController.cs" />
     <Compile Include="MVC\HtmlHelpers\CSSClassHelpers.cs" />
+    <Compile Include="MVC\HtmlHelpers\JsonHelper.cs" />
     <Compile Include="MVC\HtmlHelpers\ValidationHelpers.cs" />
     <Compile Include="MVC\ViewModels\OverviewViewModel.cs" />
     <Compile Include="MVC\ViewModels\ServiceViewModel.cs" />
@@ -268,11 +273,12 @@
     <Compile Include="Setup\ApplicationSetup.cs" />
     <Compile Include="Setup\AzureSQLDatabases.cs" />
     <Compile Include="Setup\AzureSubscriptions.cs" />
+    <Compile Include="Setup\Dashboard.cs" />
+    <Compile Include="Setup\DashboardItem.cs" />
     <Compile Include="Setup\FromPKCSMetricsEndpointConfiguration.cs" />
     <Compile Include="Setup\NeedsSetupAttribute.cs" />
     <Compile Include="Setup\TestAPIResult.cs" />
     <Compile Include="Setup\Users.cs" />
-    <Compile Include="X509Tools\GenerateCertificate.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\dontdelete.txt" />
@@ -280,11 +286,14 @@
     <Content Include="content\bootstrap-theme.min.css" />
     <Content Include="content\bootstrap.css" />
     <Content Include="content\bootstrap.min.css" />
-    <Content Include="content\dashboard.css" />
+    <Content Include="content\layout.css" />
+    <Content Include="content\home.css" />
+    <Content Include="content\dashboard\dashboard.css" />
     <Content Include="content\login.css" />
     <Content Include="content\setup.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="images\ajax-loader.gif" />
     <Content Include="MVC\Views\Layout.cshtml" />
     <Content Include="MVC\Views\Setup\Step1.cshtml" />
     <Content Include="MVC\Views\Web.config" />
@@ -311,6 +320,7 @@
     <Content Include="MVC\Views\Home\AddAzureSQLDatabaseStep2.cshtml" />
     <Content Include="MVC\Views\Home\AddAzureSQLDatabaseStep3.cshtml" />
     <Content Include="MVC\Views\Home\OverviewTable\SQLDatabase.cshtml" />
+    <Content Include="MVC\Views\Home\Dashboard.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -337,15 +347,24 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="content\bootstrap-theme.css.map" />
     <Content Include="content\bootstrap.css.map" />
-    <None Include="Properties\PublishProfiles\freeksmonitoring - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\freeksmonitoring - Web Deploy.pubxml" />
     <None Include="README.txt" />
     <None Include="scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
+    <Content Include="scripts\common\Arguments.js" />
+    <Content Include="scripts\common\ErrorBox.js" />
+    <Content Include="scripts\common\Events.js" />
+    <Content Include="scripts\common\WaitAll.js" />
+    <Content Include="scripts\dashboard\ajaxcache.js" />
+    <Content Include="scripts\dashboard\chart-interval-selector.js" />
+    <Content Include="scripts\dashboard\chartlist.js" />
+    <Content Include="scripts\common\DateAndTime.js" />
+    <Content Include="scripts\dashboard\charts.js" />
+    <Content Include="scripts\dashboard\handlebars-v3.0.0.js" />
     <Content Include="scripts\jquery-1.9.1.js" />
     <Content Include="scripts\jquery-1.9.1.min.js" />
     <Content Include="scripts\npm.js" />
+    <Content Include="scripts\typeahead.bundle.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -361,6 +380,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Configuration\" />
+    <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="X509Tools\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -369,6 +390,10 @@
     <ProjectReference Include="..\WadGraphEs.MetricsEndpoint.Lib\WadGraphEs.MetricsEndpoint.Lib.csproj">
       <Project>{a2653e29-7ece-43f0-a7c4-1574374813c3}</Project>
       <Name>WadGraphEs.MetricsEndpoint.Lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WadGraphEs.X509Tools\WadGraphEs.X509Tools.csproj">
+      <Project>{3865d83a-2f19-4d83-b648-6b5cd4b4ecec}</Project>
+      <Name>WadGraphEs.X509Tools</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -398,6 +423,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201503281814575_sql-database-version.resx">
       <DependentUpon>201503281814575_sql-database-version.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505302038478_dashboard-charts.resx">
+      <DependentUpon>201505302038478_dashboard-charts.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

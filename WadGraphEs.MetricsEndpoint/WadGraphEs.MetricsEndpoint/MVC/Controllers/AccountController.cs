@@ -28,7 +28,7 @@ namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
 				return View(cmd);
 			}
 			
-            var userIdentity = Users.GetUserManager().CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);
+            var userIdentity = Users.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);
 
 			SignIn(userIdentity);
            

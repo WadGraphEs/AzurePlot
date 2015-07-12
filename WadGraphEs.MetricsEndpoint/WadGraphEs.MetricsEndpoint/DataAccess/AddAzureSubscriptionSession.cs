@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using WadGraphEs.MetricsEndpoint.Setup;
 
 namespace WadGraphEs.MetricsEndpoint.DataAccess {
 	public class AddAzureSubscriptionSession {
@@ -14,5 +15,11 @@ namespace WadGraphEs.MetricsEndpoint.DataAccess {
 		public byte[] Pfx{get;set;}
 
 		public string AzureSubscriptionId { get; set; }
-	}
+
+        public Lib.MetricsEndpointConfiguration MetricsEndpointConfiguration {
+            get {
+                return new FromPKCSMetricsEndpointConfiguration(Pfx,Password,AzureSubscriptionId);
+            }
+        }
+    }
 }

@@ -38,5 +38,21 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 			
 		}
 
+
+		internal async Task<ICollection<UsageObject>> GetUsageCollectionForWebsite(AzureWebsiteId websiteId, TimeSpan history, MetricsFilter filter) {
+			var metrics = await _metricsApiClient.GetMetricsForWebsite(websiteId, history,filter);
+			var res = new List<UsageObject>();
+			foreach(var metric in metrics) {
+				foreach(var result in metric.MetricValues.OrderBy(_=>_.Timestamp)) {
+					res.Add(new UsageObject {
+						GraphiteCounterName =metric.Name  + "." +metric.Unit,
+						Value = result.Average.Value,
+						Timestamp = result.Timestamp.ToString("o")
+					});
+				}
+			}
+
+			return res;
+		}
 	}
 }

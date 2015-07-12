@@ -1,0 +1,140 @@
+﻿/* from https://gist.github.com/bhays/6140058 */
+
+.twitter-typeahead .tt-query,
+.twitter-typeahead .tt-hint {
+	margin-bottom: 0;
+}
+.tt-hint {
+	display: block;
+	width: 100%;
+	height: 38px;
+	padding: 8px 12px;
+	font-size: 14px;
+	line-height: 1.428571429;
+	color: #999;
+	vertical-align: middle;
+	background-color: #ffffff;
+	border: 1px solid #cccccc;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+	      transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+.tt-dropdown-menu {
+	min-width: 160px;
+	margin-top: 2px;
+	padding: 5px 0;
+	background-color: #ffffff;
+	border: 1px solid #cccccc;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	border-radius: 4px;
+	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	background-clip: padding-box;
+ 
+}
+.tt-suggestion {
+	display: block;
+	padding: 3px 20px;
+}
+.tt-suggestion.tt-cursor {
+	color: #fff;
+	background-color: #428bca;
+}
+.tt-suggestion.tt-cursor a {
+	color: #fff;
+}
+.tt-suggestion p {
+	margin: 0;
+}
+
+.twitter-typeahead .tt-hint
+{
+    display: block;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    border: 1px solid transparent;
+    border-radius:4px;
+}
+
+.twitter-typeahead .hint-small
+{
+    height: 30px;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 3px;
+    line-height: 1.5;
+}
+
+.twitter-typeahead .hint-large
+{
+    height: 45px;
+    padding: 10px 16px;
+    font-size: 18px;
+    border-radius: 6px;
+    line-height: 1.33;
+}
+
+.twitter-typeahead{
+     width: 97%;
+}
+.tt-dropdown-menu{
+    width: 100%;
+}
+input.typeahead.tt-query{ /* This is optional */
+    width: 300px !important;
+}
+
+.chart {
+	float:left;
+	position: relative;
+	width: 100%;
+}
+
+
+.chart .dropdown {
+	display: none;
+	position: absolute;
+	top: 0px; 
+	right: 0px;
+}
+
+
+.chart.hover .dropdown {
+	display: block;
+}
+
+#chart-template {
+	display: none;
+}
+
+.chart .chart-loader {
+    z-index:    500;
+    background: rgba( 255, 255, 255, .8 ) 
+                url('/images/ajax-loader.gif') 
+                50% 50% 
+                no-repeat;
+	position:absolute;
+	left: 0px;
+	top: 0px;
+}
+.chart.loaded .chart-loader {
+	display:none;
+}
+
+.chart-area {
+	width: 100%;
+	height: 250px;
+}
+
+#select-chart-interval {
+	width: 50px;
+	text-align: right;
+}
+
+.dashboard-controls {
+	margin-bottom: 15px;
+}

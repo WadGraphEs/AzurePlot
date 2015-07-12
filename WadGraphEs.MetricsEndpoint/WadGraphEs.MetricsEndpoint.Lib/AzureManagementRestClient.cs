@@ -103,5 +103,11 @@ namespace WadGraphEs.MetricsEndpoint.Lib {
 				request.Accept = "application/xml";
 			});
 		}
-	}
+
+        public string SubscriptionId {
+            get {
+                return _credentials.SubscriptionId;
+            }
+        }
+    }
 }
