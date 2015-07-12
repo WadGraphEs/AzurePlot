@@ -17,7 +17,7 @@ namespace AzurePlot.Web {
     public class MvcApplication : System.Web.HttpApplication {
 		readonly static Logger _logger = LogManager.GetCurrentClassLogger();
         protected void Application_Start() {
-			_logger.Trace("Starting WadGraphEs Azure Dashboard");
+			_logger.Trace("Starting AzurePlot");
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
 
