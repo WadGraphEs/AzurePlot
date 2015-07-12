@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 
-namespace WadGraphEs.MetricsEndpoint.Lib.SQLDatabase {
+namespace AzurePlot.Lib.SQLDatabase {
 	class SQLDatabaseConnection {
 		readonly string _servername;
 		readonly string _username;

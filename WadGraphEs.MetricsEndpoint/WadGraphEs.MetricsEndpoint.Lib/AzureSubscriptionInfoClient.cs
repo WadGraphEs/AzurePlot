@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WadGraphEs.MetricsEndpoint.Lib {
+namespace AzurePlot.Lib {
 	public class AzureSubscriptionInfoClient {
 		readonly AzureManagementRestClient _client;
 		readonly AzureWebsitesInfoApiClient _websiteInfoClient;

@@ -1,0 +1,472 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DD87954D-AF29-48F4-81D2-69EC4BCC24F1}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AzurePlot.Web</RootNamespace>
+    <AssemblyName>AzurePlot.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ExcludeGeneratedDebugSymbol>false</ExcludeGeneratedDebugSymbol>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServerCompact">
+      <HintPath>..\packages\EntityFramework.SqlServerCompact.6.1.3\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Common">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Common.1.3.0\lib\net45\Microsoft.WindowsAzure.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Common.NetFramework">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Common.1.3.0\lib\net45\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.Monitoring">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Monitoring.2.0.0\lib\net40\Microsoft.WindowsAzure.Management.Monitoring.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=3.2.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NLog.3.2.0.0\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.22\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.22\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="WebGrease">
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApiControllers\ChartsController.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="App_Start\WebRoutes.cs" />
+    <Compile Include="Authentication\AuthenticationKeys.cs" />
+    <Compile Include="ApiControllers\StatusController.cs" />
+    <Compile Include="Authentication\MessageAuthenticationHandler.cs" />
+    <Compile Include="ApiControllers\UsagesController.cs" />
+    <Compile Include="DataAccess\AddAzureSubscriptionSession.cs" />
+    <Compile Include="DataAccess\APIKeyRecord.cs" />
+    <Compile Include="DataAccess\AzureSubscription.cs" />
+    <Compile Include="DataAccess\DashboardChart.cs" />
+    <Compile Include="DataAccess\DataContext.cs" />
+    <Compile Include="DataAccess\ProxyUser.cs" />
+    <Compile Include="DataAccess\SQLDatabase.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Logging\CircularBuffer.cs" />
+    <Compile Include="Logging\LogMessage.cs" />
+    <Compile Include="Logging\NLogExceptionLogger.cs" />
+    <Compile Include="Logging\ViewableLogTarget.cs" />
+    <Compile Include="Migrations\201503141543398_initial-schema.cs" />
+    <Compile Include="Migrations\201503141543398_initial-schema.Designer.cs">
+      <DependentUpon>201503141543398_initial-schema.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503151202152_apikeys.cs" />
+    <Compile Include="Migrations\201503151202152_apikeys.Designer.cs">
+      <DependentUpon>201503151202152_apikeys.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503151438290_add-azure-subscription-session.cs" />
+    <Compile Include="Migrations\201503151438290_add-azure-subscription-session.Designer.cs">
+      <DependentUpon>201503151438290_add-azure-subscription-session.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503151601112_subscription-id-in-session.cs" />
+    <Compile Include="Migrations\201503151601112_subscription-id-in-session.Designer.cs">
+      <DependentUpon>201503151601112_subscription-id-in-session.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503151615518_subscriptions-table.cs" />
+    <Compile Include="Migrations\201503151615518_subscriptions-table.Designer.cs">
+      <DependentUpon>201503151615518_subscriptions-table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503151619467_remove-arbitrary-lengths.cs" />
+    <Compile Include="Migrations\201503151619467_remove-arbitrary-lengths.Designer.cs">
+      <DependentUpon>201503151619467_remove-arbitrary-lengths.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503281647257_sql-databases.cs" />
+    <Compile Include="Migrations\201503281647257_sql-databases.Designer.cs">
+      <DependentUpon>201503281647257_sql-databases.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503281702325_sql-database-session.cs" />
+    <Compile Include="Migrations\201503281702325_sql-database-session.Designer.cs">
+      <DependentUpon>201503281702325_sql-database-session.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503281814575_sql-database-version.cs" />
+    <Compile Include="Migrations\201503281814575_sql-database-version.Designer.cs">
+      <DependentUpon>201503281814575_sql-database-version.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505302038478_dashboard-charts.cs" />
+    <Compile Include="Migrations\201505302038478_dashboard-charts.Designer.cs">
+      <DependentUpon>201505302038478_dashboard-charts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="MVC\Commands\CreateAzureSQLDatabaseCommand.cs" />
+    <Compile Include="MVC\Commands\CreateAdminAccount.cs" />
+    <Compile Include="MVC\Commands\CreateAPIKey.cs" />
+    <Compile Include="MVC\Commands\CreateManagementCertificateCommand.cs" />
+    <Compile Include="MVC\Commands\EnterSubscriptionIdCommand.cs" />
+    <Compile Include="MVC\Commands\FinishAddingAzureSubscription.cs" />
+    <Compile Include="MVC\Commands\FinishAddingSQLDatabase.cs" />
+    <Compile Include="MVC\Commands\LoginCommand.cs" />
+    <Compile Include="MVC\Commands\TestAPICommand.cs" />
+    <Compile Include="MVC\Controllers\HomeController.cs" />
+    <Compile Include="MVC\Controllers\AccountController.cs" />
+    <Compile Include="MVC\Controllers\SetupController.cs" />
+    <Compile Include="MVC\HtmlHelpers\CSSClassHelpers.cs" />
+    <Compile Include="MVC\HtmlHelpers\JsonHelper.cs" />
+    <Compile Include="MVC\HtmlHelpers\ValidationHelpers.cs" />
+    <Compile Include="MVC\ViewModels\OverviewViewModel.cs" />
+    <Compile Include="MVC\ViewModels\ServiceViewModel.cs" />
+    <Compile Include="MVC\ViewModels\TestAPIViewModel.cs" />
+    <Compile Include="MVC\ViewModels\UploadCertificateViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Setup\AddSQLDatabaseSession.cs" />
+    <Compile Include="Setup\APIEndpoint.cs" />
+    <Compile Include="Setup\ApiSettings.cs" />
+    <Compile Include="Setup\ApplicationSetup.cs" />
+    <Compile Include="Setup\AzureSQLDatabases.cs" />
+    <Compile Include="Setup\AzureSubscriptions.cs" />
+    <Compile Include="Setup\Dashboard.cs" />
+    <Compile Include="Setup\DashboardItem.cs" />
+    <Compile Include="Setup\FromPKCSMetricsEndpointConfiguration.cs" />
+    <Compile Include="Setup\NeedsSetupAttribute.cs" />
+    <Compile Include="Setup\TestAPIResult.cs" />
+    <Compile Include="Setup\Users.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\dontdelete.txt" />
+    <Content Include="content\bootstrap-theme.css" />
+    <Content Include="content\bootstrap-theme.min.css" />
+    <Content Include="content\bootstrap.css" />
+    <Content Include="content\bootstrap.min.css" />
+    <Content Include="content\layout.css" />
+    <Content Include="content\home.css" />
+    <Content Include="content\dashboard\dashboard.css" />
+    <Content Include="content\login.css" />
+    <Content Include="content\setup.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="images\ajax-loader.gif" />
+    <Content Include="MVC\Views\Layout.cshtml" />
+    <Content Include="MVC\Views\Setup\Step1.cshtml" />
+    <Content Include="MVC\Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="MVC\Views\Setup\ThankYou.cshtml" />
+    <Content Include="MVC\Views\Setup\SetupLayout.cshtml" />
+    <Content Include="MVC\Views\Account\Login.cshtml" />
+    <Content Include="MVC\Views\Setup\CreateAdmin.cshtml" />
+    <Content Include="MVC\Views\Setup\CreateAPIKey.cshtml" />
+    <Content Include="MVC\Views\Setup\UpdateSchema.cshtml" />
+    <Content Include="MVC\Views\Home\HomeLayout.cshtml" />
+    <Content Include="MVC\Views\Home\Index.cshtml" />
+    <Content Include="MVC\Views\Home\AddAzureSubscriptionPanelLayout.cshtml" />
+    <Content Include="MVC\Views\Home\AddAzureSubscription.cshtml" />
+    <Content Include="MVC\Views\Home\AddAzureSubscriptionStep1.cshtml" />
+    <Content Include="MVC\Views\Home\AddAzureSubscriptionStep2.cshtml" />
+    <Content Include="MVC\Views\Home\AddAzureSubscriptionStep3.cshtml" />
+    <Content Include="MVC\Views\Home\AddAzureSubscriptionStep4.cshtml" />
+    <Content Include="MVC\Views\Home\OverviewTable\AzureSubscription.cshtml" />
+    <Content Include="MVC\Views\Home\ApiSettings.cshtml" />
+    <Content Include="MVC\Views\Home\TestApi.cshtml" />
+    <Content Include="MVC\Views\Home\Logs.cshtml" />
+    <Content Include="MVC\Views\Home\AddAzureSQLDatabase.cshtml" />
+    <Content Include="MVC\Views\Home\AddAzureSQLDatabaseStep1.cshtml" />
+    <Content Include="MVC\Views\Home\AddAzureSQLDatabaseStep2.cshtml" />
+    <Content Include="MVC\Views\Home\AddAzureSQLDatabaseStep3.cshtml" />
+    <Content Include="MVC\Views\Home\OverviewTable\SQLDatabase.cshtml" />
+    <Content Include="MVC\Views\Home\Dashboard.cshtml" />
+    <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlceer40EN.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlcecompact40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlceca40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\Microsoft.VC90.CRT\README_ENU.txt" />
+    <None Include="_bin_deployableAssemblies\x86\Microsoft.VC90.CRT\msvcr90.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlcese40.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlceqp40.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlceme40.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlceer40EN.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlcecompact40.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlceca40.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\README_ENU.txt" />
+    <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\msvcr90.dll" />
+    <None Include="MVC\Views\_ViewStart.cshtml" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="content\bootstrap-theme.css.map" />
+    <Content Include="content\bootstrap.css.map" />
+    <None Include="README.txt" />
+    <None Include="scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="scripts\bootstrap.js" />
+    <Content Include="scripts\bootstrap.min.js" />
+    <Content Include="scripts\common\Arguments.js" />
+    <Content Include="scripts\common\ErrorBox.js" />
+    <Content Include="scripts\common\Events.js" />
+    <Content Include="scripts\common\WaitAll.js" />
+    <Content Include="scripts\dashboard\ajaxcache.js" />
+    <Content Include="scripts\dashboard\chart-interval-selector.js" />
+    <Content Include="scripts\dashboard\chartlist.js" />
+    <Content Include="scripts\common\DateAndTime.js" />
+    <Content Include="scripts\dashboard\charts.js" />
+    <Content Include="scripts\dashboard\handlebars-v3.0.0.js" />
+    <Content Include="scripts\jquery-1.9.1.js" />
+    <Content Include="scripts\jquery-1.9.1.min.js" />
+    <Content Include="scripts\npm.js" />
+    <Content Include="scripts\typeahead.bundle.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="scripts\jquery-1.9.1.min.map" />
+    <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
+    <None Include="_bin_deployableAssemblies\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Configuration\" />
+    <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="X509Tools\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WadGraphEs.MetricsEndpoint.Lib\AzurePlot.Lib.csproj">
+      <Project>{a2653e29-7ece-43f0-a7c4-1574374813c3}</Project>
+      <Name>AzurePlot.Lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WadGraphEs.X509Tools\WadGraphEs.X509Tools.csproj">
+      <Project>{3865d83a-2f19-4d83-b648-6b5cd4b4ecec}</Project>
+      <Name>WadGraphEs.X509Tools</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201503141543398_initial-schema.resx">
+      <DependentUpon>201503141543398_initial-schema.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503151202152_apikeys.resx">
+      <DependentUpon>201503151202152_apikeys.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503151438290_add-azure-subscription-session.resx">
+      <DependentUpon>201503151438290_add-azure-subscription-session.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503151601112_subscription-id-in-session.resx">
+      <DependentUpon>201503151601112_subscription-id-in-session.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503151615518_subscriptions-table.resx">
+      <DependentUpon>201503151615518_subscriptions-table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503151619467_remove-arbitrary-lengths.resx">
+      <DependentUpon>201503151619467_remove-arbitrary-lengths.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503281647257_sql-databases.resx">
+      <DependentUpon>201503281647257_sql-databases.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503281702325_sql-database-session.resx">
+      <DependentUpon>201503281702325_sql-database-session.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503281814575_sql-database-version.resx">
+      <DependentUpon>201503281814575_sql-database-version.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505302038478_dashboard-charts.resx">
+      <DependentUpon>201505302038478_dashboard-charts.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>20557</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:49758/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

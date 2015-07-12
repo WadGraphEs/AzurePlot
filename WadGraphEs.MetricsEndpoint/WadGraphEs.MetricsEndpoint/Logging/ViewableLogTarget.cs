@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 
-namespace WadGraphEs.MetricsEndpoint.Logging {
+namespace AzurePlot.Web.Logging {
 	[Target("ViewableLogTarget")]
 	public class ViewableLogTarget : TargetWithLayout{
 		const int MaxLines = 5000;

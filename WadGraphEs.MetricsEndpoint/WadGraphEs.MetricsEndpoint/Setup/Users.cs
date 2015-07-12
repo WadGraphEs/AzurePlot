@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using WadGraphEs.MetricsEndpoint.DataAccess;
+using AzurePlot.Web.DataAccess;
 
-namespace WadGraphEs.MetricsEndpoint.Setup {
+namespace AzurePlot.Web.Setup {
 	public class Users {
 		internal static IdentityResult Handle(MVC.Commands.CreateAdminAccount command) {
 			return DoUserManager(manager=>{

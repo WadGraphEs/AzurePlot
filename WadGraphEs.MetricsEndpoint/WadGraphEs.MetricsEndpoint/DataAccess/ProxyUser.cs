@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WadGraphEs.MetricsEndpoint.DataAccess {
+namespace AzurePlot.Web.DataAccess {
 	public class ProxyUser : IdentityUser{
 	}
 }

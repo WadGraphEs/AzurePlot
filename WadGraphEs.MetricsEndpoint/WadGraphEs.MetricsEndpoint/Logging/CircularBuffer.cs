@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WadGraphEs.MetricsEndpoint.Logging {
+namespace AzurePlot.Web.Logging {
 	class CircularBuffer<T> where T:class{
 		readonly T[] _buffer;
 		readonly int _size;

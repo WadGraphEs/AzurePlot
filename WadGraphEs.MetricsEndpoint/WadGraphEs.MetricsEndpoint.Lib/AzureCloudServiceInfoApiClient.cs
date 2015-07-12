@@ -7,7 +7,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-namespace WadGraphEs.MetricsEndpoint.Lib {
+namespace AzurePlot.Lib {
 	class AzureCloudServiceInfoApiClient {
 		readonly AzureManagementRestClient _client;
 

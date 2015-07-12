@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace WadGraphEs.MetricsEndpoint.MVC.HtmlHelpers {
+namespace AzurePlot.Web.MVC.HtmlHelpers {
 	public static class CSSClassHelpers {
 		readonly static Dictionary<NLog.LogLevel,string> _logLevelToClassMap = new Dictionary<NLog.LogLevel,string> {
 			{ NLog.LogLevel.Error, "danger" },

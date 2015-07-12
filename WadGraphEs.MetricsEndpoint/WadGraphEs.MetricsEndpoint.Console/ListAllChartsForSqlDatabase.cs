@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WadGraphEs.MetricsEndpoint.Lib;
-using WadGraphEs.MetricsEndpoint.Lib.SQLDatabase;
+using AzurePlot.Lib;
+using AzurePlot.Lib.SQLDatabase;
 
-namespace WadGraphEs.MetricsEndpoint.Console {
+namespace AzurePlot.Console {
     using Console = System.Console;
     class ListAllChartsForSqlDatabase {
         private List<string> _args;

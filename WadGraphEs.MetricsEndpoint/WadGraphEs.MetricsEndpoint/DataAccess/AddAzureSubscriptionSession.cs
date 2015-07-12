@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
-using WadGraphEs.MetricsEndpoint.Setup;
+using AzurePlot.Web.Setup;
 
-namespace WadGraphEs.MetricsEndpoint.DataAccess {
+namespace AzurePlot.Web.DataAccess {
 	public class AddAzureSubscriptionSession {
 		[Key]
 		[MaxLength(128)]

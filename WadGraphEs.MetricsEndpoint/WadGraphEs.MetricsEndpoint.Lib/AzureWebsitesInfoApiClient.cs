@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WadGraphEs.MetricsEndpoint.Lib {
+namespace AzurePlot.Lib {
 	class AzureWebsitesInfoApiClient {
 		readonly AzureWebsiteApiClient _client;
 

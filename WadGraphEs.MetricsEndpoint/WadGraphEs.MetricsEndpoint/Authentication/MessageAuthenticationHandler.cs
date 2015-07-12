@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Web;
 
-namespace WadGraphEs.MetricsEndpoint.Authentication {
+namespace AzurePlot.Web.Authentication {
 	public class AuthenticationMessageHandler : DelegatingHandler{
 		async protected override System.Threading.Tasks.Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,System.Threading.CancellationToken cancellationToken) {
 			AuthenticateUser(request);

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WadGraphEs.MetricsEndpoint.Lib {
+namespace AzurePlot.Lib {
 	class AzureWebsiteId {
 		readonly string _websiteName;
 

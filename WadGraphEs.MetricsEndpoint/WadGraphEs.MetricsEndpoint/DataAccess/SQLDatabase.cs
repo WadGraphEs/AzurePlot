@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 
-namespace WadGraphEs.MetricsEndpoint.DataAccess {
+namespace AzurePlot.Web.DataAccess {
 	public class SQLDatabase {
 		[Key]
 		[MaxLength(256)]

@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using WadGraphEs.MetricsEndpoint.ApiControllers;
+using AzurePlot.ApiControllers;
 
-namespace WadGraphEs.MetricsEndpoint.Lib {
+namespace AzurePlot.Lib {
 	class AzureCloudServicesClient {
 		
 		readonly AzureCloudServiceMetricsApiClient _azureMetricsApiClient;

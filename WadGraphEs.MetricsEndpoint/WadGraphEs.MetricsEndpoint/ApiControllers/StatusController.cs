@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 
-namespace WadGraphEs.MetricsEndpoint.ApiControllers {
+namespace AzurePlot.Web.ApiControllers {
 	[AllowAnonymous]
 	public class StatusController : ApiController{
 		public string Get() {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Optimization;
 
-namespace WadGraphEs.MetricsEndpoint {
+namespace AzurePlot.Web {
     public class BundleConfig {
         internal static void RegisterBundles(System.Web.Optimization.BundleCollection bundles) {
 			AddScripts(bundles);

@@ -14,12 +14,12 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
-using WadGraphEs.MetricsEndpoint.Lib;
+using AzurePlot.Lib;
 using NLog;
-using WadGraphEs.MetricsEndpoint.Setup;
-using WadGraphEs.MetricsEndpoint.Lib.SQLDatabase;
+using AzurePlot.Web.Setup;
+using AzurePlot.Lib.SQLDatabase;
 
-namespace WadGraphEs.MetricsEndpoint.ApiControllers {
+namespace AzurePlot.Web.ApiControllers {
 	public class UsagesController:ApiController {
 		readonly static Logger _logger = LogManager.GetCurrentClassLogger(); 
 		public async Task<IEnumerable<UsageObject>> Get() {

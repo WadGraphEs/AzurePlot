@@ -5,9 +5,9 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
-using WadGraphEs.MetricsEndpoint.DataAccess;
+using AzurePlot.Web.DataAccess;
 
-namespace WadGraphEs.MetricsEndpoint.Setup {
+namespace AzurePlot.Web.Setup {
 	public class APIEndpoint {
 		internal static void AddAPIKey(string apiKey) {
 			DataContext.Do(dataContext=>{

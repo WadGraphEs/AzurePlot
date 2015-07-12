@@ -8,9 +8,9 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using WadGraphEs.MetricsEndpoint.Setup;
+using AzurePlot.Web.Setup;
 
-namespace WadGraphEs.MetricsEndpoint {
+namespace AzurePlot.Web {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
 
@@ -45,7 +45,7 @@ namespace WadGraphEs.MetricsEndpoint {
 
             var logger = LogManager.GetLogger("ServicePointMonitor");
             logger.Info("Logging is enabled");
-            WadGraphEs.MetricsEndpoint.Lib.ServicePointMonitor.Start(TimeSpan.FromSeconds(5),logger.Info);
+            Lib.ServicePointMonitor.Start(TimeSpan.FromSeconds(5),logger.Info);
         }
 
         readonly static Logger _errorLogger = LogManager.GetLogger("Application_Error");

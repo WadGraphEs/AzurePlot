@@ -4,12 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Net.Http;
-using WadGraphEs.MetricsEndpoint.MVC.Commands;
-using WadGraphEs.MetricsEndpoint.Setup;
+using AzurePlot.Web.MVC.Commands;
+using AzurePlot.Web.Setup;
 using Microsoft.Owin.Security;
 using Microsoft.AspNet.Identity;
 
-namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
+namespace AzurePlot.Web.MVC.Controllers {
     public class AccountController : Controller{
         [AllowAnonymous]
 		[HttpGet]

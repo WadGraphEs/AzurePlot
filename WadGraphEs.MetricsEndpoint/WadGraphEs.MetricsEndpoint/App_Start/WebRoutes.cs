@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Routing;
 using System.Web.Mvc;
 
-namespace WadGraphEs.MetricsEndpoint {
+namespace AzurePlot.Web {
     public class WebRoutes {
         internal static void Register(System.Web.Routing.RouteCollection routes) {
             routes.MapRoute("home", "", new { controller = "Home", action = "Index" });

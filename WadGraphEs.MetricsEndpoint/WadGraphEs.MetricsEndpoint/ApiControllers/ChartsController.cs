@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Net.Http;
-using WadGraphEs.MetricsEndpoint.Setup;
-using WadGraphEs.MetricsEndpoint.Lib;
+using AzurePlot.Web.Setup;
+using AzurePlot.Lib;
+using AzurePlot.ApiControllers;
 
-namespace WadGraphEs.MetricsEndpoint.ApiControllers {
+namespace AzurePlot.Web.ApiControllers {
 	public class ChartsController : ApiController{
 		[ActionName("list-all-charts")]
 		[HttpGet]

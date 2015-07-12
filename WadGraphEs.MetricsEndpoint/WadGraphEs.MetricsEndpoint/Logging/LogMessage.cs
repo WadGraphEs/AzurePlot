@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WadGraphEs.MetricsEndpoint.Logging {
+namespace AzurePlot.Web.Logging {
 	public class LogMessage {
 		public NLog.LogLevel Level { get; set; }
 

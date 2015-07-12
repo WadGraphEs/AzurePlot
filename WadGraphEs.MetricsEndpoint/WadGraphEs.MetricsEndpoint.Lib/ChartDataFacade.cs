@@ -4,10 +4,10 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WadGraphEs.MetricsEndpoint.ApiControllers;
-using WadGraphEs.MetricsEndpoint.Lib.SQLDatabase;
+using AzurePlot.ApiControllers;
+using AzurePlot.Lib.SQLDatabase;
 
-namespace WadGraphEs.MetricsEndpoint.Lib {
+namespace AzurePlot.Lib {
     public class ChartDataFacade {
         public ChartDataFacade(string forUri) {
             _uri = new Uri(forUri);

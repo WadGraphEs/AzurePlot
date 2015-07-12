@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WadGraphEs.MetricsEndpoint.Setup {
+namespace AzurePlot.Web.Setup {
     public class TestAPIResult {
         internal static TestAPIResult FromException(Exception e) {
             return new TestAPIResult {

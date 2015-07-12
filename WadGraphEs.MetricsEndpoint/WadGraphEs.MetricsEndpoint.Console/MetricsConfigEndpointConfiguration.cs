@@ -6,7 +6,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Web;
 
-namespace WadGraphEs.MetricsEndpoint.Lib {
+namespace AzurePlot.Lib {
 	public class MetricsConfigEndpointConfiguration : MetricsEndpointConfiguration {
 		const string ApiKeyConfigKey = "AuthenticationKey";
 		const string AzureSubscriptionIdConfigKey = "AzureSubscriptionId";

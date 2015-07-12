@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WadGraphEs.MetricsEndpoint.Lib.SQLDatabase {
+namespace AzurePlot.Lib.SQLDatabase {
 	public class TestConnectionResult {
 		public readonly static TestConnectionResult Success =new TestConnectionResult();
 

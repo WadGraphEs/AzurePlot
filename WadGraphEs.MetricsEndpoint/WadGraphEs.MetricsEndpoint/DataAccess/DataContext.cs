@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
-using WadGraphEs.MetricsEndpoint.Setup;
+using AzurePlot.Web.Setup;
 
-namespace WadGraphEs.MetricsEndpoint.DataAccess {
+namespace AzurePlot.Web.DataAccess {
 	public class DataContext : IdentityDbContext<ProxyUser>{
 		public DataContext() : base("wadgraphes-proxy"){
 			Database.SetInitializer<DataContext>(null);

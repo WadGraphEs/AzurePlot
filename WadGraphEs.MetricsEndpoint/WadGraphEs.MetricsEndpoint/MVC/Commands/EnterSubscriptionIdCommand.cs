@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace WadGraphEs.MetricsEndpoint.MVC.Commands {
+namespace AzurePlot.Web.MVC.Commands {
 	public class EnterSubscriptionIdCommand {
 		public string SessionId{get;set;}
 		[Required(ErrorMessage="Please enter a valid subscription id")]

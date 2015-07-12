@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using WadGraphEs.MetricsEndpoint.Lib;
+using AzurePlot.Lib;
 
-namespace WadGraphEs.MetricsEndpoint.Setup {
+namespace AzurePlot.Web.Setup {
 	class FromPKCSMetricsEndpointConfiguration : MetricsEndpointConfiguration{
 		private byte[] _pfx;
 		private string _password;

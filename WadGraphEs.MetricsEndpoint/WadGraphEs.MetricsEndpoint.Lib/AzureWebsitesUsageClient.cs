@@ -12,7 +12,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WadGraphEs.MetricsEndpoint.Lib {
+namespace AzurePlot.Lib {
 	class AzureWebsitesUsageClient {
 		
 		readonly AzureWebsitesInfoApiClient _azureWebsitesInfoClient;

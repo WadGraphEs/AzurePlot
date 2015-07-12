@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
-namespace WadGraphEs.MetricsEndpoint.MVC.Commands {
+namespace AzurePlot.Web.MVC.Commands {
 	public class CreateAPIKey {
 		[Required]
 		[MinLength(10, ErrorMessage="APIKey should at least be 10 characters long")]

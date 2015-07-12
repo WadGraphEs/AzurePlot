@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace WadGraphEs.MetricsEndpoint.Lib {
+namespace AzurePlot.Lib {
     class MetricsClientFacade {
         //todo figure out if metricsclient is indeed multithreaded :S
         readonly static ConcurrentDictionary<string, MetricsClient> _clients=  new ConcurrentDictionary<string,MetricsClient>();

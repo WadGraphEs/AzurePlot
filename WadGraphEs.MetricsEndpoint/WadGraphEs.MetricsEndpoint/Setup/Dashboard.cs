@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using WadGraphEs.MetricsEndpoint.DataAccess;
+using AzurePlot.Web.DataAccess;
 
-namespace WadGraphEs.MetricsEndpoint.Setup {
+namespace AzurePlot.Web.Setup {
 	public class Dashboard {
 		internal static DashboardChart AddChart(string uri) {
 			return DataContext.Do(ctx=>{

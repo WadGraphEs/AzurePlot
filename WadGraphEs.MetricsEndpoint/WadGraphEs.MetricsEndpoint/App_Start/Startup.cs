@@ -5,9 +5,9 @@ using Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.AspNet.Identity;
 
-[assembly: OwinStartup(typeof(WadGraphEs.MetricsEndpoint.Startup))]
+[assembly: OwinStartup(typeof(AzurePlot.Web.Startup))]
 
-namespace WadGraphEs.MetricsEndpoint {
+namespace AzurePlot.Web {
 	public class Startup {
 		public void Configuration(IAppBuilder app) {
 			app.UseCookieAuthentication(new CookieAuthenticationOptions {

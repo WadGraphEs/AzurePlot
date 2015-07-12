@@ -4,10 +4,10 @@ using System.Configuration;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.ExceptionHandling;
-using WadGraphEs.MetricsEndpoint.Authentication;
-using WadGraphEs.MetricsEndpoint.Logging;
+using AzurePlot.Web.Authentication;
+using AzurePlot.Web.Logging;
 
-namespace WadGraphEs.MetricsEndpoint {
+namespace AzurePlot.Web {
     public static class WebApiConfig {
         public static void Register(HttpConfiguration config) {
             config.Routes.MapHttpRoute(

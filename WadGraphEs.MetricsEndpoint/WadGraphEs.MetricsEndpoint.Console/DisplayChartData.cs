@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WadGraphEs.MetricsEndpoint.Lib;
+using AzurePlot.Lib;
 
-namespace WadGraphEs.MetricsEndpoint.Console {
+namespace AzurePlot.Console {
     using Newtonsoft.Json;
     using Console = System.Console;
     class DisplayChartData {

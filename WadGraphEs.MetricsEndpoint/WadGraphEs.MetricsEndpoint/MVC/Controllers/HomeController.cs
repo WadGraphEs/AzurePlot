@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WadGraphEs.MetricsEndpoint.Lib.SQLDatabase;
-using WadGraphEs.MetricsEndpoint.Logging;
-using WadGraphEs.MetricsEndpoint.MVC.Commands;
-using WadGraphEs.MetricsEndpoint.MVC.ViewModels;
-using WadGraphEs.MetricsEndpoint.Setup;
+using AzurePlot.Lib.SQLDatabase;
+using AzurePlot.Web.Logging;
+using AzurePlot.Web.MVC.Commands;
+using AzurePlot.Web.MVC.ViewModels;
+using AzurePlot.Web.Setup;
 
-namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
+namespace AzurePlot.Web.MVC.Controllers {
     public class HomeController : Controller{
 		[HttpGet]
         public ActionResult Index() {
@@ -39,7 +39,7 @@ namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
 			}
 
 			var password = Guid.NewGuid().ToString();
-			var pfx = X509Tools.GenerateCertificate.GeneratePfx(cmd.CertificateName,password);
+			var pfx = WadGraphEs.X509Tools.GenerateCertificate.GeneratePfx(cmd.CertificateName,password);
 
 			AzureSubscriptions.StorePfxForSession(sessionId,pfx,password);
 

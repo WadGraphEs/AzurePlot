@@ -7,7 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WadGraphEs.MetricsEndpoint.Lib {
+namespace AzurePlot.Lib {
 	class AzureManagementRestClient {
 		readonly Microsoft.WindowsAzure.CertificateCloudCredentials _credentials;
 

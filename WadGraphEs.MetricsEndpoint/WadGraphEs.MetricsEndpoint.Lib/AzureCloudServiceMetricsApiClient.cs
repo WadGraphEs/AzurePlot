@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WadGraphEs.MetricsEndpoint.Lib {
+namespace AzurePlot.Lib {
 	class AzureCloudServiceMetricsApiClient {
 		readonly AzureMetricsApiClient _azureMetricsApiClient;
 

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using WadGraphEs.MetricsEndpoint.DataAccess;
+using AzurePlot.Web.DataAccess;
 
-namespace WadGraphEs.MetricsEndpoint.Setup {
+namespace AzurePlot.Web.Setup {
 	public class ApplicationSetup {
 		internal static void UpdateDatabaseToLatestSchema() {
 			if(!IsDatabaseCreated()) {
@@ -26,7 +26,7 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 		}
 
 		private static System.Data.Entity.Migrations.DbMigrator GetDbMigrator() {
-			var dbMigrator = new System.Data.Entity.Migrations.DbMigrator(new WadGraphEs.MetricsEndpoint.Migrations.Configuration());
+			var dbMigrator = new System.Data.Entity.Migrations.DbMigrator(new Migrations.Configuration());
 			return dbMigrator;
 		}
 

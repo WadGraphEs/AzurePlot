@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WadGraphEs.MetricsEndpoint.Lib {
+namespace AzurePlot.Lib {
     public class AzureSubscriptionInfoFacade {
         public static string GetSubcriptionName(MetricsEndpointConfiguration config) {
             var credentials = config.GetCertificateCloudCredentials();

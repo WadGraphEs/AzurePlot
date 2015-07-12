@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace WadGraphEs.MetricsEndpoint.MVC.Commands {
+namespace AzurePlot.Web.MVC.Commands {
 	public class CreateManagementCertificateCommand {
 		
 		[Required(ErrorMessage="Please enter a non-empty certificate name")]

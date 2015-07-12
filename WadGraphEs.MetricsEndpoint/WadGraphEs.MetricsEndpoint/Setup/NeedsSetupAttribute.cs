@@ -4,10 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using WadGraphEs.MetricsEndpoint.DataAccess;
-using WadGraphEs.MetricsEndpoint.MVC.Controllers;
+using AzurePlot.Web.DataAccess;
+using AzurePlot.Web.MVC.Controllers;
 
-namespace WadGraphEs.MetricsEndpoint.Setup {
+namespace AzurePlot.Web.Setup {
     public class NeedsSetupAttribute : ActionFilterAttribute{
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
             if(!ApplicationIsConfigured() && !IsInSetupController(filterContext)) {

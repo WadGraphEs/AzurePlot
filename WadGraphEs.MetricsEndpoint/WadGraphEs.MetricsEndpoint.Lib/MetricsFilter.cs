@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace WadGraphEs.MetricsEndpoint.Lib {
+namespace AzurePlot.Lib {
     class MetricsFilter {
         public static readonly MetricsFilter None = new MetricsFilter(m=>true);
 

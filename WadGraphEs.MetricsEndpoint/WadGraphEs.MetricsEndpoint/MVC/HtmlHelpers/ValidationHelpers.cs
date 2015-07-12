@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace WadGraphEs.MetricsEndpoint.MVC.HtmlHelpers {
+namespace AzurePlot.Web.MVC.HtmlHelpers {
 	public static class ValidationHelpers {
 		public static bool HasValidationErrors(this HtmlHelper helper, string fieldName) {
 			var state = helper.ViewData.ModelState[fieldName];

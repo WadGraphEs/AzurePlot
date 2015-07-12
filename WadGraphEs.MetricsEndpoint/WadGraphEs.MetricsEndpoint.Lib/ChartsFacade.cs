@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WadGraphEs.MetricsEndpoint.Lib.SQLDatabase;
+using AzurePlot.Lib.SQLDatabase;
 
-namespace WadGraphEs.MetricsEndpoint.Lib {
+namespace AzurePlot.Lib {
     public class ChartsFacade {
         public static async Task<ICollection<ChartInfo>> ListAllChartsForSubscription(MetricsEndpointConfiguration subscriptionConfig, string serviceName) {
             var infoClient = new AzureSubscriptionInfoClient(subscriptionConfig);

@@ -11,7 +11,7 @@ using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 
-namespace WadGraphEs.MetricsEndpoint.Lib {
+namespace AzurePlot.Lib {
     public class AzureUsageClient {
 		readonly CertificateCloudCredentials _credentials;
 		readonly AzureManagementRestClient _client;

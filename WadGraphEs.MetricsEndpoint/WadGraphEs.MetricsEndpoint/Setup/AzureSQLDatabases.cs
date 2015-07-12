@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using WadGraphEs.MetricsEndpoint.DataAccess;
-using WadGraphEs.MetricsEndpoint.Lib;
-using WadGraphEs.MetricsEndpoint.Lib.SQLDatabase;
-using WadGraphEs.MetricsEndpoint.MVC.Commands;
-using WadGraphEs.MetricsEndpoint.MVC.ViewModels;
+using AzurePlot.Web.DataAccess;
+using AzurePlot.Lib;
+using AzurePlot.Lib.SQLDatabase;
+using AzurePlot.Web.MVC.Commands;
+using AzurePlot.Web.MVC.ViewModels;
 
-namespace WadGraphEs.MetricsEndpoint.Setup {
+namespace AzurePlot.Web.Setup {
 	public class AzureSQLDatabases {
 		internal static TestConnectionResult TestConnection(MVC.Commands.CreateAzureSQLDatabaseCommand cmd) {
 			return SQLDatabaseUsageClient.CreateServerUsagesClient(cmd.Servername,cmd.Username,cmd.Password).TestConnection();

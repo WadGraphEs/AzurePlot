@@ -1,4 +1,4 @@
-namespace WadGraphEs.MetricsEndpoint.Migrations
+namespace AzurePlot.Web.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;

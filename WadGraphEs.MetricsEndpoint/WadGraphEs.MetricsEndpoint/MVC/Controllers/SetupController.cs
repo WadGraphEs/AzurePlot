@@ -6,11 +6,11 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using WadGraphEs.MetricsEndpoint.DataAccess;
-using WadGraphEs.MetricsEndpoint.MVC.Commands;
-using WadGraphEs.MetricsEndpoint.Setup;
+using AzurePlot.Web.DataAccess;
+using AzurePlot.Web.MVC.Commands;
+using AzurePlot.Web.Setup;
 
-namespace WadGraphEs.MetricsEndpoint.MVC.Controllers {
+namespace AzurePlot.Web.MVC.Controllers {
     [AllowAnonymous]
     public class SetupController : Controller{
 		[HttpGet]

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using WadGraphEs.MetricsEndpoint.ApiControllers;
-using WadGraphEs.MetricsEndpoint.DataAccess;
-using WadGraphEs.MetricsEndpoint.Lib;
-using WadGraphEs.MetricsEndpoint.MVC.Commands;
-using WadGraphEs.MetricsEndpoint.MVC.ViewModels;
+using AzurePlot.Web.ApiControllers;
+using AzurePlot.Web.DataAccess;
+using AzurePlot.Lib;
+using AzurePlot.Web.MVC.Commands;
+using AzurePlot.Web.MVC.ViewModels;
+using AzurePlot.ApiControllers;
 
-namespace WadGraphEs.MetricsEndpoint.Setup {
+namespace AzurePlot.Web.Setup {
 	public class AzureSubscriptions {
 		internal static void StorePfxForSession(string sessionId,byte[] pfx,string password) {
 			DataContext.Do(ctx=>{
@@ -32,7 +33,7 @@ namespace WadGraphEs.MetricsEndpoint.Setup {
 		internal static byte[] GetCertificateForSession(string sessionId) {
 			var record = GetSessionRecord(sessionId);
 
-			return X509Tools.GenerateCertificate.GetCertificateForBytes(record.Pfx,record.Password);
+			return WadGraphEs.X509Tools.GenerateCertificate.GetCertificateForBytes(record.Pfx,record.Password);
 		}
 
 		private static AddAzureSubscriptionSession GetSessionRecord(string sessionId) {

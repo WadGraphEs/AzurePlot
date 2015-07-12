@@ -4,11 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WadGraphEs.MetricsEndpoint.Lib;
+using AzurePlot.Lib;
 
-namespace WadGraphEs.MetricsEndpoint.Console {
+namespace AzurePlot.Console {
 	using Newtonsoft.Json;
-	using WadGraphEs.MetricsEndpoint.Lib.SQLDatabase;
+	using AzurePlot.Lib.SQLDatabase;
 	using Console = System.Console;
 	class Program {
 		static void Main(string[] args) {
@@ -54,8 +54,8 @@ namespace WadGraphEs.MetricsEndpoint.Console {
 
             string password = ReadPassword();
 
-            var pfx = X509Tools.GenerateCertificate.GeneratePfx(cn,password);
-            var cer = X509Tools.GenerateCertificate.GetCertificateForBytes(pfx,password);
+            var pfx = WadGraphEs.X509Tools.GenerateCertificate.GeneratePfx(cn,password);
+            var cer = WadGraphEs.X509Tools.GenerateCertificate.GetCertificateForBytes(pfx,password);
 
             Console.WriteLine("Writing pfx to {0}", pfxName);
             File.WriteAllBytes(pfxName,pfx);
