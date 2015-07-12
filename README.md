@@ -1,5 +1,7 @@
 # AzurePlot
-AzurePlot plots metrics from various Azure services. It's designed to be a better alternative to the native charting/monitoring capabilities of the Azure portal, focusing on usability and performance. It works by accessing the APIs provided by the individual services. If you're operating applications running on Azure and occasionally need to diagnose problems, this tool is for you.
+AzurePlot plots metrics from various Azure services. It's designed to be a better alternative to the native charting/monitoring capabilities of the Azure portal, focusing on usability and performance. It works by accessing the APIs provided by the individual services. 
+
+If you're operating applications running on Azure and occasionally need to diagnose problems, this tool is for you.
 
 * [Features](#features)
 * [Getting started](#getting-started)
