@@ -7,8 +7,8 @@
     <ProjectGuid>{A2653E29-7ECE-43F0-A7C4-1574374813C3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WadGraphEs.MetricsEndpoint.Lib</RootNamespace>
-    <AssemblyName>WadGraphEs.MetricsEndpoint.Lib</AssemblyName>
+    <RootNamespace>AzurePlot.Lib</RootNamespace>
+    <AssemblyName>AzurePlot.Lib</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

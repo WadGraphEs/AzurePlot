@@ -7,8 +7,8 @@
     <ProjectGuid>{31B97C17-8044-4752-B2B3-2595C5D7107B}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WadGraphEs.MetricsEndpoint.Console</RootNamespace>
-    <AssemblyName>WadGraphEs.MetricsEndpoint.Console</AssemblyName>
+    <RootNamespace>AzurePlot.Console</RootNamespace>
+    <AssemblyName>AzurePlot.Console</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
