@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzurePlot.Web", "WadGraphEs.MetricsEndpoint\AzurePlot.Web.csproj", "{DD87954D-AF29-48F4-81D2-69EC4BCC24F1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzurePlot.Web", "AzurePlot.Web\AzurePlot.Web.csproj", "{DD87954D-AF29-48F4-81D2-69EC4BCC24F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzurePlot.Lib", "WadGraphEs.MetricsEndpoint.Lib\AzurePlot.Lib.csproj", "{A2653E29-7ECE-43F0-A7C4-1574374813C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzurePlot.Lib", "AzurePlot.Lib\AzurePlot.Lib.csproj", "{A2653E29-7ECE-43F0-A7C4-1574374813C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzurePlot.Console", "WadGraphEs.MetricsEndpoint.Console\AzurePlot.Console.csproj", "{31B97C17-8044-4752-B2B3-2595C5D7107B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzurePlot.Console", "AzurePlot.Console\AzurePlot.Console.csproj", "{31B97C17-8044-4752-B2B3-2595C5D7107B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WadGraphEs.X509Tools", "WadGraphEs.X509Tools\WadGraphEs.X509Tools.csproj", "{3865D83A-2F19-4D83-B648-6B5CD4B4ECEC}"
 EndProject

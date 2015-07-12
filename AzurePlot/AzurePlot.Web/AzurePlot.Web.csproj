@@ -389,7 +389,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WadGraphEs.MetricsEndpoint.Lib\AzurePlot.Lib.csproj">
+    <ProjectReference Include="..\AzurePlot.Lib\AzurePlot.Lib.csproj">
       <Project>{a2653e29-7ece-43f0-a7c4-1574374813c3}</Project>
       <Name>AzurePlot.Lib</Name>
     </ProjectReference>
