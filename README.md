@@ -1,13 +1,33 @@
 # AzurePlot
 AzurePlot charts metrics from various Azure services. It's designed to be an alternative to the Azure portal, focusing on usability and performance. If you're running on Azure and occasionally need to diagnose problems, this tool is for you.
 
-* [Getting started](#getting-started)
 * [Features](#features)
 * [Screenshots](#screenshots)
-* [Roadmap](#roadap) 
+* [Getting started](#getting-started)
+* [Roadmap](#roadmap) 
 * [Acknowledgments](#acknowledgments)
 * [External tools](#external-tools)
 
+## Features
+* Chart metrics from Azure Web apps (formerly Windows Azure Websites), Web roles, Worker roles, VMs and SQL Database
+* Dashboard for displaying multiple charts
+* Beautiful Highcharts based charts
+* Very easy to setup
+* Bootstrap based GUI
+* Expose metrics through an API
+* Integrated API test tool
+* Integrated log viewer to quickly diagnose problems
+* Can run on any IIS web server including Windows Azure Web Sites
+
+## Screenshots
+### Last 48 hours for an Azure VM
+![VM Last 48](http://wadgraphes.github.io/AzurePlot/screenshots/vm-last-48-hours.png)
+### 5 Web role instances last 36 hours
+![Web role last 36](http://wadgraphes.github.io/AzurePlot/screenshots/5-web-roles-36-hours.png)
+### Web Sites last 48 hours
+![web sites last 48](http://wadgraphes.github.io/AzurePlot/screenshots/websites-48-hours.png)
+### SQL Database last week
+![SQL Database last week](http://wadgraphes.github.io/AzurePlot/screenshots/sqldb-1-week.png)
 ## Getting started
 ### Prerequisites
 To run AzurePlot you will need to have Visual Studio (>=2012) installed on your computer.
@@ -68,21 +88,14 @@ Click "Add to dashboard", and the charts will be added to your dashboard:
 
 Congratulations, you've now added your first subscription to the dashboard.
 
-## Features
-* Connect to the Azure Subscription REST API to read portal metrics for Azure Cloud Services, VMs and Web Sites.
-* Connect to the Windows Azure Web Sites API to read Web Site specific metrics.
-* Bootstrap based GUI to setup the application and the services.
-* Expose metrics through an API.
-* Integrated API test tool.
-* Integrated log viewer to quickly diagnose problems.
-* Can run on any IIS web server including Windows Azure Web Sites
-
-## Screenshots
-
 ## Roadmap
 We're working on:
-* Azure SQL Database support
-* A dashboard system to quickly show your application state
+* SQL V12 support
+* SQL high resolution counts
+* Cache API results for better performance
+* Windows Azure Diagnostiscs performance counters
+* Better chart manipulation
+Please let us know if you have suggestions or like to contribute.
 
 ## Acknowledgments
 We heavily rely on other people's work, thank you for that. Specifically:
