@@ -107,6 +107,7 @@ We heavily rely on other people's work, thank you for that. Specifically:
 * [Bootstrap](http://getbootstrap.com/)
 * [Mono.Security](http://www.mono-project.com/archived/cryptography/)
 * [Highcharts](http://www.highcharts.com/)
+* [Using Azure Monitoring Service API with Azure Virtual Machines article](https://convective.wordpress.com/2014/06/22/using-azure-monitoring-service-with-azure-virtual-machines/)
 
 If I forgot yours, please drop me a note. Thank you!
 
