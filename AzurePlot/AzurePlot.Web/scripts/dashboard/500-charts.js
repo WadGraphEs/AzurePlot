@@ -1,5 +1,5 @@
 ﻿"use strict";
-(function () {
+(function (dashboard) {
 	var Chart = function(uri) {
 		this.uri = uri;
 		this.$AssertChartElementAvailable();
@@ -125,8 +125,9 @@
 		this.setupEvents();
 
 		var me = this;
-		Events.Register("Dashboard.IntervalChanged", function(interval, unit) {
-			me.chart.showLast(interval, unit);
+
+		dashboard.IntervalSelector.onIntervalChanged(function(newInterval) {
+			me.chart.showLast(newInterval.value, newInterval.unit);
 		});
 	}
 
@@ -170,4 +171,4 @@
 		
 		return $result.attr('id', '');
 	}
-})();
+})(window.Dashboard);
