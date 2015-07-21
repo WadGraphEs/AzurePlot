@@ -1,7 +1,5 @@
 ﻿(function() {
-	
-
-	var initChartIntervalSelector = function($interval, $unit) {
+	var initChartIntervalSelector = function($form, $interval, $unit) {
 		var parseCurrentValue = function() {
 			return parseInt($interval.val(),10);
 		}
@@ -27,10 +25,15 @@
 			currentUnit = $unit.val();
 			raiseChange();
 		});
+
+		$form.on("submit", function(ev) {
+			ev.preventDefault();
+		});
 	}
 
 
 	$(function() {
-		initChartIntervalSelector($("#select-chart-interval"),$("#interval-unit"));
+		
+		initChartIntervalSelector($('#select-dashboard-time-interval'),$("#select-chart-interval"),$("#interval-unit"));
 	});
 })();
