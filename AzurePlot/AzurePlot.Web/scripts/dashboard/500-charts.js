@@ -1,8 +1,11 @@
 ﻿"use strict";
 (function (dashboard) {
 	var Chart = function(uri) {
-		this.$AssertChartElementAvailable();
-		this.setNotRendered();
+        var $chart,$loader;
+
+		$AssertChartElementAvailable();
+
+		setNotRendered();
 
 		var interval = null;
 
@@ -17,118 +20,113 @@
 	    var render = function () {
 	        var uri = buildUri();
 
-	        this.setLoading();
+	        setLoading();
 
 	        var me = this;
 	        return $.ajax({
 	            url: '/api/charts/get-chart-data?uri=' + encodeURIComponent(uri)
 	        })
 			.done(function (data) {
-			    me.Draw(data);
+			    draw(data);
 			})
 			.fail(function(result) {
-			    me.DisplayError(JSON.parse(result.responseText));
+			    displayError(JSON.parse(result.responseText));
 			});
 			
 	    }
 
-	    this.SetInterval = setInterval;
-	    this.Render = render;
-	}
+	    function $AssertChartElementAvailable() {
+	        if(!$chart) {
+	            initChartElement();
+	        }
+	    }
 
-	Chart.prototype = {
-		
-		$AssertChartElementAvailable: function() {
-			if(!this.$chart) {
-				this.initChartElement();
-			}
-			return this.$chart;		
-		},
-		initChartElement: function() {
-			var $chart = $getChartElement();
+	    function initChartElement() {
+	        $chart = $getChartElement();
 
-			$chart.hover(function () {
-				$chart.addClass('hover');
-			}, function () {
-				$chart.removeClass('hover');
-			});
+	        $chart.hover(function () {
+	            $chart.addClass('hover');
+	        }, function () {
+	            $chart.removeClass('hover');
+	        });
 
-			$('#chart-container').append($chart);
+	        $('#chart-container').append($chart);
+	    }
 
-			this.$chart = $chart;
-			
-		},
-		Draw: function(data) {
-			var $chart = this.$chart;
+	    var draw = function(data) {
+	        setLoaded();
 
-			this.setLoaded();
-
-			var series = $.map(data.Series, function (serie) {
-				return {
-					name: serie.Name,
-					data: $.map(serie.DataPoints, function (point) {
-						return [[
+	        var series = $.map(data.Series, function (serie) {
+	            return {
+	                name: serie.Name,
+	                data: $.map(serie.DataPoints, function (point) {
+	                    return [[
 							Common.DateTime.FromISOUTCString(point.Timestamp).AsJSDate().getTime(),
 							point.Value
-						]];
-					})
-				}
-			});
+	                    ]];
+	                })
+	            }
+	        });
 
-			$chart.find('.chart-area').highcharts({
-				plotOptions: {
-					series: {
-						animation: false
-					}
-				},
-				title: {
-					text: data.Name
-				},
-				xAxis: {
-					type: 'datetime'
-				},
-				yAxis: {
-					min: 0,
-				},
-				series: series
-			})
-		},
-		DisplayError: function(msg) {
-			new ErrorBox(this.$chart, msg.Message, msg.ExceptionMessage);
-		},
-		onRemoveClick: function (cb) {
-			this.$chart.find('.dropdown .remove-chart').on('click', cb);
-		},
-		remove: function () {
-			this.$chart.remove();
-		},
-		showLast: function(interval, unit) {
-			this.Render(this.uri+"?interval="+interval+"&unit="+unit);
-		},
-		setNotRendered: function() {
-		},
-		setLoading: function() {
-			this.assertLoaderElement();
-			this.$chart.removeClass('loaded');
-			this.$chart.find('.load-error-box').remove();
-		},
-		setLoaded: function() {
-			this.$chart.addClass('loaded');
-		},
-		assertLoaderElement: function () {
-			if(this.$loader) {
-				return;
-			}
-			var $el = $('<div class="chart-loader"></div>');
-			$el.css({
-				width: this.$chart.width(),
-				height: this.$chart.height(),
-			});
-			this.$chart.append($el);
-			this.$loader = $el;
-		}
+	        $chart.find('.chart-area').highcharts({
+	            plotOptions: {
+	                series: {
+	                    animation: false
+	                }
+	            },
+	            title: {
+	                text: data.Name
+	            },
+	            xAxis: {
+	                type: 'datetime'
+	            },
+	            yAxis: {
+	                min: 0,
+	            },
+	            series: series
+	        })
+	    }
+
+	    var displayError = function(msg) {
+	        new ErrorBox($chart, msg.Message, msg.ExceptionMessage);
+	    }
+
+	    var onRemoveClick = function (cb) {
+	        $chart.find('.dropdown .remove-chart').on('click', cb);
+	    }
+	    var remove = function () {
+	        $chart.remove();
+	    }
+	    function setNotRendered() {
+	    }
+	    var setLoading = function() {
+	        assertLoaderElement();
+	        $chart.removeClass('loaded');
+	        $chart.find('.load-error-box').remove();
+	    }
+	    var setLoaded = function() {
+	        $chart.addClass('loaded');
+	    }
+	    var assertLoaderElement = function () {
+	        if($loader) {
+	            return;
+	        }
+	        var $el = $('<div class="chart-loader"></div>');
+	        $el.css({
+	            width: $chart.width(),
+	            height: $chart.height(),
+	        });
+	        $chart.append($el);
+	        $loader = $el;
+	    }
+
+	    this.SetInterval = setInterval;
+	    this.Render = render;
+        this.OnRemoveClick = onRemoveClick;
+        this.Remove = remove;
 	}
 
+	
 	Chart.FromURI = function(uri) {
 		return new Chart(uri);
 	}
@@ -171,9 +169,9 @@
 		        chart.Render();
 		    });
 
-	        chart.onRemoveClick(function (ev) {
+	        chart.OnRemoveClick(function (ev) {
 	            ev.preventDefault();
-	            chart.remove();
+	            chart.Remove();
 	            remove();
 	        });
 	    }
