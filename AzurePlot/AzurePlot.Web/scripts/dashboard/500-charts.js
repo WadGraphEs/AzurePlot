@@ -3,6 +3,8 @@
 	var Chart = function(uri) {
         var $chart,$loader,interval;
 
+        interval = {unit: "hours", value:1}
+
 		$AssertChartElementAvailable();
 
 		setNotRendered();
@@ -76,7 +78,9 @@
 	                text: data.Name
 	            },
 	            xAxis: {
-	                type: 'datetime'
+	                type: 'datetime',
+	                min: Common.DateTime.FromISOUTCString(data.IntervalFrom).AsJSDate().getTime(),
+	                max: Common.DateTime.FromISOUTCString(data.IntervalTill).AsJSDate().getTime()
 	            },
 	            yAxis: {
 	                min: 0,
