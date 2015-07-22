@@ -1,29 +1,43 @@
 ﻿"use strict";
 (function (dashboard) {
 	var Chart = function(uri) {
-		this.uri = uri;
 		this.$AssertChartElementAvailable();
 		this.setNotRendered();
+
+		var interval = null;
+
+		var setInterval = function (newInterval) {
+		    interval = newInterval;
+		}
+
+		var buildUri = function () {
+		    return ChartUriBuilder.FromUri(uri).WithInterval(interval).Build();
+		}
+
+	    var render = function () {
+	        var uri = buildUri();
+
+	        this.setLoading();
+
+	        var me = this;
+	        return $.ajax({
+	            url: '/api/charts/get-chart-data?uri=' + encodeURIComponent(uri)
+	        })
+			.done(function (data) {
+			    me.Draw(data);
+			})
+			.fail(function(result) {
+			    me.DisplayError(JSON.parse(result.responseText));
+			});
+			
+	    }
+
+	    this.SetInterval = setInterval;
+	    this.Render = render;
 	}
 
 	Chart.prototype = {
-		Render: function (uri) {
-			uri = encodeURIComponent(uri || this.uri);
-
-			this.setLoading();
-
-			var me = this;
-			return $.ajax({
-				url: '/api/charts/get-chart-data?uri=' + uri
-			})
-			.done(function (data) {
-				me.Draw(data);
-			})
-			.fail(function(result) {
-				me.DisplayError(JSON.parse(result.responseText));
-			});
-			
-		},
+		
 		$AssertChartElementAvailable: function() {
 			if(!this.$chart) {
 				this.initChartElement();
@@ -119,21 +133,44 @@
 		return new Chart(uri);
 	}
 
+	var ChartUriBuilder = function (uri, interval) {
+	    if(uri.indexOf("?")>=0) {
+	        throw "uri can't contain path" + uri;
+	    }
+	    this.WithInterval = function (newInterval) {
+            return new ChartUriBuilder(uri,newInterval)
+	    }
+
+	    this.Build = function () {
+	        var uriBuilder = uri;
+	        if (interval) {
+	            uriBuilder += "?interval=" + interval.value + "&unit=" + interval.unit;
+	        }
+	        return uriBuilder;
+	    }
+	}
+
+	ChartUriBuilder.FromUri = function (uri) {
+	    return new ChartUriBuilder(uri);
+	}
+
 	var DashboardChart = function (chartInfo) {
-		var chart = Chart.FromURI(chartInfo.Uri);
+	    var chart = Chart.FromURI(chartInfo.Uri);
+
+	    chart.SetInterval(dashboard.IntervalSelector.getCurrentInterval());
 
 		setupEvents();
-
-		dashboard.IntervalSelector.onIntervalChanged(function(newInterval) {
-			chart.showLast(newInterval.value, newInterval.unit);
-		});
-
 
 		function render() {
 		    return chart.Render();
 		}
 
-	    function setupEvents() {
+		function setupEvents() {
+		    dashboard.IntervalSelector.onIntervalChanged(function (newInterval) {
+		        chart.SetInterval(newInterval);
+		        chart.Render();
+		    });
+
 	        chart.onRemoveClick(function (ev) {
 	            ev.preventDefault();
 	            chart.remove();
@@ -149,7 +186,6 @@
 	        });
 	    }
 
-	    this.Remove = remove;
 	    this.Render = render;
 	}
 	
