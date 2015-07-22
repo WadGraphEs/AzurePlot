@@ -1,13 +1,11 @@
 ﻿"use strict";
 (function (dashboard) {
 	var Chart = function(uri) {
-        var $chart,$loader;
+        var $chart,$loader,interval;
 
 		$AssertChartElementAvailable();
 
 		setNotRendered();
-
-		var interval = null;
 
 		var setInterval = function (newInterval) {
 		    interval = newInterval;
