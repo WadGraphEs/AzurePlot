@@ -120,38 +120,38 @@
 	}
 
 	var DashboardChart = function (chartInfo) {
-		this.chartInfo = chartInfo;
-		this.chart = Chart.FromURI(this.chartInfo.Uri);
-		this.setupEvents();
+		var chart = Chart.FromURI(chartInfo.Uri);
 
-		var me = this;
+		setupEvents();
 
 		dashboard.IntervalSelector.onIntervalChanged(function(newInterval) {
-			me.chart.showLast(newInterval.value, newInterval.unit);
+			chart.showLast(newInterval.value, newInterval.unit);
 		});
-	}
 
-	DashboardChart.prototype = {
-		Render: function () {
-			return this.chart.Render();
-		},
-		setupEvents: function () {
-			var me = this;
-			this.chart.onRemoveClick(function (ev) {
-				ev.preventDefault();
-				me.chart.remove();
-				me.remove();
-			});
-		},
-		remove: function () {
-			$.ajax({
-				'url': '/dashboard/remove-chart',
-				'data': { chartId: this.chartInfo.Id },
-				'method': 'post'
-			});
-		},
-	}
 
+		function render() {
+		    return chart.Render();
+		}
+
+	    function setupEvents() {
+	        chart.onRemoveClick(function (ev) {
+	            ev.preventDefault();
+	            chart.remove();
+	            remove();
+	        });
+	    }
+
+	    function remove() {
+	        $.ajax({
+	            'url': '/dashboard/remove-chart',
+	            'data': { chartId: chartInfo.Id },
+	            'method': 'post'
+	        });
+	    }
+
+	    this.Remove = remove;
+	    this.Render = render;
+	}
 	
 	DashboardChart.FromData = function (data) {
 		return new DashboardChart(data);
