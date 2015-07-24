@@ -20,9 +20,17 @@ namespace AzurePlot.Lib {
         private Uri _uri;
         private string[] _path;
 
-        public Task<ChartData> FetchChartData() {
+        public async Task<ChartData> FetchChartData() {
             var interval = GetInterval(_uri);
 
+            var result = await FetchDataForInterval(interval);
+
+            result.Interval = interval;
+
+            return result;
+        }
+
+        private Task<ChartData> FetchDataForInterval(TimeSpan interval) {
             switch(_uri.Host) {
                 case "dummy":
                     return Dummy(interval);
