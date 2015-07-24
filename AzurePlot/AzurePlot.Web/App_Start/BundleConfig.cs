@@ -22,7 +22,10 @@ namespace AzurePlot.Web {
 
 			bundles.Add(new ScriptBundle("~/scripts/dashboard/dashboard")
 				.Include("~/scripts/typeahead.bundle.js")
-				.IncludeDirectory("~/scripts/dashboard","*.js")
+                .Include("~/scripts/dashboard/000-init.js")
+                .Include("~/scripts/dashboard/100-chart-interval-selector.js")
+                .Include("~/scripts/dashboard/500-add-chartlist.js")
+                .Include("~/scripts/dashboard/500-charts.js")
 			);
 		}
 
